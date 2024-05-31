@@ -13,6 +13,11 @@ router.beforeEach((to, _, next) => {
   const breadcrumbStore = useBreadcrumStore();
   breadcrumbStore.setBreadcrumbs(breadcrumbs)
 
+  const token = localStorage.getItem('sewapesta-token');
+  if (to.meta.requiresAuth && !token) {
+    next({ name: 'LoginPage' });
+  }
+
   next();
 })
 

@@ -2,7 +2,7 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
-import * as zod from 'zod';
+
 import {
   FormControl,
   FormField,
@@ -15,15 +15,13 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { LoginRequestSchema } from '@/schemas/AuthSchema';
+import { useAuthStore } from '@/stores/authStore';
 
 const router = useRouter();
+const authStore = useAuthStore();
 
-const loginSchema = toTypedSchema(zod.object({
-  username: zod.string({
-    message: 'Nama pengguna harus diisi.',
-  }).min(2, { message: 'Nama pengguna harus lebih dari satu karakter.' }),
-  password: zod.string({ message: 'Kata sandi harus diisi.' }).min(8, { message: '' }),
-}))
+const loginSchema = toTypedSchema(LoginRequestSchema);
 
 const passwordType = ref<'password' | 'text'>('password');
 
@@ -31,7 +29,8 @@ const form = useForm({
   validationSchema: loginSchema,
 })
 
-const onSubmit = form.handleSubmit((values) => {
+const onSubmit = form.handleSubmit(async (values) => {
+  await authStore.login(values);
   router.push('/')
 })
 

@@ -2,10 +2,13 @@
 import { Icon } from '@iconify/vue'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/authStore';
 
 const router = useRouter()
+const authStore = useAuthStore();
 
-function logout() {
+async function logout() {
+  await authStore.logout();
   router.push('/login')
 }
 </script>
