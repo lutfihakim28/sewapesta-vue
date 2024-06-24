@@ -42,7 +42,7 @@ export const routes: RouterOptions["routes"] = [
   {
     path: '/employees',
     name: 'EmployeePage',
-    component: () => import('@/pages/DashboardPage.vue'),
+    component: () => import('@/pages/EmployeePage.vue'),
     meta: {
       requiresAuth: true,
       menuKey: 'Employee',

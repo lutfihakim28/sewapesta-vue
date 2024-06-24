@@ -1,9 +1,11 @@
 import { CustomException } from '@/exceptions/CustomException';
+import { useRouter } from 'vue-router';
 
 type Query = Record<string, string | number | Array<string | Date>>
 
 export function useRequest() {
   const baseUrl = 'http://localhost:3000/api';
+  const router = useRouter();
 
   async function GET<R, Q extends Query | undefined = undefined>(endpoint: string, query?: Q): Promise<R> {
     try {
@@ -27,6 +29,10 @@ export function useRequest() {
       if (responseData.code > 300) {
         if (responseData.code === 401) {
           localStorage.removeItem('sewapesta-token')
+          router.push({ name: 'LoginPage' })
+        }
+        if (responseData.code === 422) {
+          throw new CustomException(422, 'Data tidak valid.')
         }
         throw new CustomException(responseData.code, responseData.messages)
       }
@@ -64,6 +70,10 @@ export function useRequest() {
       if (responseData.code > 300) {
         if (responseData.code === 401) {
           localStorage.removeItem('sewapesta-token')
+          router.push({ name: 'LoginPage' })
+        }
+        if (responseData.code === 422) {
+          throw new CustomException(422, 'Data tidak valid.')
         }
         throw new CustomException(responseData.code, responseData.messages)
       }
@@ -104,6 +114,10 @@ export function useRequest() {
       if (responseData.code > 300) {
         if (responseData.code === 401) {
           localStorage.removeItem('sewapesta-token')
+          router.push({ name: 'LoginPage' })
+        }
+        if (responseData.code === 422) {
+          throw new CustomException(422, 'Data tidak valid.')
         }
         throw new CustomException(responseData.code, responseData.messages)
       }
@@ -127,6 +141,10 @@ export function useRequest() {
       if (responseData.code > 300) {
         if (responseData.code === 401) {
           localStorage.removeItem('sewapesta-token')
+          router.push({ name: 'LoginPage' })
+        }
+        if (responseData.code === 422) {
+          throw new CustomException(422, 'Data tidak valid.')
         }
         throw new CustomException(responseData.code, responseData.messages)
       }

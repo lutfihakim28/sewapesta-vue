@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import LogoutButton from './LogoutButton.vue';
-import ThemeToggle from './ThemeToggle.vue';
 import SideMenu from './SideMenu.vue';
 import {
   Breadcrumb,
@@ -43,7 +42,7 @@ onMounted(() => {
       </section>
     </section>
     <section class="bg-background flex-shrink-0 basis-10/12 overflow-y-scroll relative">
-      <section class="sticky top-0 bg-background h-16 px-4 flex items-center justify-between">
+      <section class="sticky top-0 bg-background h-16 px-4 flex items-center justify-between z-50">
         <Breadcrumb>
           <BreadcrumbList>
             <template v-for="(breadcrumb, index) in breadcrumbs" :key="index">
@@ -58,7 +57,6 @@ onMounted(() => {
           </BreadcrumbList>
         </Breadcrumb>
         <section class="flex items-center gap-x-2">
-          <ThemeToggle />
           <LogoutButton />
         </section>
       </section>

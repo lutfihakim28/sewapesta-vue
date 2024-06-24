@@ -6,39 +6,6 @@
  
 @layer base {
   :root {
-    --background: 242 97.75% 98.5%;
-    --foreground: 242 5.5% 1%;
-
-    --muted: 242 5.5% 92.5%;
-    --muted-foreground: 242 2.75% 42.5%;
-
-    --popover: 242 46% 92.5%;
-    --popover-foreground: 242 5.5% 1.25%;
-
-    --card: 242 46% 92.5%;
-    --card-foreground: 242 5.5% 1.25%;
-
-    --border: 242 10.5% 90%;
-    --input: 242 10.5% 90%;
-
-    --primary: 242 55% 25%;
-    --primary-foreground: 242 1.1% 92.5%;
-
-    --secondary: 242 2.75% 96.25%;
-    --secondary-foreground: 242 4.300000000000001% 12.5%;
-
-    --accent: 242 2.75% 96.25%;
-    --accent-foreground: 242 4.300000000000001% 12.5%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --ring: 242 55% 25%;
- 
-    --radius: 0.5rem;
-  }
-
-  .dark {
     --background: 208 63.699999999999996% 4.32%;
     --foreground: 208 9.8% 97.7%;
 
@@ -63,12 +30,14 @@
     --accent: 208 49% 16.200000000000003%;
     --accent-foreground: 208 9.8% 97.7%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 208 9.8% 97.7%;
 
     --ring: 208 98% 54%;
+ 
+    --radius: 0.5rem;
   }
-
+  
   * {
     font-family: 'Poppins', sans-serif;
   }
@@ -104,5 +73,21 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  thead > tr {
+    @apply bg-transparent !cursor-auto hover:!bg-transparent;
+  }
+
+  tbody > tr {
+    @apply cursor-pointer;
+  }
+
+  tbody > tr:nth-child(2n) {
+    @apply bg-muted/0;
+  }
+
+  tbody > tr:nth-child(2n+1) {
+    @apply bg-muted/20
   }
 }

@@ -1,13 +1,16 @@
 import { useToast } from '@/components/ui/toast';
 import { CustomException } from '@/exceptions/CustomException';
 import { useRequest } from '@/lib/request';
-import { LoginRequest, LoginResponse, LogoutResponse } from '@/schemas/AuthSchema';
+import { LoginRequest, LoginResponse } from '@/schemas/AuthSchema';
+import { BaseResponse } from '@/schemas/BaseResponseSchema';
 import { defineStore } from 'pinia';
+import { useAppStore } from './appStore';
 
 
 export const useAuthStore = defineStore('auth', () => {
   const request = useRequest();
   const { toast } = useToast();
+  const appStore = useAppStore();
 
   async function login(payload: LoginRequest) {
     try {
@@ -15,19 +18,12 @@ export const useAuthStore = defineStore('auth', () => {
 
       localStorage.setItem('sewapesta-token', response.data.token)
       toast({
-        description: response.messages[0],
+        description: response.messages,
         variant: 'success',
       })
       return Promise.resolve()
     } catch (error) {
-      if (error instanceof CustomException) {
-        error.messages.forEach((message) => {
-          toast({
-            description: message,
-            variant: 'destructive'
-          })
-        })
-      }
+      appStore.handleError(error)
       return Promise.reject()
     }
   }
@@ -35,23 +31,16 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function logout() {
     try {
-      const response = await request.DELETE<LogoutResponse>('/auth/logout')
+      const response = await request.DELETE<BaseResponse>('/auth/logout')
 
       localStorage.removeItem('sewapesta-token')
       toast({
-        description: response.messages[0],
+        description: response.messages,
         variant: 'success',
       })
       return Promise.resolve()
     } catch (error) {
-      if (error instanceof CustomException) {
-        error.messages.forEach((message) => {
-          toast({
-            description: message,
-            variant: 'destructive'
-          })
-        })
-      }
+      appStore.handleError(error)
       return Promise.reject()
     }
   }
