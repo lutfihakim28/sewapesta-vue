@@ -1,7 +1,7 @@
 import { CustomException } from '@/exceptions/CustomException';
 import { useRouter } from 'vue-router';
 
-type Query = Record<string, string | number | Array<string | Date>>
+type Query = Record<string, string | number | Array<string | number>>
 
 export function useRequest() {
   const baseUrl = 'http://localhost:3000/api';

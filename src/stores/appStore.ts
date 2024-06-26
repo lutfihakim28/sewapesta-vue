@@ -1,26 +1,20 @@
-import { useToast } from '@/components/ui/toast';
 import { CustomException } from '@/exceptions/CustomException';
+import { useMessage } from 'naive-ui';
 import { defineStore } from 'pinia';
 
 export const useAppStore = defineStore('app', () => {
-  const { toast } = useToast();
+  const message = useMessage();
 
   function handleError(error: unknown) {
     if (error instanceof CustomException) {
       if (error.messages instanceof Array) {
-        error.messages.forEach((message) => {
-          toast({
-            description: message,
-            variant: 'destructive'
-          })
+        error.messages.forEach((m) => {
+          message.error(m);
         })
       }
 
       if (typeof error.messages === 'string') {
-        toast({
-          description: error.messages,
-          variant: 'destructive'
-        })
+        message.error(error.messages)
       }
     }
   }

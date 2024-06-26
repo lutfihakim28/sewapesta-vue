@@ -1,94 +1,74 @@
 <script setup lang="ts">
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { toTypedSchema } from '@vee-validate/zod'
-import { useForm } from 'vee-validate'
-
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button';
-import { Icon } from '@iconify/vue';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { LoginRequestSchema } from '@/schemas/AuthSchema';
+import { LoginRequestDto } from '@/dtos/LoginRequestDto';
+import { loginRequestRule } from '@/rules/loginRequestRule';
 import { useAuthStore } from '@/stores/authStore';
+import {
+  FormInst,
+  NButton,
+  NCard,
+  NForm,
+  NFormItemGi,
+  NGrid,
+  NInput,
+  NLayout,
+  NRow,
+  useLoadingBar,
+  useMessage,
+} from 'naive-ui'
+import { reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const message = useMessage();
+const loadingBar = useLoadingBar();
 const router = useRouter();
 const authStore = useAuthStore();
 
-const loginSchema = toTypedSchema(LoginRequestSchema);
+const form = ref<FormInst>()
+const request = reactive<LoginRequestDto>(new LoginRequestDto())
+const disabled = ref(false);
 
-const passwordType = ref<'password' | 'text'>('password');
-
-const form = useForm({
-  validationSchema: loginSchema,
-})
-
-const onSubmit = form.handleSubmit(async (values) => {
-  await authStore.login(values);
-  router.push('/')
-})
-
-function showHidePassword() {
-  if (passwordType.value === 'password') {
-    passwordType.value = 'text';
-    return;
-  }
-
-  if (passwordType.value === 'text') {
-    passwordType.value = 'password';
-    return;
+async function login() {
+  try {
+    disabled.value = true;
+    loadingBar.start();
+    const result = await form.value?.validate();
+    if (!result || !result?.warnings) {
+      await authStore.login(request)
+      router.push('/')
+    } else {
+      message.error('Data tidak valid.')
+    }
+  } catch (error) {
+    console.error(error);
+    loadingBar.error();
+  } finally {
+    disabled.value = false;
+    loadingBar.finish();
   }
 }
 </script>
 
 <template>
-  <section
-    class="w-full h-dvh flex items-center justify-center bg-gradient-to-br from-primary/20 via-10% via-primary-foreground to-primary/60">
-    <form @submit.prevent="onSubmit">
-      <Card class="w-96">
-        <CardHeader>
-          <CardTitle>Masuk</CardTitle>
-          <CardDescription>Masuk menggunakan nama pengguna anda</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <section class="flex flex-col gap-y-2">
-            <FormField v-slot="{ componentField }" name="username">
-              <FormItem>
-                <FormLabel>Nama Pengguna</FormLabel>
-                <FormControl>
-                  <Input type="text" placeholder="Masukkan nama pengguna" v-bind="componentField" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-            <FormField v-slot="{ componentField }" name="password">
-              <FormItem>
-                <FormLabel>Kata Sandi</FormLabel>
-                <FormControl>
-                  <section class="relative">
-                    <Input :type="passwordType" placeholder="********" v-bind="componentField" class="relative pr-14" />
-                    <Button type="button" class="absolute top-1/2 -translate-y-1/2 right-0" variant="ghost"
-                      @click="showHidePassword">
-                      <Icon :icon="passwordType === 'password' ? 'radix-icons:eye-closed' : 'radix-icons:eye-open'"
-                        class="opacity-50" />
-                    </Button>
-                  </section>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-          </section>
-        </CardContent>
-        <CardFooter>
-          <Button type="submit" class="w-full">Masuk</Button>
-        </CardFooter>
-      </Card>
-    </form>
-  </section>
+  <NLayout has-sider style="height: 100dvh">
+    <NRow align-items="center" justify-content="center">
+      <NForm ref="form" :model="request" :rules="loginRequestRule" @submit.prevent="login">
+        <NCard style="width: 24rem;" size="small">
+          <NGrid :cols="12" style="margin-top: 1rem;">
+            <NFormItemGi label="Nama Pengguna" :span="12" path="username">
+              <NInput v-model:value="request.username" placeholder="Ketik nama pengguna..." />
+            </NFormItemGi>
+            <NFormItemGi label="Kata Sandi" :span="12" path="password">
+              <NInput v-model:value="request.password" placeholder="********" type="password"
+                show-password-on="click" />
+            </NFormItemGi>
+          </NGrid>
+          <template #action>
+            <NButton block type="primary" attr-type="submit" :disabled="disabled">
+              Masuk
+            </NButton>
+          </template>
+        </NCard>
+      </NForm>
+    </NRow>
+  </NLayout>
 </template>

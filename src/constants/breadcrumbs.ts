@@ -1,12 +1,11 @@
 export type RouteName =
-  'DashboardPage'
-  | 'RentalPage'
+  'HomePage'
+  | 'OrderPage'
   | 'SchedulePage'
   | 'EmployeePage'
   | 'AssetPage'
   | 'VehiclePage'
   | 'AssetOwnerPage'
-  | 'PartnerPage'
   | 'AccountPage'
   | 'IncomePage'
   | 'ExpensePage'
@@ -17,8 +16,8 @@ export type Breadcrumb = {
   path?: string;
 }
 
-const breadcrumb: Record<RouteName, Breadcrumb[]> = {
-  DashboardPage: [
+export const breadcrumb: Record<RouteName, Breadcrumb[]> = {
+  HomePage: [
     {
       label: 'Beranda',
     },
@@ -95,19 +94,7 @@ const breadcrumb: Record<RouteName, Breadcrumb[]> = {
       label: 'Pemasukan',
     },
   ],
-  PartnerPage: [
-    {
-      label: 'Beranda',
-      path: '/'
-    },
-    {
-      label: 'Data Master',
-    },
-    {
-      label: 'Partner',
-    },
-  ],
-  RentalPage: [
+  OrderPage: [
     {
       label: 'Beranda',
       path: '/'
@@ -168,5 +155,3 @@ const breadcrumb: Record<RouteName, Breadcrumb[]> = {
     },
   ],
 }
-
-export default breadcrumb;

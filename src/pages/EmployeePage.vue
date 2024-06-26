@@ -1,122 +1,185 @@
 <script setup lang="ts">
 import AppLayout from '@/components/AppLayout.vue';
-import TablePagination from '@/components/TablePagination.vue';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import CardHeader from '@/components/ui/card/CardHeader.vue';
-import {
-  Table,
-  TableBody,
-  TableEmpty,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { Meta } from '@/schemas/MetaSchema';
+import { useTableMaxHeight } from '@/composables/useTablemaxHeight';
+import { EmployeeDto } from '@/dtos/EmployeeDto';
+import { EmployeeQueryDto } from '@/dtos/EmployeeQueryDto';
+import { debounce } from '@/lib/debounce';
 import { useEmployeeStore } from '@/stores/employeeStore';
-import { computed, onMounted, reactive, ref } from 'vue';
-import { Icon } from '@iconify/vue'
-import { Skeleton } from '@/components/ui/skeleton';
-import DeleteDialog from '@/components/DeleteDialog.vue';
+import { Search24Filled, SportBasketball24Regular } from '@vicons/fluent';
+import {
+  DataTableColumn,
+  DataTableSortState,
+  NCard,
+  NDataTable,
+  NDivider,
+  NH4,
+  NH6,
+  NIcon,
+  NInput,
+  NLayout,
+  NLayoutContent,
+  NLayoutSider,
+  NSpace,
+  NText,
+  PaginationProps,
+  useLoadingBar,
+} from 'naive-ui';
+import { HTMLAttributes, computed, onMounted, reactive, ref } from 'vue';
 
-const employeeStore = useEmployeeStore()
+const loadingBar = useLoadingBar();
+const employeeStore = useEmployeeStore();
+const { height } = useTableMaxHeight();
 
-const loading = ref(false);
-const pagination = reactive<Meta>({
+const columns: Array<DataTableColumn<EmployeeDto>> = [
+  {
+    title: '#',
+    key: 'id',
+    defaultSortOrder: false,
+    sorter: 'default',
+    width: 64,
+  },
+  {
+    title: 'Nama',
+    key: 'name',
+    defaultSortOrder: false,
+    sorter: 'default',
+    resizable: true,
+  },
+  {
+    title: 'Nomor HP',
+    key: 'phone',
+  },
+]
+const rowProps = (row: EmployeeDto): HTMLAttributes => {
+  return {
+    style: {
+      cursor: 'pointer',
+    },
+    onClick: () => {
+      console.log(row.id)
+    }
+  }
+}
+const rowKey = (employee: EmployeeDto) => employee.id;
+const pagination = reactive<PaginationProps>({
   page: 1,
-  limit: '10',
-  totalPage: 0,
+  pageCount: 1,
+  pageSize: 10,
+  showSizePicker: true,
+  pageSizes: [5, 10, 25, 50],
+  showQuickJumper: true,
 })
+const sorter = reactive<{ sort: 'asc' | 'desc' | undefined, sortBy: string | undefined }>({
+  sort: undefined,
+  sortBy: undefined
+})
+const keyword = ref<string>()
 
-const employees = computed(() => employeeStore.employees);
+const employeeTable = ref();
+const searchInput = ref<HTMLInputElement>();
+const loading = ref(false);
 
-onMounted(() => {
-  getEmployees();
+const employees = computed(() => employeeStore.employees)
+
+onMounted(async () => {
+  await getEmployees();
 })
 
 async function getEmployees() {
   try {
+    loadingBar.start();
     loading.value = true;
-    const meta = await employeeStore.getEmployees({
-      page: pagination.page.toString(),
-      limit: pagination.limit,
-    })
-
-    pagination.totalPage = meta.totalPage;
+    const query = new EmployeeQueryDto({
+      page: pagination.page || 1,
+      pageSize: pagination.pageSize || 10,
+      sort: sorter.sort,
+      sortBy: sorter.sortBy,
+      keyword: keyword.value,
+    });
+    const response = await employeeStore.getEmployees(query);
+    pagination.pageCount = response.pageCount;
   } catch (error) {
-    console.error(error)
+    loadingBar.error();
   } finally {
+    loadingBar.finish();
     loading.value = false;
   }
 }
 
-function changePagination(_pagination: Omit<Meta, 'totalPage'>) {
-  pagination.page = _pagination.page;
-  pagination.limit = _pagination.limit;
-
+function handlePageChange(page: number) {
+  pagination.page = page;
+  getEmployees()
+}
+function handlePageSizeChange(pageSize: number) {
+  pagination.page = 1;
+  pagination.pageSize = pageSize;
   getEmployees();
+}
+function handleSorterChange(options: DataTableSortState) {
+  if (options.order === 'ascend') {
+    sorter.sort = 'asc';
+  } else if (options.order === 'descend') {
+    sorter.sort = 'desc';
+  }
+  sorter.sortBy = options.columnKey.toString();
+  getEmployees()
+}
+
+const handleSearch = debounce(async () => {
+  if (!keyword.value || keyword.value.length >= 3) {
+    await getEmployees()
+
+    searchInput.value?.focus();
+  }
+})
+
+function refresh() {
+  keyword.value = undefined;
+  sorter.sort = undefined;
+  sorter.sortBy = undefined;
+  pagination.page = 1;
+  pagination.pageSize = 10;
+  getEmployees()
 }
 </script>
 
 <template>
-  <AppLayout>
-    <Card>
-      <CardHeader class="pb-0 w-full">
-        <section class="flex items-center justify-between">
-          <p>Daftar Karyawan</p>
-          <Button class="flex gap-x-2 items-center">
-            <Icon icon="radix-icons:plus" class="h-4 w-4" />
-            Tambah Karyawan
-          </Button>
-        </section>
-      </CardHeader>
-      <CardContent class="pt-6">
-        <Table>
-          <TableEmpty v-if="employees.length === 0 && !loading" :colspan="4">
-            <p class="text-center italic opacity-70">Belum ada data karyawan.</p>
-          </TableEmpty>
-          <TableHeader>
-            <TableRow>
-              <TableHead class="w-[100px]">
-                #
-              </TableHead>
-              <TableHead>Nama</TableHead>
-              <TableHead>Nomor HP</TableHead>
-              <TableHead class="text-center">Aksi</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow v-if="loading" v-for="i in 5" :key="i">
-              <TableCell v-for="j in 4" :key="`${i}${j}`">
-                <Skeleton class="h-4 w-full" />
-              </TableCell>
-            </TableRow>
-            <TableRow v-else v-for="employee in employees" :key="employee.id">
-              <TableCell class="font-medium">
-                {{ employee.id }}
-              </TableCell>
-              <TableCell>{{ employee.name }}</TableCell>
-              <TableCell>{{ employee.phone }}</TableCell>
-              <TableCell>
-                <section class="flex items-center justify-center gap-x-2">
-                  <DeleteDialog>
-                    <template #description>
-                      Karyawan <span class="font-bold text-white">{{ employee.name }}</span> akan dihapus dan tidak akan
-                      bisa diakses di dalam
-                      aplikasi.
-                    </template>
-                  </DeleteDialog>
-                </section>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </CardContent>
+  <AppLayout @refresh="refresh">
+    <NLayout has-sider content-style="padding: 1rem;" :native-scrollbar="false" sider-placement="right">
+      <NLayoutContent :native-scrollbar="false">
+        <NDataTable ref="employeeTable" remote :row-key="rowKey" :row-props="rowProps" :columns="columns"
+          :data="employees" :max-height="height" :loading="loading" :pagination="(pagination as PaginationProps)"
+          @update:sorter="handleSorterChange" @update:page="handlePageChange" @update:page-size="handlePageSizeChange">
+        </NDataTable>
+      </NLayoutContent>
 
-      <CardFooter v-if="employees.length > 0 && !loading" class="w-full">
-        <TablePagination :total-page="pagination.totalPage" @change="changePagination" />
-      </CardFooter>
-    </Card>
+      <NLayoutSider style="background: transparent" content-style="padding: 1rem; padding-top: 0">
+        <NSpace vertical>
+          <NInput ref="searchInput" v-model:value="keyword" placeholder="Nama atau nomor HP..." clearable
+            :disabled="loading" @input="handleSearch">
+            <template #prefix>
+              <NIcon :component="Search24Filled"></NIcon>
+            </template>
+          </NInput>
+
+          <!-- TODO: Berisi data yang berkaitan dengan karyawan terkait -->
+          <!-- <section>
+            <NDivider title-placement="center">Pratinjau</NDivider>
+            <NCard>
+              <NSpace vertical align="center">
+                <section>
+                  <NH6 style="margin: 0; opacity: 0.3; font-size: 14px; text-align: center">Nama</NH6>
+                  <NText as="p" style="text-align: center">Hendra Saefullah Muhammad Muhammad Adriansyah </NText>
+                </section>
+                <section>
+                  <NH6 style="margin: 0; opacity: 0.3; font-size: 14px; text-align: center">Nomor HP</NH6>
+                  <NText as="p" style="text-align: center">Hendra Saefullah Muhammad Muhammad Adriansyah</NText>
+                </section>
+              </NSpace>
+            </NCard>
+          </section> -->
+        </NSpace>
+      </NLayoutSider>
+    </NLayout>
   </AppLayout>
 </template>
