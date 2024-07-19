@@ -1,8 +1,8 @@
-export class ResponseDto<DataType, MetaType> {
+export class ResponseDto<DataType, MetaType = undefined> {
   public code!: number;
   public messages!: string;
   public data: DataType;
-  public meta: MetaType;
+  public meta?: MetaType;
 
   constructor(data: ResponseDto<DataType, MetaType>) {
     this.code = data.code;

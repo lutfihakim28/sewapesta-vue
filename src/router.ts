@@ -52,16 +52,25 @@ const router = createRouter({
     {
       path: '/assets',
       name: 'AssetPage',
-      component: () => import('@/pages/HomePage.vue'),
+      component: () => import('@/pages/AssetPage.vue'),
       meta: {
         requiresAuth: true,
         menuKey: 'Asset',
       }
     },
     {
+      path: '/categories',
+      name: 'CategoryPage',
+      component: () => import('@/pages/HomePage.vue'),
+      meta: {
+        requiresAuth: true,
+        menuKey: 'Category',
+      }
+    },
+    {
       path: '/vehicles',
       name: 'VehiclePage',
-      component: () => import('@/pages/HomePage.vue'),
+      component: () => import('@/pages/VehiclePage.vue'),
       meta: {
         requiresAuth: true,
         menuKey: 'Vehicle',
@@ -70,7 +79,7 @@ const router = createRouter({
     {
       path: '/asset-owners',
       name: 'AssetOwnerPage',
-      component: () => import('@/pages/HomePage.vue'),
+      component: () => import('@/pages/AssetOwnerPage.vue'),
       meta: {
         requiresAuth: true,
         menuKey: 'AssetOwner',

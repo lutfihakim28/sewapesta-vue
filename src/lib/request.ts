@@ -29,7 +29,7 @@ export function useRequest() {
       if (responseData.code > 300) {
         if (responseData.code === 401) {
           localStorage.removeItem('sewapesta-token')
-          router.push({ name: 'LoginPage' })
+          // router.push({ name: 'LoginPage' })
         }
         if (responseData.code === 422) {
           throw new CustomException(422, 'Data tidak valid.')
@@ -42,7 +42,7 @@ export function useRequest() {
     }
   }
 
-  async function POST<R, P = void>(endpoint: string, payload?: P): Promise<R> {
+  async function POST<R = void, P = undefined>(endpoint: string, payload?: P): Promise<R> {
     try {
       const url = baseUrl + endpoint;
       let response: Response;
@@ -70,7 +70,7 @@ export function useRequest() {
       if (responseData.code > 300) {
         if (responseData.code === 401) {
           localStorage.removeItem('sewapesta-token')
-          router.push({ name: 'LoginPage' })
+          // router.push({ name: 'LoginPage' })
         }
         if (responseData.code === 422) {
           throw new CustomException(422, 'Data tidak valid.')
@@ -86,7 +86,7 @@ export function useRequest() {
     }
   }
 
-  async function PUT<R, P = void>(endpoint: string, payload: P): Promise<R> {
+  async function PUT<R = void, P = undefined>(endpoint: string, payload: P): Promise<R> {
     try {
       const url = baseUrl + endpoint;
       let response: Response;
@@ -114,7 +114,48 @@ export function useRequest() {
       if (responseData.code > 300) {
         if (responseData.code === 401) {
           localStorage.removeItem('sewapesta-token')
-          router.push({ name: 'LoginPage' })
+          // router.push({ name: 'LoginPage' })
+        }
+        if (responseData.code === 422) {
+          throw new CustomException(422, 'Data tidak valid.')
+        }
+        throw new CustomException(responseData.code, responseData.messages)
+      }
+      return Promise.resolve(responseData);
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  async function PATCH<R = void, P = undefined>(endpoint: string, payload: P): Promise<R> {
+    try {
+      const url = baseUrl + endpoint;
+      let response: Response;
+      if (payload instanceof FormData) {
+        response = await fetch(url, {
+          credentials: 'include',
+          method: 'PATCH',
+          headers: {
+            'Cookie': getToken(),
+          },
+          body: payload
+        });
+      } else {
+        response = await fetch(url, {
+          credentials: 'include',
+          method: 'PATCH',
+          headers: {
+            'Cookie': getToken(),
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        })
+      }
+      const responseData = await response.json();
+      if (responseData.code > 300) {
+        if (responseData.code === 401) {
+          localStorage.removeItem('sewapesta-token')
+          // router.push({ name: 'LoginPage' })
         }
         if (responseData.code === 422) {
           throw new CustomException(422, 'Data tidak valid.')
@@ -141,7 +182,7 @@ export function useRequest() {
       if (responseData.code > 300) {
         if (responseData.code === 401) {
           localStorage.removeItem('sewapesta-token')
-          router.push({ name: 'LoginPage' })
+          // router.push({ name: 'LoginPage' })
         }
         if (responseData.code === 422) {
           throw new CustomException(422, 'Data tidak valid.')
@@ -159,5 +200,5 @@ export function useRequest() {
     return `token=${jwt}`;
   }
 
-  return { GET, POST, PUT, DELETE }
+  return { GET, POST, PUT, PATCH, DELETE }
 }

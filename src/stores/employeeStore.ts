@@ -9,7 +9,6 @@ import { EmployeeQueryDto } from '@/dtos/EmployeeQueryDto';
 import { PaginationDto } from '@/dtos/PaginationDto';
 
 export const useEmployeeStore = defineStore('employee', () => {
-  // const message = useMessage();
   const appStore = useAppStore();
   const request = useRequest();
 
@@ -21,7 +20,7 @@ export const useEmployeeStore = defineStore('employee', () => {
       const qs = { ...query };
       const response = await request.GET<ResponseDto<Array<EmployeeDto>, PaginationDto>, typeof qs>('/private/employees', qs);
       employees.value = response.data.map((data) => new EmployeeDto(data));
-      return Promise.resolve(new PaginationDto(response.meta))
+      return Promise.resolve(new PaginationDto(response.meta!))
     } catch (error) {
       appStore.handleError(error);
       return Promise.reject(error);

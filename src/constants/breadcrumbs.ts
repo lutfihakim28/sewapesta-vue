@@ -6,6 +6,7 @@ export type RouteName =
   | 'AssetPage'
   | 'VehiclePage'
   | 'AssetOwnerPage'
+  | 'CategoryPage'
   | 'AccountPage'
   | 'IncomePage'
   | 'ExpensePage'
@@ -56,6 +57,18 @@ export const breadcrumb: Record<RouteName, Breadcrumb[]> = {
     },
     {
       label: 'Aset',
+    },
+  ],
+  CategoryPage: [
+    {
+      label: 'Beranda',
+      path: '/'
+    },
+    {
+      label: 'Data Master',
+    },
+    {
+      label: 'Kategori',
     },
   ],
   EmployeePage: [

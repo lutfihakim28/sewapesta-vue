@@ -113,7 +113,7 @@ function refresh() {
     </NLayoutHeader>
     <NLayout has-sider position="absolute" style="top: 4rem;">
       <NLayoutSider bordered :native-scrollbar="false">
-        <NMenu v-model:value="selectedKey" :options="menus"></NMenu>
+        <NMenu v-model:value="selectedKey" :options="menus" />
       </NLayoutSider>
       <NLayoutContent content-style="padding: 1rem; height: 100dvh; max-height: calc(100dvh - 4rem); overflow: hidden"
         :native-scrollbar="false">
