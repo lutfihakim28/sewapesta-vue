@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { useAppStore } from './appStore';
-import { useRequest } from '@/lib/request';
+import { useRequest } from '@/utils/request';
 // import { useMessage } from 'naive-ui';
 import { AssetDto } from '@/dtos/AssetDto';
 import { ResponseDto } from '@/dtos/ResponseDto';

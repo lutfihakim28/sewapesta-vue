@@ -4,7 +4,7 @@ import { useTableMaxSize } from '@/composables/useTablemaxSize';
 import { OwnerDto } from '@/dtos/OwnerDto';
 import { OwnerQueryDto } from '@/dtos/OwnerQueryDto';
 import { OwnerTypeEnum, OwnerTypeOptions } from '@/enums/OwnerTypeEnum';
-import { debounce } from '@/lib/debounce';
+import { debounce } from '@/utils/debounce';
 import { useOwnerStore } from '@/stores/ownerStore';
 import { Search24Filled } from '@vicons/fluent';
 import {
@@ -63,7 +63,7 @@ const rowProps = (row: OwnerDto): HTMLAttributes => {
     }, ['self'])
   }
 }
-const rowKey = (employee: OwnerDto) => employee.id;
+const rowKey = (owner: OwnerDto) => owner.id;
 const pagination = reactive<PaginationProps>({
   page: 1,
   pageCount: 1,
@@ -103,10 +103,10 @@ async function getOwners() {
     });
     const response = await ownerStore.getOwners(query);
     pagination.pageCount = response.pageCount;
+    loadingBar.finish();
   } catch (error) {
     loadingBar.error();
   } finally {
-    loadingBar.finish();
     loading.value = false;
   }
 }
@@ -153,8 +153,8 @@ function refresh() {
   <AppLayout @refresh="refresh">
     <NLayout has-sider content-style="padding: 1rem;" :native-scrollbar="false" sider-placement="right">
       <NLayoutContent :native-scrollbar="false">
-        <NDataTable ref="assetOwnerTable" remote :row-key="rowKey" :row-props="rowProps" :columns="columns" :data="owners"
-          :max-height="height - 64" :loading="loading" :pagination="(pagination as PaginationProps)"
+        <NDataTable ref="assetOwnerTable" remote :row-key="rowKey" :row-props="rowProps" :columns="columns"
+          :data="owners" :max-height="height - 64" :loading="loading" :pagination="(pagination as PaginationProps)"
           @update:sorter="handleSorterChange" @update:page="handlePageChange" @update:page-size="handlePageSizeChange">
         </NDataTable>
       </NLayoutContent>

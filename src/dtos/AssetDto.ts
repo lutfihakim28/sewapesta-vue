@@ -1,4 +1,4 @@
-import { formatter } from '@/lib/formatter';
+import { formatter } from '@/utils/formatter';
 import { BaseDto } from './BaseDto';
 import { OwnerDto } from './OwnerDto';
 import { SubcategoryDto } from './SubcategoryDto';

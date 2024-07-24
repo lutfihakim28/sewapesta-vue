@@ -1,5 +1,5 @@
 import { CategoryDto } from '@/dtos/CategoryDto';
-import { useRequest } from '@/lib/request';
+import { useRequest } from '@/utils/request';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { useAppStore } from './appStore';

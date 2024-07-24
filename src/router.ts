@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { RouteName, breadcrumb } from './constants/breadcrumbs';
 import { useBreadcrumStore } from './stores/breadcrumbStore';
+import { useRouteNameStore } from './stores/routeNameStore';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -61,7 +62,7 @@ const router = createRouter({
     {
       path: '/categories',
       name: 'CategoryPage',
-      component: () => import('@/pages/HomePage.vue'),
+      component: () => import('@/pages/CategoryPage.vue'),
       meta: {
         requiresAuth: true,
         menuKey: 'Category',
@@ -141,6 +142,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _, next) => {
+  const routeNameStore = useRouteNameStore();
   const breadcrumbs = to.name ? breadcrumb[to.name as RouteName] : [];
   const breadcrumbStore = useBreadcrumStore();
   breadcrumbStore.setBreadcrumbs(breadcrumbs)
@@ -148,6 +150,10 @@ router.beforeEach((to, _, next) => {
   const token = localStorage.getItem('sewapesta-token');
   if (to.meta.requiresAuth && !token) {
     next({ name: 'LoginPage' });
+  }
+
+  if (to.meta.requiresAuth) {
+    routeNameStore.setRouteName(to.name)
   }
 
   next();

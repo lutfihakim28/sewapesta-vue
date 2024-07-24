@@ -64,10 +64,10 @@ async function getEmployees() {
     loadingBar.start();
     loading.value = true;
     await vehicleStore.getVehicles();
+    loadingBar.finish();
   } catch (error) {
     loadingBar.error();
   } finally {
-    loadingBar.finish();
     loading.value = false;
   }
 }

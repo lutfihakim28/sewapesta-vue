@@ -1,4 +1,4 @@
-import { useRequest } from '@/lib/request';
+import { useRequest } from '@/utils/request';
 import { defineStore } from 'pinia';
 import { useAppStore } from './appStore';
 import { useMessage } from 'naive-ui';

@@ -2,6 +2,7 @@
 import { LoginRequestDto } from '@/dtos/LoginRequestDto';
 import { loginRequestRule } from '@/rules/loginRequestRule';
 import { useAuthStore } from '@/stores/authStore';
+import { useRouteNameStore } from '@/stores/routeNameStore';
 import {
   FormInst,
   NButton,
@@ -10,8 +11,6 @@ import {
   NFormItemGi,
   NGrid,
   NInput,
-  NLayout,
-  NRow,
   useLoadingBar,
   useMessage,
 } from 'naive-ui'
@@ -22,6 +21,7 @@ const message = useMessage();
 const loadingBar = useLoadingBar();
 const router = useRouter();
 const authStore = useAuthStore();
+const routeNameStore = useRouteNameStore();
 
 const form = ref<FormInst>()
 const request = reactive<LoginRequestDto>(new LoginRequestDto())
@@ -34,7 +34,11 @@ async function login() {
     const result = await form.value?.validate();
     if (!result || !result?.warnings) {
       await authStore.login(request)
-      router.push('/')
+      if (!!routeNameStore.routeName) {
+        router.push({ name: routeNameStore.routeName })
+      } else {
+        router.push('/')
+      }
     } else {
       message.error('Data tidak valid.')
     }

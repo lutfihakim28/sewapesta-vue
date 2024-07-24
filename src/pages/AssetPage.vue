@@ -3,7 +3,7 @@ import AppLayout from '@/components/AppLayout.vue';
 import { useTableMaxSize } from '@/composables/useTablemaxSize';
 import { AssetDto } from '@/dtos/AssetDto';
 import { AssetQueryDto } from '@/dtos/AssetQueryDto';
-import { debounce } from '@/lib/debounce';
+import { debounce } from '@/utils/debounce';
 import { useAssetStore } from '@/stores/assetStore';
 import { useCategoryStore } from '@/stores/categoryStore';
 import { Search24Filled } from '@vicons/fluent';
@@ -238,10 +238,10 @@ async function getAssets() {
     }
     const response = await assetStore.getAssets(query);
     pagination.pageCount = response.pageCount;
+    loadingBar.finish();
   } catch (error) {
     loadingBar.error();
   } finally {
-    loadingBar.finish();
     loading.value = false;
   }
 }

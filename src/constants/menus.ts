@@ -1,11 +1,8 @@
-import { NIcon, MenuGroupOption, MenuOption } from 'naive-ui';
-import { Component, h } from 'vue';
+import { MenuGroupOption, MenuOption } from 'naive-ui';
+import { h } from 'vue';
 import { RouterLink } from 'vue-router';
 import { BoxMultiple24Filled, CalendarLtr48Filled, Cart24Filled, CreditCardPerson24Filled, DocumentPercent24Filled, Group24Filled, Home48Filled, MailInboxArrowDown20Filled, MailInboxArrowUp20Filled, PeopleCommunity28Filled, Person48Filled, VehicleTruckProfile24Filled } from '@vicons/fluent';
-
-function renderIcon(icon: Component) {
-  return () => h(NIcon, null, { default: () => h(icon) })
-}
+import { renderIcon } from '@/utils/renderIcon';
 
 function renderLabel(path: string, label: string) {
   return () => h(

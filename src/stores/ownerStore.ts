@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { useAppStore } from './appStore';
-import { useRequest } from '@/lib/request';
+import { useRequest } from '@/utils/request';
 import { ref } from 'vue';
 import { OwnerDto } from '@/dtos/OwnerDto';
 import { OwnerQueryDto } from '@/dtos/OwnerQueryDto';

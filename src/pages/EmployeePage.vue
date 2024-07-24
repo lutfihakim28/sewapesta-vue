@@ -3,7 +3,7 @@ import AppLayout from '@/components/AppLayout.vue';
 import { useTableMaxSize } from '@/composables/useTablemaxSize';
 import { EmployeeDto } from '@/dtos/EmployeeDto';
 import { EmployeeQueryDto } from '@/dtos/EmployeeQueryDto';
-import { debounce } from '@/lib/debounce';
+import { debounce } from '@/utils/debounce';
 import { useEmployeeStore } from '@/stores/employeeStore';
 import { Search24Filled } from '@vicons/fluent';
 import {
@@ -94,10 +94,10 @@ async function getEmployees() {
     });
     const response = await employeeStore.getEmployees(query);
     pagination.pageCount = response.pageCount;
+    loadingBar.finish();
   } catch (error) {
     loadingBar.error();
   } finally {
-    loadingBar.finish();
     loading.value = false;
   }
 }
@@ -145,8 +145,8 @@ function refresh() {
       <NLayoutContent :native-scrollbar="false">
         <NDataTable ref="employeeTable" remote :row-key="rowKey" :row-props="rowProps" :columns="columns"
           :data="employees" :max-height="height" :loading="loading" :pagination="(pagination as PaginationProps)"
-          @update:sorter="handleSorterChange" @update:page="handlePageChange" @update:page-size="handlePageSizeChange">
-        </NDataTable>
+          @update:sorter="handleSorterChange" @update:page="handlePageChange"
+          @update:page-size="handlePageSizeChange" />
       </NLayoutContent>
 
       <NLayoutSider style="background: transparent" content-style="padding: 1rem; padding-top: 0">
