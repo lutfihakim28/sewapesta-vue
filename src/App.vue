@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NConfigProvider, NLoadingBarProvider, NMessageProvider, NModalProvider } from 'naive-ui'
+import { NConfigProvider, NDialogProvider, NLoadingBarProvider, NMessageProvider, NModalProvider } from 'naive-ui'
 import { darkTheme } from 'naive-ui'
 import { idID, dateIdID } from 'naive-ui'
 </script>
@@ -8,9 +8,11 @@ import { idID, dateIdID } from 'naive-ui'
   <NConfigProvider :theme="darkTheme" :locale="idID" :date-locale="dateIdID">
     <NMessageProvider>
       <NLoadingBarProvider>
-        <NModalProvider>
-          <RouterView />
-        </NModalProvider>
+        <NDialogProvider>
+          <NModalProvider>
+            <RouterView />
+          </NModalProvider>
+        </NDialogProvider>
       </NLoadingBarProvider>
     </NMessageProvider>
   </NConfigProvider>

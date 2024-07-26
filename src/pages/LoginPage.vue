@@ -7,8 +7,14 @@ import {
 </script>
 
 <template>
-  <NLayout has-sider style="height: 100dvh">
-    <NRow align-items="center" justify-content="center">
+  <NLayout
+    has-sider
+    style="height: 100dvh"
+  >
+    <NRow
+      align-items="center"
+      justify-content="center"
+    >
       <LoginForm />
     </NRow>
   </NLayout>

@@ -151,34 +151,82 @@ function refresh() {
 
 <template>
   <AppLayout @refresh="refresh">
-    <NLayout has-sider content-style="padding: 1rem;" :native-scrollbar="false" sider-placement="right">
+    <NLayout
+      has-sider
+      content-style="padding: 1rem;"
+      :native-scrollbar="false"
+      sider-placement="right"
+    >
       <NLayoutContent :native-scrollbar="false">
-        <NDataTable ref="assetOwnerTable" remote :row-key="rowKey" :row-props="rowProps" :columns="columns"
-          :data="owners" :max-height="height - 64" :loading="loading" :pagination="(pagination as PaginationProps)"
-          @update:sorter="handleSorterChange" @update:page="handlePageChange" @update:page-size="handlePageSizeChange">
-        </NDataTable>
+        <NDataTable
+          ref="assetOwnerTable"
+          remote
+          :row-key="rowKey"
+          :row-props="rowProps"
+          :columns="columns"
+          :data="owners"
+          :max-height="height - 64"
+          :loading="loading"
+          :pagination="(pagination as PaginationProps)"
+          @update:sorter="handleSorterChange"
+          @update:page="handlePageChange"
+          @update:page-size="handlePageSizeChange"
+        />
       </NLayoutContent>
 
-      <NLayoutSider style="background: transparent" content-style="padding: 1rem; padding-top: 0">
-        <NSpace vertical style="padding-top: 8px">
-          <NButton type="primary" block>Tambah pemilik</NButton>
-          <NDivider title-placement="center">Filter</NDivider>
+      <NLayoutSider
+        style="background: transparent"
+        content-style="padding: 1rem; padding-top: 0"
+      >
+        <NSpace
+          vertical
+          style="padding-top: 8px"
+        >
+          <NButton
+            type="primary"
+            block
+          >
+            Tambah pemilik
+          </NButton>
+          <NDivider title-placement="center">
+            Filter
+          </NDivider>
           <NSpace vertical>
-            <NText style="opacity: 0.6">Pencarian</NText>
-            <NInput ref="searchInput" v-model:value="keyword" placeholder="Nama atau nomor HP..." clearable
-              :disabled="loading" @input="handleSearch">
+            <NText style="opacity: 0.6">
+              Pencarian
+            </NText>
+            <NInput
+              ref="searchInput"
+              v-model:value="keyword"
+              placeholder="Nama atau nomor HP..."
+              clearable
+              :disabled="loading"
+              @input="handleSearch"
+            >
               <template #prefix>
-                <NIcon :component="Search24Filled"></NIcon>
+                <NIcon :component="Search24Filled" />
               </template>
             </NInput>
           </NSpace>
           <NSpace vertical>
-            <NText style="opacity: 0.6">Jenis Pemilik</NText>
-            <NRadioGroup v-model:value="selectedType" @update:value="getOwners">
+            <NText style="opacity: 0.6">
+              Jenis Pemilik
+            </NText>
+            <NRadioGroup
+              v-model:value="selectedType"
+              @update:value="getOwners"
+            >
               <NSpace vertical>
-                <NRadio value="all" label="Semua" />
-                <NRadio v-for="option in OwnerTypeOptions" :key="option.value" :value="option.value"
-                  :label="option.label" />
+                <NRadio
+                  value="all"
+                  label="Semua"
+                />
+                <NRadio
+                  v-for="option in OwnerTypeOptions"
+                  :key="option.value"
+                  :value="option.value"
+                  :label="option.label"
+                />
               </NSpace>
             </NRadioGroup>
           </NSpace>

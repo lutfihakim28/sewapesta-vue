@@ -34,7 +34,7 @@ async function login() {
     const result = await form.value?.validate();
     if (!result || !result?.warnings) {
       await authStore.login(request)
-      if (!!routeNameStore.routeName) {
+      if (routeNameStore.routeName) {
         router.push({ name: routeNameStore.routeName })
       } else {
         router.push('/')
@@ -53,18 +53,50 @@ async function login() {
 </script>
 
 <template>
-  <NForm ref="form" :model="request" :rules="loginRequestRule" @submit.prevent="login">
-    <NCard style="width: 24rem;" size="small">
-      <NGrid :cols="12" style="margin-top: 1rem;">
-        <NFormItemGi label="Nama Pengguna" :span="12" path="username">
-          <NInput v-model:value="request.username" placeholder="Ketik nama pengguna..." />
+  <NForm
+    ref="form"
+    :model="request"
+    :rules="loginRequestRule"
+    @submit.prevent="login"
+  >
+    <NCard
+      style="width: 24rem;"
+      size="small"
+    >
+      <NGrid
+        :cols="12"
+        style="margin-top: 1rem;"
+      >
+        <NFormItemGi
+          label="Nama Pengguna"
+          :span="12"
+          path="username"
+        >
+          <NInput
+            v-model:value="request.username"
+            placeholder="Ketik nama pengguna..."
+          />
         </NFormItemGi>
-        <NFormItemGi label="Kata Sandi" :span="12" path="password">
-          <NInput v-model:value="request.password" placeholder="********" type="password" show-password-on="click" />
+        <NFormItemGi
+          label="Kata Sandi"
+          :span="12"
+          path="password"
+        >
+          <NInput
+            v-model:value="request.password"
+            placeholder="********"
+            type="password"
+            show-password-on="click"
+          />
         </NFormItemGi>
       </NGrid>
       <template #action>
-        <NButton block type="primary" attr-type="submit" :disabled="disabled">
+        <NButton
+          block
+          type="primary"
+          attr-type="submit"
+          :disabled="disabled"
+        >
           Masuk
         </NButton>
       </template>
