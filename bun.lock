@@ -5,35 +5,36 @@
       "name": "vue-init",
       "dependencies": {
         "@nuxt/ui": "^3.1.2",
-        "pinia": "^3.0.1",
-        "vue": "^3.5.13",
-        "vue-router": "^4.5.0",
+        "pinia": "^3.0.2",
+        "vue": "^3.5.14",
+        "vue-router": "^4.5.1",
       },
       "devDependencies": {
-        "@playwright/test": "^1.51.1",
+        "@playwright/test": "^1.52.0",
         "@tsconfig/node22": "^22.0.1",
-        "@types/node": "^22.14.0",
-        "@vitejs/plugin-vue": "^5.2.3",
+        "@types/node": "^22.15.18",
+        "@vitejs/plugin-vue": "^5.2.4",
         "@vue/eslint-config-typescript": "^14.5.0",
         "@vue/tsconfig": "^0.7.0",
-        "eslint": "^9.22.0",
-        "eslint-plugin-oxlint": "^0.16.0",
+        "eslint": "^9.27.0",
+        "eslint-plugin-oxlint": "^0.16.11",
         "eslint-plugin-playwright": "^2.2.0",
-        "eslint-plugin-vue": "~10.0.0",
+        "eslint-plugin-vue": "~10.0.1",
         "jiti": "^2.4.2",
         "npm-run-all2": "^7.0.2",
-        "oxlint": "^0.16.0",
-        "typescript": "~5.8.0",
-        "vite": "^6.2.4",
-        "vite-plugin-vue-devtools": "^7.7.2",
-        "vue-tsc": "^2.2.8",
+        "oxlint": "^0.16.11",
+        "typescript": "~5.8.3",
+        "vite": "^6.3.5",
+        "vite-plugin-vue-devtools": "^7.7.6",
+        "vue-tsc": "^2.2.10",
+        "zod": "^3.24.4",
       },
     },
   },
   "overrides": {
-    "tailwindcss": "4.0.7",
     "@tailwindcss/postcss": "4.0.7",
     "@tailwindcss/vite": "4.0.7",
+    "tailwindcss": "4.0.7",
   },
   "packages": {
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "", {}, "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="],
@@ -346,7 +347,7 @@
 
     "@types/json-schema": ["@types/json-schema@7.0.15", "", {}, "sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA=="],
 
-    "@types/node": ["@types/node@22.15.18", "", { "dependencies": { "undici-types": "~6.21.0" } }, "sha512-v1DKRfUdyW+jJhZNEI1PYy29S2YRxMV5AOO/x/SjKmW0acCIOqmbj6Haf9eHAhsPmrhlHSxEhv/1WszcLWV4cg=="],
+    "@types/node": ["@types/node@22.15.19", "", { "dependencies": { "undici-types": "~6.21.0" } }, "sha512-3vMNr4TzNQyjHcRZadojpRaD9Ofr6LsonZAoQ+HMUa/9ORTPoxVIw0e0mpqWpdjj8xybyCM+oKOUH2vwFu/oEw=="],
 
     "@types/web-bluetooth": ["@types/web-bluetooth@0.0.21", "", {}, "sha512-oIQLCGWtcFZy2JW77j9k8nHzAOpqMHLQejDA48XXMWH6tjCQHz5RCFz1bzsmROyL6PUm+LLnUiI4BCn221inxA=="],
 
@@ -438,7 +439,7 @@
 
     "argparse": ["argparse@2.0.1", "", {}, "sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q=="],
 
-    "aria-hidden": ["aria-hidden@1.2.5", "", { "dependencies": { "caniuse-lite": "^1.0.30001718", "tslib": "^2.0.0" } }, "sha512-N+u63/2br5AG+OSrk0rIgFOYPSEYlkD7Yk5fq3LDole6QDIAbAFpbchE5fhBiUdRV2Fa8pWAaXvy+VK/maBeTA=="],
+    "aria-hidden": ["aria-hidden@1.2.6", "", { "dependencies": { "tslib": "^2.0.0" } }, "sha512-ik3ZgC9dY/lYVVM++OISsaYDeg1tb0VtP5uL3ouh1koGOaUMDPpbFIei4JkFimWUFPn90sbMNMXQAIVOlnYKJA=="],
 
     "balanced-match": ["balanced-match@1.0.2", "", {}, "sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw=="],
 
@@ -1033,6 +1034,8 @@
     "yocto-queue": ["yocto-queue@0.1.0", "", {}, "sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q=="],
 
     "yoctocolors": ["yoctocolors@2.1.1", "", {}, "sha512-GQHQqAopRhwU8Kt1DDM8NjibDXHC8eoh1erhGAJPEyveY9qqVeXvVikNKrDz69sHowPMorbPUrH/mx8c50eiBQ=="],
+
+    "zod": ["zod@3.24.4", "", {}, "sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg=="],
 
     "@babel/core/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
 

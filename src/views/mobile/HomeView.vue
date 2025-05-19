@@ -4,6 +4,6 @@
 
 <template>
   <main>
-    <HelloWorld msg="Tes" />
+    <HelloWorld msg="Mobile" />
   </main>
 </template>
