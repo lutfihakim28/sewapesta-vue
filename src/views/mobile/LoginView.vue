@@ -5,9 +5,9 @@ const { loginRequest, onSubmit } = useLoginCore()
 </script>
 
 <template>
-  <section class="grid place-content-center h-dvh">
+  <section class="flex flex-col justify-end items-center pb-24 h-dvh">
     <UForm :schema="LoginRequestSchema" :state="loginRequest" @submit="onSubmit">
-      <UCard variant="subtle" :ui="{ root: 'w-sm' }">
+      <UCard variant="soft" :ui="{ root: 'w-xs' }">
         <template #header>
           <h4 class="text-xl font-medium">Login</h4>
         </template>

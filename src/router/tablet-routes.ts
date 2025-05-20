@@ -1,6 +1,17 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-export const routes: readonly RouteRecordRaw[] = [
+export const tabletRoutes: readonly RouteRecordRaw[] = [
+  {
+    path: '/auth',
+    redirect: { name: 'Login' },
+    children: [
+      {
+        path: 'login',
+        name: 'Login',
+        component: () => import('@/views/tablet/LoginView.vue')
+      }
+    ],
+  },
   {
     path: '/',
     name: 'home',

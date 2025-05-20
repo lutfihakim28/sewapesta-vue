@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-export const routes: readonly RouteRecordRaw[] = [
+export const desktopRoutes: readonly RouteRecordRaw[] = [
   {
     path: '/auth',
     redirect: { name: 'Login' },

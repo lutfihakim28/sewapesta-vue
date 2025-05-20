@@ -1,6 +1,6 @@
-import { routes as desktopRoutes } from './desktop-routes'
-import { routes as tabletRoutes } from './tablet-routes'
-import { routes as mobileRoutes } from './mobile-routes'
+import { desktopRoutes } from './desktop-routes'
+import { tabletRoutes } from './tablet-routes'
+import { mobileRoutes } from './mobile-routes'
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 
 
