@@ -15,6 +15,11 @@ export default defineConfig({
           primary: 'violet',
           neutral: 'neutral'
         },
+        input: {
+          defaultVariants: {
+            size: 'lg',
+          }
+        }
       },
       autoImport: {
         dts: true,

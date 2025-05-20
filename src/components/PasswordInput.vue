@@ -7,7 +7,6 @@ const show = ref(false)
 <template>
   <UInput
     v-model="modelValue"
-    placeholder="Password"
     :type="show ? 'text' : 'password'"
     :ui="{ trailing: 'pe-1', root: 'w-full' }"
   >

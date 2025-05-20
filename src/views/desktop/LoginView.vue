@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { LoginRequestSchema } from '@/utils/schemas/login-request';
 
-const { loginRequest, onSubmit } = useLoginCore()
+const { loginRequest, onSubmit, isFetching } = useLoginCore()
 </script>
 
 <template>
@@ -23,7 +23,7 @@ const { loginRequest, onSubmit } = useLoginCore()
         </section>
 
         <template #footer>
-          <UButton variant="solid" color="primary" type="submit" block>Login</UButton>
+          <UButton variant="solid" color="primary" type="submit" :loading="isFetching" block>Login</UButton>
         </template>
 
       </UCard>

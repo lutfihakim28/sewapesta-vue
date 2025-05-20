@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { LoginRequestSchema } from '@/utils/schemas/login-request';
 
-const { loginRequest, onSubmit } = useLoginCore()
+const { loginRequest, onSubmit, isFetching } = useLoginCore()
 </script>
 
 <template>
-  <section class="flex flex-col justify-end items-center pb-24 h-dvh">
+  <section class="grid place-content-center h-dvh">
     <UForm :schema="LoginRequestSchema" :state="loginRequest" @submit="onSubmit">
-      <UCard variant="soft" :ui="{ root: 'w-xs' }">
+      <UCard variant="soft" :ui="{ root: 'w-xs bg-transparent' }">
         <template #header>
           <h4 class="text-xl font-medium">Login</h4>
         </template>
@@ -23,7 +23,7 @@ const { loginRequest, onSubmit } = useLoginCore()
         </section>
 
         <template #footer>
-          <UButton variant="solid" color="primary" type="submit" block>Login</UButton>
+          <UButton variant="solid" color="primary" type="submit" :loading="isFetching" block>Login</UButton>
         </template>
 
       </UCard>

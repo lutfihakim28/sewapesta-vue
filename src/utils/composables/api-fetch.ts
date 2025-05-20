@@ -1,16 +1,17 @@
 import { useToast } from '@nuxt/ui/runtime/composables/useToast.js';
-import { createFetch, useStorage } from '@vueuse/core'
+import { createFetch } from '@vueuse/core'
 import { ApiResponse } from '../dtos/ApiResponse';
+import { useAuthStore } from '@/stores/auth';
 
 export const useApiFetch = createFetch({
-  baseUrl: 'http://localhost:3000/api',
+  baseUrl: 'https://cockatoo-composed-burro.ngrok-free.app/api',
   options: {
     async beforeFetch({ options }) {
-      const token = useStorage('sewapesta-token', '');
-      if (token.value) {
+      const tokenStore = useAuthStore();
+      if (tokenStore.token) {
         options.headers = {
           ...options.headers,
-          Authorization: `Bearer ${token.value}`,
+          Authorization: `Bearer ${tokenStore.token}`,
         }
       }
       return { options };
@@ -60,6 +61,9 @@ export const useApiFetch = createFetch({
           })
         }
       }
+
+      ctx.data = JSON.parse(ctx.data);
+
       return ctx
     },
   }
