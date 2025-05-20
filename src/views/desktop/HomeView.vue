@@ -3,7 +3,5 @@
 </script>
 
 <template>
-  <main>
-    <HelloWorld msg="Desktop" />
-  </main>
+  <HelloWorld msg="Desktop" />
 </template>

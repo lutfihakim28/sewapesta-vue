@@ -23,7 +23,13 @@ const { loginRequest, onSubmit, isFetching } = useLoginCore()
         </section>
 
         <template #footer>
-          <UButton variant="solid" color="primary" type="submit" :loading="isFetching" block>Login</UButton>
+          <UButton variant="solid" color="primary" type="submit" :disabled="isFetching" block>
+            Login
+
+            <template v-if="isFetching" #leading>
+              <LoadingSpinner />
+            </template>
+          </UButton>
         </template>
 
       </UCard>

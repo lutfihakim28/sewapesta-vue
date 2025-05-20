@@ -10,7 +10,9 @@ onMounted(() => {
 
 <template>
   <UApp>
-    <RouterView />
+    <component :is="$route.meta.layout || 'section'">
+      <RouterView />
+    </component>
   </UApp>
 </template>
 

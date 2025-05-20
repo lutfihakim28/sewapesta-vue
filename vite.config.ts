@@ -19,7 +19,12 @@ export default defineConfig({
           defaultVariants: {
             size: 'lg',
           }
-        }
+        },
+        card: {
+          defaultVariants: {
+            variant: 'subtle',
+          }
+        },
       },
       autoImport: {
         dts: true,

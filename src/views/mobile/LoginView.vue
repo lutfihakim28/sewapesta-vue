@@ -7,7 +7,7 @@ const { loginRequest, onSubmit, isFetching } = useLoginCore()
 <template>
   <section class="grid place-content-center h-dvh">
     <UForm :schema="LoginRequestSchema" :state="loginRequest" @submit="onSubmit">
-      <UCard variant="soft" :ui="{ root: 'w-xs bg-transparent' }">
+      <UCard :ui="{ root: 'w-xs bg-transparent' }">
         <template #header>
           <h4 class="text-xl font-medium">Login</h4>
         </template>
@@ -23,7 +23,13 @@ const { loginRequest, onSubmit, isFetching } = useLoginCore()
         </section>
 
         <template #footer>
-          <UButton variant="solid" color="primary" type="submit" :loading="isFetching" block>Login</UButton>
+          <UButton variant="solid" color="primary" type="submit" :disabled="isFetching" block>
+            Login
+
+            <template v-if="isFetching" #leading>
+              <LoadingSpinner />
+            </template>
+          </UButton>
         </template>
 
       </UCard>
