@@ -12,6 +12,7 @@ export const useApiFetch = createFetch({
         options.headers = {
           ...options.headers,
           Authorization: `Bearer ${tokenStore.token}`,
+          'ngrok-skip-browser-warning': '69420'
         }
       }
       return { options };

@@ -2,6 +2,7 @@ import { User } from '@/utils/dtos/User';
 import { useStorage } from '@vueuse/core';
 import { useJwt } from '@vueuse/integrations/useJwt';
 import { defineStore } from 'pinia';
+import { computed } from 'vue';
 
 export const useAuthStore = defineStore('auth', () => {
   const token = useStorage('sewapesta-token', '')
@@ -11,6 +12,7 @@ export const useAuthStore = defineStore('auth', () => {
     if (payload.value) {
       return new User((payload.value as { user: User }).user);
     }
+    return undefined
   })
 
   function setToken(_token: string) {

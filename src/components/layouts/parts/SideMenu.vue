@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 const {
   collapsed = false,
@@ -53,7 +55,9 @@ const items = computed<NavigationMenuItem[][]>(() => ([
     },
     {
       label: 'Category',
-      icon: 'i-lucide-shapes'
+      icon: 'i-lucide-shapes',
+      active: route.name === 'Category',
+      to: { name: 'Category' }
     },
     {
       label: 'Unit',

@@ -2,6 +2,7 @@ import DesktopLayout from '@/components/layouts/DesktopLayout.vue';
 import MobileLayout from '@/components/layouts/MobileLayout.vue';
 import TabletLayout from '@/components/layouts/TabletLayout.vue';
 import { useAuthStore } from '@/stores/auth';
+import { useLastRouteStore } from '@/stores/last-route';
 import type { Component } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
@@ -48,9 +49,9 @@ export default function router(screenSize: number) {
             component: importView(layoutType, 'DashboardView'),
           },
           {
-            path: 'about',
-            name: 'about',
-            component: importView(layoutType, 'AboutView'),
+            path: 'categories',
+            name: 'Category',
+            component: importView(layoutType, 'CategoryView'),
 
           },
         ],

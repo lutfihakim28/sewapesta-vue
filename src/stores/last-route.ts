@@ -1,6 +1,7 @@
 // State for managing last route before redirected to Login
 
 import { defineStore } from 'pinia';
+import { shallowRef } from 'vue';
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
 
 export const useLastRouteStore = defineStore('last-route', () => {

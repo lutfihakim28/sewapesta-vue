@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 const isMenuCollapsed = ref(false);
 
 function toggleMenu() {
@@ -16,7 +18,7 @@ function toggleMenu() {
   ]">
     <!-- Side Menu -->
     <section class="row-span-12 rounded-md bg-elevated/50 ring ring-default grid grid-rows-subgrid overflow-y-auto overflow-x-hidden">
-      <section class="flex items-center font-black text-2xl sticky top-0 bg-neutral-900 z-10 before:absolute before:inset-0 before:bg-elevated/50 before:-z-10 border-b border-b-primary-900/70">
+      <section class="flex items-center font-black text-2xl sticky top-0 bg-(--ui-bg) z-10 before:absolute before:inset-0 before:bg-elevated/50 before:-z-10 border-b border-b-primary-900/70">
         <div v-if="isMenuCollapsed" class="flex flex-col items-center w-full">
           <span class="text-primary-500">S</span>
           <span class="text-neutral-400">P</span>
@@ -39,7 +41,7 @@ function toggleMenu() {
     </section>
 
     <!-- Content -->
-    <main class="row-span-11 rounded-md bg-elevated/50 ring ring-default overflow-auto">
+    <main class="row-span-11 rounded-md bg-elevated/50 ring ring-default overflow-auto p-4">
       <slot />
     </main>
   </section>

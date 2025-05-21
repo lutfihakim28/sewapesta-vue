@@ -13,7 +13,7 @@ export class ApiResponse {
 
 export class ApiResponseData<T> extends ApiResponse {
   public data!: T
-  constructor(data: unknown, DataClass: new (prop: unknown) => T) {
+  constructor(data: unknown, DataClass: new (prop: T) => T) {
     super(data)
     const _data = data as ApiResponseData<T>
     this.data = new DataClass(_data.data);
@@ -24,7 +24,7 @@ export class ApiResponseList<T> extends ApiResponse {
   public data!: T[]
   public meta!: Meta
 
-  constructor(response: unknown, DataClass: new (prop: unknown) => T) {
+  constructor(response: unknown, DataClass: new (prop: T) => T) {
     super(response)
     const _response = response as ApiResponseList<T>;
     this.data = _response.data.map((_data) => new DataClass(_data))

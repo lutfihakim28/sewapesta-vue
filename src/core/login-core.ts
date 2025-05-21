@@ -1,5 +1,11 @@
+import { useAuthStore } from '@/stores/auth';
+import { useLastRouteStore } from '@/stores/last-route';
+import { useApiFetch } from '@/utils/composables/api-fetch';
 import { ApiResponseData } from '@/utils/dtos/ApiResponse';
 import { LoginResponse } from '@/utils/dtos/LoginResponse';
+import type { LoginRequest } from '@/utils/schemas/login-request';
+import { reactive } from 'vue';
+import { useRouter } from 'vue-router';
 
 export function useLoginCore() {
   const authStore = useAuthStore();

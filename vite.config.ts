@@ -26,17 +26,6 @@ export default defineConfig({
           }
         },
       },
-      autoImport: {
-        dts: true,
-        dirs: [
-          './src/**'
-        ],
-        imports: [
-          // presets
-          'vue',
-          'vue-router',
-        ]
-      },
       components: {
         dts: true
       }
