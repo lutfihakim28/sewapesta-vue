@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useColorMode } from '@vueuse/core'
+// import { useColorMode } from '@vueuse/core'
 
-const mode = useColorMode()
+// const mode = useColorMode()
 
-onMounted(() => {
-  mode.value = 'dark'
-})
+// onMounted(() => {
+//   mode.value = 'dark'
+// })
 </script>
 
 <template>

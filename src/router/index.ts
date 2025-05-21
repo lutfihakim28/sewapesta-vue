@@ -40,15 +40,15 @@ export default function router(screenSize: number) {
       },
       {
         path: '/',
-        redirect: { name: 'Home' },
+        redirect: { name: 'Dashboard' },
         children: [
           {
             path: '',
-            name: 'Home',
-            component: importView(layoutType, 'HomeView'),
+            name: 'Dashboard',
+            component: importView(layoutType, 'DashboardView'),
           },
           {
-            path: 'about/:id',
+            path: 'about',
             name: 'about',
             component: importView(layoutType, 'AboutView'),
 
@@ -69,7 +69,7 @@ export default function router(screenSize: number) {
     else if (!tokenStore.token && !to.meta.requiresAuth) next()
     else if (tokenStore.token && !to.meta.requiresAuth) {
       lastRouteStore.$reset();
-      next({ name: 'Home' });
+      next({ name: 'Dashboard' });
     }
     else if (!tokenStore.token && to.meta.requiresAuth) {
       lastRouteStore.setRoute(to);
