@@ -50,7 +50,7 @@ export const useApiFetch = createFetch({
       return ctx
     },
     async afterFetch(ctx) {
-      if (ctx.response.status >= 200 && ctx.response.status < 400) {
+      if (ctx.response.status >= 200 && ctx.response.status < 400 && ctx.context.options.method !== 'GET') {
         const response = new ApiResponse(JSON.parse(ctx.data));
         const toast = useToast()
 

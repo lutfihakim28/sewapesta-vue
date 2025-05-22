@@ -33,7 +33,9 @@ const items = computed<NavigationMenuItem[][]>(() => ([
     },
     {
       label: 'Item',
-      icon: 'i-lucide-box'
+      icon: 'i-lucide-box',
+      active: route.name === 'Item',
+      to: { name: 'Item' }
     },
     {
       label: 'Package',

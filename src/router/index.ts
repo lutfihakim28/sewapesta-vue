@@ -54,6 +54,12 @@ export default function router(screenSize: number) {
             component: importView(layoutType, 'CategoryView'),
 
           },
+          {
+            path: 'items',
+            name: 'Item',
+            component: importView(layoutType, 'ItemView'),
+
+          },
         ],
         meta: {
           requiresAuth: true,

@@ -10,6 +10,7 @@
         "vue-router": "^4.5.1",
       },
       "devDependencies": {
+        "@pinia/colada": "^0.16.0",
         "@playwright/test": "^1.52.0",
         "@tsconfig/node22": "^22.0.2",
         "@types/node": "^22.15.19",
@@ -27,7 +28,6 @@
         "jwt-decode": "^4",
         "npm-run-all2": "^7.0.2",
         "oxlint": "^0.16.11",
-        "swrv": "^1.1.0",
         "typescript": "~5.8.3",
         "vite": "^6.3.5",
         "vite-plugin-vue-devtools": "^7.7.6",
@@ -37,9 +37,9 @@
     },
   },
   "overrides": {
-    "tailwindcss": "4.0.7",
     "@tailwindcss/postcss": "4.0.7",
     "@tailwindcss/vite": "4.0.7",
+    "tailwindcss": "4.0.7",
   },
   "packages": {
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "", {}, "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="],
@@ -253,6 +253,8 @@
     "@oxlint/win32-arm64": ["@oxlint/win32-arm64@0.16.11", "", { "os": "win32", "cpu": "arm64" }, "sha512-lx9x2EEbyHW5t2aooWtXI2AWd3WzDs+4T/p3RBp/HPp9ziwL2hEdzmjMC3DgdnbmwUmUGvfquSElF6ZGC9L5pA=="],
 
     "@oxlint/win32-x64": ["@oxlint/win32-x64@0.16.11", "", { "os": "win32", "cpu": "x64" }, "sha512-k/ZfoIR5V6bPoemFvMb9EJu3YkSoF2AAKhC7AfKM4tg9UfJ1Wj/9J/edTv1aRQCRTzPiWoS+W5v1SPogVE80Qg=="],
+
+    "@pinia/colada": ["@pinia/colada@0.16.0", "", { "dependencies": { "@vue/devtools-api": "^7.7.2" }, "peerDependencies": { "pinia": "^2.2.6 || ^3.0.0" } }, "sha512-LlTVhEGRmYsYQceWLgLwdXEOGTRTcI++D8+HS3IEiKcUI+ySz7L3MGwNZpm2V3dknBxObDrc4GD6PeNjQU7vDg=="],
 
     "@playwright/test": ["@playwright/test@1.52.0", "", { "dependencies": { "playwright": "1.52.0" }, "bin": { "playwright": "cli.js" } }, "sha512-uh6W7sb55hl7D6vsAeA+V2p5JnlAqzhqFyF0VcJkKZXkgnFcVG9PziERRHQfPLfNGx1C292a4JqbWzhR8L4R1g=="],
 
@@ -923,8 +925,6 @@
     "superjson": ["superjson@2.2.2", "", { "dependencies": { "copy-anything": "^3.0.2" } }, "sha512-5JRxVqC8I8NuOUjzBbvVJAKNM8qoVuH0O77h4WInc/qC2q5IreqKxYwgkga3PfA22OayK2ikceb/B26dztPl+Q=="],
 
     "supports-color": ["supports-color@7.2.0", "", { "dependencies": { "has-flag": "^4.0.0" } }, "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw=="],
-
-    "swrv": ["swrv@1.1.0", "", { "peerDependencies": { "vue": ">=3.2.26 < 4" } }, "sha512-pjllRDr2s0iTwiE5Isvip51dZGR7GjLH1gCSVyE8bQnbAx6xackXsFdojau+1O5u98yHF5V73HQGOFxKUXO9gQ=="],
 
     "tailwind-merge": ["tailwind-merge@3.0.2", "", {}, "sha512-l7z+OYZ7mu3DTqrL88RiKrKIqO3NcpEO8V/Od04bNpvk0kiIFndGEoqfuzvj4yuhRkHKjRkII2z+KS2HfPcSxw=="],
 

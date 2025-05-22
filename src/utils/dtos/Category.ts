@@ -1,10 +1,11 @@
 export class Category {
   id!: number;
   name!: string;
+  totalItems!: number;
 
   constructor(data: Category) {
-    // const _data = data as Category;
     this.id = data.id;
-    this.name = data.name
+    this.name = data.name;
+    this.totalItems = data.totalItems;
   }
 }

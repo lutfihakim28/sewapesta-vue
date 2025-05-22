@@ -41,7 +41,7 @@ function toggleMenu() {
     </section>
 
     <!-- Content -->
-    <main class="row-span-11 rounded-md bg-elevated/50 ring ring-default overflow-auto p-4">
+    <main class="row-span-11 rounded-md bg-elevated/50 ring ring-default [&>*]:h-full [&>*]:p-4 [&>*]:overflow-y-auto">
       <slot />
     </main>
   </section>

@@ -1,6 +1,6 @@
-import type { z } from 'zod'
 import { ObjectSchema } from './utils/object'
 import { StringSchema } from './utils/string'
+import type { SchemaType } from '../types/schema'
 
 export const LoginRequestSchema = new ObjectSchema({
   username: new StringSchema('Username').getSchema(),
@@ -8,4 +8,4 @@ export const LoginRequestSchema = new ObjectSchema({
     .getSchema()
 }).getSchema()
 
-export type LoginRequest = z.output<typeof LoginRequestSchema>
+export type LoginRequest = SchemaType<typeof LoginRequestSchema>
