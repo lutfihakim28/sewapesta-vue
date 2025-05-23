@@ -11,8 +11,13 @@ export const useLastRouteStore = defineStore('last-route', () => {
     route.value = _route;
   }
 
+  function reset() {
+    route.value = undefined;
+  }
+
   return {
     route,
     setRoute,
+    reset,
   }
 })

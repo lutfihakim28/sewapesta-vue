@@ -69,18 +69,26 @@ export default function router(screenSize: number) {
     ],
   })
 
-  _router.beforeEach((to, from, next) => {
+  _router.beforeEach((to, _, next) => {
     const tokenStore = useAuthStore()
-    const lastRouteStore = useLastRouteStore();
 
     if (tokenStore.token && to.meta.requiresAuth) next()
     else if (!tokenStore.token && !to.meta.requiresAuth) next()
     else if (tokenStore.token && !to.meta.requiresAuth) next({ name: 'Dashboard' })
-    else if (!tokenStore.token && to.meta.requiresAuth) {
-      lastRouteStore.setRoute(to);
-      next({ name: 'Login' })
-    }
+    else if (!tokenStore.token && to.meta.requiresAuth) next({ name: 'Login' })
     else next()
+  })
+
+  _router.afterEach((to, from) => {
+    const lastRouteStore = useLastRouteStore();
+
+    if (to.name === 'Login' && from.meta.requiresAuth) {
+      lastRouteStore.setRoute(from)
+    }
+
+    if (to.meta.requiresAuth && from.name === 'Login') {
+      lastRouteStore.reset()
+    }
   })
 
   return _router

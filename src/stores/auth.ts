@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = _token;
   }
 
-  function $reset() {
+  function reset() {
     token.value = '';
   }
 
@@ -27,6 +27,6 @@ export const useAuthStore = defineStore('auth', () => {
     token,
     user,
     setToken,
-    $reset,
+    reset,
   }
 })

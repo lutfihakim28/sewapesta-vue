@@ -13,7 +13,7 @@
         "@pinia/colada": "^0.16.0",
         "@playwright/test": "^1.52.0",
         "@tsconfig/node22": "^22.0.2",
-        "@types/node": "^22.15.19",
+        "@types/node": "^22.15.21",
         "@vitejs/plugin-vue": "^5.2.4",
         "@vue/eslint-config-typescript": "^14.5.0",
         "@vue/tsconfig": "^0.7.0",
@@ -25,14 +25,14 @@
         "eslint-plugin-playwright": "^2.2.0",
         "eslint-plugin-vue": "~10.0.1",
         "jiti": "^2.4.2",
-        "jwt-decode": "^4",
+        "jwt-decode": "^4.0.0",
         "npm-run-all2": "^7.0.2",
         "oxlint": "^0.16.11",
         "typescript": "~5.8.3",
         "vite": "^6.3.5",
         "vite-plugin-vue-devtools": "^7.7.6",
         "vue-tsc": "^2.2.10",
-        "zod": "^3.25.7",
+        "zod": "^3.25.20",
       },
     },
   },
@@ -254,7 +254,7 @@
 
     "@oxlint/win32-x64": ["@oxlint/win32-x64@0.16.11", "", { "os": "win32", "cpu": "x64" }, "sha512-k/ZfoIR5V6bPoemFvMb9EJu3YkSoF2AAKhC7AfKM4tg9UfJ1Wj/9J/edTv1aRQCRTzPiWoS+W5v1SPogVE80Qg=="],
 
-    "@pinia/colada": ["@pinia/colada@0.16.0", "", { "dependencies": { "@vue/devtools-api": "^7.7.2" }, "peerDependencies": { "pinia": "^2.2.6 || ^3.0.0" } }, "sha512-LlTVhEGRmYsYQceWLgLwdXEOGTRTcI++D8+HS3IEiKcUI+ySz7L3MGwNZpm2V3dknBxObDrc4GD6PeNjQU7vDg=="],
+    "@pinia/colada": ["@pinia/colada@0.16.1", "", { "dependencies": { "@vue/devtools-api": "^7.7.2" }, "peerDependencies": { "pinia": "^2.2.6 || ^3.0.0" } }, "sha512-pTiFnx9SVKN4ijD93CZeIifBm9qtHf3wLBqkM7x9bIae6hcfBZeziwADiPdoFkAmuCn1xNzwkQvvLR2LFA9bjw=="],
 
     "@playwright/test": ["@playwright/test@1.52.0", "", { "dependencies": { "playwright": "1.52.0" }, "bin": { "playwright": "cli.js" } }, "sha512-uh6W7sb55hl7D6vsAeA+V2p5JnlAqzhqFyF0VcJkKZXkgnFcVG9PziERRHQfPLfNGx1C292a4JqbWzhR8L4R1g=="],
 
@@ -1046,7 +1046,7 @@
 
     "yoctocolors": ["yoctocolors@2.1.1", "", {}, "sha512-GQHQqAopRhwU8Kt1DDM8NjibDXHC8eoh1erhGAJPEyveY9qqVeXvVikNKrDz69sHowPMorbPUrH/mx8c50eiBQ=="],
 
-    "zod": ["zod@3.25.20", "", {}, "sha512-z03fqpTMDF1G02VLKUMt6vyACE7rNWkh3gpXVHgPTw28NPtDFRGvcpTtPwn2kMKtQ0idtYJUTxchytmnqYswcw=="],
+    "zod": ["zod@3.25.23", "", {}, "sha512-Od2bdMosahjSrSgJtakrwjMDb1zM1A3VIHCPGveZt/3/wlrTWBya2lmEh2OYe4OIu8mPTmmr0gnLHIWQXdtWBg=="],
 
     "@babel/core/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
 

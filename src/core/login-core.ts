@@ -18,17 +18,20 @@ export function useLoginCore() {
   })
 
   const { fetch } = useApiFetch();
-  const { data, isFetching, execute } = fetch('auth/login', { immediate: false }).post(loginRequest)
+  const { data, isFetching, execute, error } = fetch('auth/login', { immediate: false }).post(loginRequest)
 
   async function onSubmit() {
     await execute();
-    const response = new ApiResponseData(data.value, LoginResponse)
 
-    authStore.setToken(response.data.token)
-    router.push({
-      path: lastRouteStore.route?.path || '/',
-      query: lastRouteStore.route?.query,
-    })
+    if (!error.value) {
+      const response = new ApiResponseData(data.value, LoginResponse)
+
+      authStore.setToken(response.data.token)
+      router.push({
+        path: lastRouteStore.route?.path || '/',
+        query: lastRouteStore.route?.query,
+      })
+    }
   }
 
   return {

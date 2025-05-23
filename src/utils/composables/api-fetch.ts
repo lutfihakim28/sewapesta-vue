@@ -115,11 +115,14 @@ export function useApiFetch() {
       return
     }
 
-    const { data, execute } = fetch(`auth/refresh`, { immediate: false }).post()
+    const { data, error, execute } = fetch(`auth/refresh`, { immediate: false }).post()
 
     await execute();
-    const response = new ApiResponseData(data.value, LoginResponse)
-    authStore.setToken(response.data.token)
+
+    if (!error.value) {
+      const response = new ApiResponseData(data.value, LoginResponse)
+      authStore.setToken(response.data.token)
+    }
   }
 
   function onRrefreshed() {
