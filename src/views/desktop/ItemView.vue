@@ -2,7 +2,7 @@
 import { useApiFetch } from '@/utils/composables/api-fetch';
   import { ApiResponseList } from '@/utils/dtos/ApiResponse';
   import { Item } from '@/utils/dtos/Item';
-import type { ItemFilter } from '@/utils/schemas/item-filter';
+  import type { ItemFilter } from '@/utils/schemas/item-filter';
   import { useQuery } from '@pinia/colada';
   import { computed, reactive, ref } from 'vue';
 
@@ -33,7 +33,7 @@ import type { ItemFilter } from '@/utils/schemas/item-filter';
 
   const { data: fetchData, get } = useApiFetch<ApiResponseList<Item>>(path.value);
 
-  const { data } = useQuery({
+  const { data, refresh } = useQuery({
     key: () => [basePath.value, filter],
     query: () => fetcher(),
   })
@@ -53,6 +53,6 @@ import type { ItemFilter } from '@/utils/schemas/item-filter';
 
 <template>
   <section>
-    {{ items }}
+    <UTable />
   </section>
 </template>
