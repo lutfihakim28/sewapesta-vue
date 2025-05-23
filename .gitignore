@@ -1,3 +1,5 @@
+.env
+
 # Logs
 logs
 *.log
@@ -13,7 +15,6 @@ dist
 dist-ssr
 coverage
 *.local
-.env
 
 /cypress/videos/
 /cypress/screenshots/

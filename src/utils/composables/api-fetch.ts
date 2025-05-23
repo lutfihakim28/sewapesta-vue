@@ -5,7 +5,7 @@ import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { LoginResponse } from '../dtos/LoginResponse';
 
-const baseUrl = 'https://cockatoo-composed-burro.ngrok-free.app/api'
+const baseUrl = import.meta.env.VITE_API_URL
 let isRefreshing = false;
 const refreshSubscribers: Array<() => void> = []
 
