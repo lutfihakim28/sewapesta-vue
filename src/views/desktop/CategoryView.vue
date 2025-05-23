@@ -9,7 +9,8 @@
     return `private/categories`
   });
 
-  const { data: fetchData, get } = useApiFetch<ApiResponseList<Category>>(path.value);
+  const { fetch } = useApiFetch()
+  const { data: fetchData, get } = fetch<ApiResponseList<Category>>(path.value);
 
   const { data } = useQuery({
     key: () => [path.value],

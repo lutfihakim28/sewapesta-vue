@@ -31,9 +31,10 @@ import { useApiFetch } from '@/utils/composables/api-fetch';
     return `${basePath.value}?${query.toString()}`
   });
 
-  const { data: fetchData, get } = useApiFetch<ApiResponseList<Item>>(path.value);
+  const { fetch } = useApiFetch()
+  const { data: fetchData, get } = fetch<ApiResponseList<Item>>(path.value);
 
-  const { data, refresh } = useQuery({
+  const { data } = useQuery({
     key: () => [basePath.value, filter],
     query: () => fetcher(),
   })
@@ -53,6 +54,6 @@ import { useApiFetch } from '@/utils/composables/api-fetch';
 
 <template>
   <section>
-    <UTable />
+    <UTable :data="items" />
   </section>
 </template>

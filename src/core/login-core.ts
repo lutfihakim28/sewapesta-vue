@@ -17,7 +17,8 @@ export function useLoginCore() {
     username: undefined
   })
 
-  const { data, isFetching, execute } = useApiFetch('auth/login', { immediate: false }).post(loginRequest)
+  const { fetch } = useApiFetch();
+  const { data, isFetching, execute } = fetch('auth/login', { immediate: false }).post(loginRequest)
 
   async function onSubmit() {
     await execute();

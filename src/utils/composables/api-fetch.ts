@@ -4,28 +4,73 @@ import { ApiResponse, ApiResponseData } from '../dtos/ApiResponse';
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { LoginResponse } from '../dtos/LoginResponse';
+import { ref } from 'vue';
 
-const baseUrl = import.meta.env.VITE_API_URL
-let isRefreshing = false;
-const refreshSubscribers: Array<() => void> = []
+export function useApiFetch() {
+  const baseUrl = import.meta.env.VITE_API_URL
 
-export const useApiFetch = createFetch({
-  baseUrl,
-  options: {
-    async beforeFetch({ options }) {
-      const authStore = useAuthStore();
-      if (authStore.token) {
-        options.headers = {
-          ...options.headers,
-          Authorization: `Bearer ${authStore.token}`,
-          'ngrok-skip-browser-warning': '69420'
-        }
-      }
-      return { options };
+  const authStore = useAuthStore();
+  const router = useRouter();
+
+  const isRefreshing = ref(false);
+  const refreshSubscribers = ref<Array<() => void>>([])
+
+  const fetch = createFetch({
+    baseUrl,
+    fetchOptions: {
+      credentials: 'include'
     },
-    async onFetchError(ctx) {
-      if (ctx.response?.status === 401) {
-        if (ctx.context.url.includes('auth')) {
+    options: {
+      async beforeFetch({ options }) {
+        if (authStore.token) {
+          options.headers = {
+            ...options.headers,
+            Authorization: `Bearer ${authStore.token}`,
+            'ngrok-skip-browser-warning': '69420'
+          }
+        }
+        return { options };
+      },
+      async onFetchError(ctx) {
+        if (ctx.response?.status === 401) {
+          if (ctx.context.url.includes('auth')) {
+            const response = new ApiResponse(JSON.parse(ctx.data));
+            const toast = useToast()
+
+            for (const message of response.messages) {
+              toast.add({
+                title: `Error ${response.code}`,
+                description: message,
+                color: 'error'
+              })
+            }
+
+            if (ctx.context.url.includes('auth/refresh')) {
+              authStore.setToken('')
+              await router.push({ name: 'Login' })
+            }
+
+            return ctx
+          }
+
+          if (!isRefreshing.value) {
+            isRefreshing.value = true
+
+            addRefreshSubscriber(async () => {
+              const response = await ctx.execute();
+
+              ctx.response = response;
+
+              return ctx;
+            })
+
+            await refreshToken();
+            onRrefreshed()
+
+            return ctx;
+          }
+          return ctx;
+        } else {
           const response = new ApiResponse(JSON.parse(ctx.data));
           const toast = useToast()
 
@@ -36,86 +81,57 @@ export const useApiFetch = createFetch({
               color: 'error'
             })
           }
-          return ctx
         }
 
-        if (!isRefreshing) {
-          isRefreshing = true
+        return ctx
+      },
+      async afterFetch(ctx) {
+        if (ctx.response.status >= 200 && ctx.response.status < 400 && ctx.context.options.method !== 'GET' && !ctx.context.url.includes('auth/refresh')) {
+          const response = new ApiResponse(JSON.parse(ctx.data));
+          const toast = useToast()
 
-          addRefreshSubscriber(async () => {
-            const response = await ctx.execute();
-
-            ctx.response = response;
-
-            return ctx;
-          })
-
-          await refreshToken();
-          onRrefreshed()
-
-          return ctx;
+          for (const message of response.messages) {
+            toast.add({
+              title: `Success`,
+              description: message,
+              color: 'success'
+            })
+          }
+          isRefreshing.value = false;
         }
-        return ctx;
-      } else {
-        const response = new ApiResponse(JSON.parse(ctx.data));
-        const toast = useToast()
 
-        for (const message of response.messages) {
-          toast.add({
-            title: `Error ${response.code}`,
-            description: message,
-            color: 'error'
-          })
-        }
-      }
+        ctx.data = JSON.parse(ctx.data);
 
-      return ctx
-    },
-    async afterFetch(ctx) {
-      if (ctx.response.status >= 200 && ctx.response.status < 400 && ctx.context.options.method !== 'GET' && !ctx.context.url.includes('auth/refresh')) {
-        const response = new ApiResponse(JSON.parse(ctx.data));
-        const toast = useToast()
 
-        for (const message of response.messages) {
-          toast.add({
-            title: `Success`,
-            description: message,
-            color: 'success'
-          })
-        }
-      }
+        return ctx
+      },
+    }
+  })
 
-      ctx.data = JSON.parse(ctx.data);
+  async function refreshToken() {
 
-      return ctx
-    },
-  }
-})
+    if (!authStore.token && !authStore.user) {
+      router.push({ name: 'Login' })
+      return
+    }
 
-async function refreshToken() {
-  const authStore = useAuthStore();
-  const router = useRouter();
+    const { data, execute } = fetch(`auth/refresh`, { immediate: false }).post()
 
-  if (!authStore.token && !authStore.user) {
-    router.push({ name: 'Login' })
-    return
+    await execute();
+    const response = new ApiResponseData(data.value, LoginResponse)
+    authStore.setToken(response.data.token)
   }
 
-  const { data, execute } = useApiFetch(`auth/refresh`, { immediate: false }).put({ userId: authStore.user!.id })
+  function onRrefreshed() {
+    refreshSubscribers.value.forEach(callback => callback())
+    refreshSubscribers.value.length = 0
+  }
 
-  await execute();
-  const response = new ApiResponseData(data.value, LoginResponse)
-  authStore.setToken(response.data.token)
-}
+  function addRefreshSubscriber(callback: () => void) {
+    refreshSubscribers.value.push(callback)
+  }
 
-function onRrefreshed() {
-  isRefreshing = false;
-  console.log('this', refreshSubscribers)
-  refreshSubscribers.forEach(callback => callback())
-  refreshSubscribers.length = 0
-}
-
-function addRefreshSubscriber(callback: () => void) {
-  console.log('Eajsdkja')
-  refreshSubscribers.push(callback)
+  return {
+    fetch
+  }
 }

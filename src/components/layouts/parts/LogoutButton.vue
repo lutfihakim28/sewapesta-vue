@@ -3,7 +3,8 @@ import { useAuthStore } from '@/stores/auth';
 import { useApiFetch } from '@/utils/composables/api-fetch';
 import { useRouter } from 'vue-router';
 
-const { isFetching, execute } = useApiFetch('auth/logout', { immediate: false }).delete();
+const { fetch } = useApiFetch();
+const { isFetching, execute } = fetch('auth/logout', { immediate: false }).delete();
 const authStore = useAuthStore();
 const router = useRouter();
 
