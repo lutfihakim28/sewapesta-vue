@@ -39,9 +39,10 @@ import { useApiFetch } from '@/utils/composables/api-fetch';
     query: () => fetcher(),
   })
 
-  const items = computed<Item[]>(() => {
-    if (!data.value) return [];
-    const response = new ApiResponseList(data.value, Item)
+const items = computed<Item[]>(() => {
+  if (!data.value) return [];
+  const response = new ApiResponseList(data.value, Item)
+  console.log(response.data)
 
     return response.data
   })
@@ -54,6 +55,10 @@ import { useApiFetch } from '@/utils/composables/api-fetch';
 
 <template>
   <section>
-    <UTable :data="items" />
+    <UTable :data="items">
+      <template #unit-cell="{ cell }">
+        <span>{{ cell.row }}</span>
+      </template>
+    </UTable>
   </section>
 </template>

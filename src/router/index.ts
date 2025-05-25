@@ -10,19 +10,19 @@ const views = import.meta.glob('/src/views/*/*.vue')
 
 export default function router(screenSize: number) {
   let layoutType: LayoutType = 'mobile';
-  let layout: Component = MobileLayout;
+  let Layout: Component = MobileLayout;
 
   if (screenSize < 768) {
     layoutType = 'mobile'
-    layout = MobileLayout;
+    Layout = MobileLayout;
   };
   if (screenSize >= 768) {
     layoutType = 'tablet'
-    layout = TabletLayout;
+    Layout = TabletLayout;
   };
   if (screenSize >= 1024) {
     layoutType = 'desktop'
-    layout = DesktopLayout;
+    Layout = DesktopLayout;
   };
 
   const _router = createRouter({
@@ -42,6 +42,7 @@ export default function router(screenSize: number) {
       {
         path: '/',
         redirect: { name: 'Dashboard' },
+        component: Layout,
         children: [
           {
             path: '',
@@ -63,7 +64,6 @@ export default function router(screenSize: number) {
         ],
         meta: {
           requiresAuth: true,
-          layout,
         }
       },
     ],
@@ -99,7 +99,7 @@ function importView(layout: LayoutType, view: string) {
   const path = `/src/views/${layout}/${view}.vue`;
   const loader = views[path];
   if (!loader) {
-    throw new Error(`LoginView not found for layout: ${layout}`);
+    throw new Error(`${view} not found for layout: ${layout}`);
   }
   return loader;
 }

@@ -4,13 +4,23 @@ import { useApiFetch } from '@/utils/composables/api-fetch';
 import { ApiResponseData } from '@/utils/dtos/ApiResponse';
 import { LoginResponse } from '@/utils/dtos/LoginResponse';
 import type { LoginRequest } from '@/utils/schemas/login-request';
-import { reactive } from 'vue';
+import { onMounted, reactive, useTemplateRef } from 'vue';
+import type { ComponentExposed } from 'vue-component-type-helpers';
 import { useRouter } from 'vue-router';
+import UInput from '@nuxt/ui/runtime/components/Input.vue'
 
 export function useLoginCore() {
   const authStore = useAuthStore();
   const router = useRouter()
   const lastRouteStore = useLastRouteStore();
+
+  const usernameInput = useTemplateRef<ComponentExposed<typeof UInput>>('username-input');
+
+  onMounted(() => {
+    if (usernameInput.value) {
+      usernameInput.value.inputRef?.focus()
+    }
+  })
 
   const loginRequest = reactive<Partial<LoginRequest>>({
     password: undefined,
@@ -18,7 +28,7 @@ export function useLoginCore() {
   })
 
   const { fetch } = useApiFetch();
-  const { data, isFetching, execute, error } = fetch('auth/login', { immediate: false }).post(loginRequest)
+  const { data, isFetching, error, execute } = fetch('auth/login', { immediate: false }).post(loginRequest)
 
   async function onSubmit() {
     await execute();

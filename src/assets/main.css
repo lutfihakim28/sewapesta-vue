@@ -1,2 +1,11 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+
+*::-webkit-scrollbar {
+  @apply w-1 h-1
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-primary/50 rounded-full
+}

@@ -4,6 +4,7 @@
 
 <template>
   <section>
-    <p v-for="i in 100" :key="i">{{ i }}</p>
+    <section class="w-[5000px] h-[5000px] bg-blue-300">
+    </section>
   </section>
 </template>

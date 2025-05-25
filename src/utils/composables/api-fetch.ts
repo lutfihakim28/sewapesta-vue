@@ -6,9 +6,9 @@ import { useRouter } from 'vue-router';
 import { LoginResponse } from '../dtos/LoginResponse';
 import { ref } from 'vue';
 
-export function useApiFetch() {
-  const baseUrl = import.meta.env.VITE_API_URL
+const baseUrl = import.meta.env.VITE_API_URL
 
+export function useApiFetch() {
   const authStore = useAuthStore();
   const router = useRouter();
 
@@ -18,7 +18,7 @@ export function useApiFetch() {
   const fetch = createFetch({
     baseUrl,
     fetchOptions: {
-      credentials: 'include'
+      credentials: 'include',
     },
     options: {
       async beforeFetch({ options }) {
@@ -65,7 +65,6 @@ export function useApiFetch() {
             })
 
             await refreshToken();
-            onRrefreshed()
 
             return ctx;
           }
@@ -122,12 +121,9 @@ export function useApiFetch() {
     if (!error.value) {
       const response = new ApiResponseData(data.value, LoginResponse)
       authStore.setToken(response.data.token)
+      refreshSubscribers.value.forEach(callback => callback())
+      refreshSubscribers.value.length = 0
     }
-  }
-
-  function onRrefreshed() {
-    refreshSubscribers.value.forEach(callback => callback())
-    refreshSubscribers.value.length = 0
   }
 
   function addRefreshSubscriber(callback: () => void) {

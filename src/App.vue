@@ -1,18 +1,9 @@
 <script setup lang="ts">
-// import { useColorMode } from '@vueuse/core'
-
-// const mode = useColorMode()
-
-// onMounted(() => {
-//   mode.value = 'dark'
-// })
 </script>
 
 <template>
   <UApp>
-    <component :is="$route.meta.layout || 'section'">
-      <RouterView />
-    </component>
+    <RouterView />
   </UApp>
 </template>
 

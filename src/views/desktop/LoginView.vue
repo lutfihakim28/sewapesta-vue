@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import { useLoginCore } from '@/core/login-core';
-import { LoginRequestSchema } from '@/utils/schemas/login-request';
+  import { useLoginCore } from '@/core/login-core';
+  import { LoginRequestSchema } from '@/utils/schemas/login-request';
+  import UInput from '@nuxt/ui/runtime/components/Input.vue'
+  // import { onMounted, useTemplateRef } from 'vue';
+  // import type { ComponentExposed } from 'vue-component-type-helpers';
 
-const { loginRequest, onSubmit, isFetching } = useLoginCore()
+
+  const { loginRequest, onSubmit, isFetching } = useLoginCore()
+
+
 </script>
 
 <template>
@@ -15,7 +21,7 @@ const { loginRequest, onSubmit, isFetching } = useLoginCore()
 
         <section class="space-y-4">
           <UFormField label="Username" name="username">
-            <UInput v-model="loginRequest.username" :ui="{ root: 'w-full' }" />
+            <UInput ref="username-input" v-model="loginRequest.username" :ui="{ root: 'w-full' }" />
           </UFormField>
 
           <UFormField label="Password" name="password">
