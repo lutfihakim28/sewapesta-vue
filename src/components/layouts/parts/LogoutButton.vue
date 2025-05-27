@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
-import { useApiFetch } from '@/utils/composables/api-fetch';
 import { useRouter } from 'vue-router';
+import { useApiFetch } from '@/utils/composables/useApiFetch';
 
-const { fetch } = useApiFetch();
-const { isFetching, error, execute } = fetch('auth/logout', { immediate: false }).delete();
+const { isFetching, error, execute } = useApiFetch('auth/logout', { immediate: false }).delete();
 const authStore = useAuthStore();
 const router = useRouter();
 

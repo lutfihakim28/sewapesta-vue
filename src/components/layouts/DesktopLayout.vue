@@ -42,7 +42,7 @@ function toggleMenu() {
     </section>
 
     <!-- Content -->
-    <main class="row-span-11 rounded-md min-w-0 bg-elevated/20 ring ring-default [&>*]:h-full [&>*]:w-full [&>*]:p-4 [&>*]:overflow-auto">
+    <main class="row-span-11 rounded-md min-w-0 bg-elevated/20 ring ring-default [&>*]:h-full [&>*]:w-full [&>*]:overflow-auto">
       <RouterView />
     </main>
     <!-- <PerfectScrollbar>

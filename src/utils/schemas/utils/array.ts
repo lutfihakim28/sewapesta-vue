@@ -2,7 +2,7 @@ import { validationMessages } from '@/utils/constants/validation-message';
 import { z } from 'zod';
 
 export class ArraySchema<T extends z.ZodTypeAny> {
-  #schema!: z.ZodArray<T>;
+  #schema!: z.ZodArray<T> | z.ZodArray<T, 'atleastone'>;
   #field: string;
 
   constructor(field: string, elements: T) {
@@ -18,7 +18,7 @@ export class ArraySchema<T extends z.ZodTypeAny> {
   }
 
   nonempty() {
-    this.#schema.nonempty(`${this.#field} can not be empty.`)
+    this.#schema = this.#schema.nonempty(`${this.#field} can not be empty.`)
     return this;
   }
 }

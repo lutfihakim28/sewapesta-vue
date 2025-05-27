@@ -19,6 +19,7 @@
         "@vue/tsconfig": "^0.7.0",
         "@vueuse/core": "^13.2.0",
         "@vueuse/integrations": "^13.2.0",
+        "@vueuse/router": "^13.2.0",
         "dayjs": "^1.11.13",
         "eslint": "^9.27.0",
         "eslint-plugin-oxlint": "^0.16.12",
@@ -431,6 +432,8 @@
     "@vueuse/integrations": ["@vueuse/integrations@13.2.0", "", { "dependencies": { "@vueuse/core": "13.2.0", "@vueuse/shared": "13.2.0" }, "peerDependencies": { "async-validator": "^4", "axios": "^1", "change-case": "^5", "drauu": "^0.4", "focus-trap": "^7", "fuse.js": "^7", "idb-keyval": "^6", "jwt-decode": "^4", "nprogress": "^0.2", "qrcode": "^1.5", "sortablejs": "^1", "universal-cookie": "^7", "vue": "^3.5.0" }, "optionalPeers": ["async-validator", "axios", "change-case", "drauu", "focus-trap", "fuse.js", "idb-keyval", "jwt-decode", "nprogress", "qrcode", "sortablejs", "universal-cookie"] }, "sha512-tnwdzUYadAiewvMtBcjH/ZPgRCoQBvuVzbFA/VSysPDaIuG41Jp/Z1Sn/rYoFMOLJfcOEcVh+tN3mkrVIyumig=="],
 
     "@vueuse/metadata": ["@vueuse/metadata@13.2.0", "", {}, "sha512-kPpzuQCU0+D8DZCzK0iPpIcXI+6ufWSgwnjJ6//GNpEn+SHViaCtR+XurzORChSgvpHO9YC8gGM97Y1kB+UabA=="],
+
+    "@vueuse/router": ["@vueuse/router@13.2.0", "", { "dependencies": { "@vueuse/shared": "13.2.0" }, "peerDependencies": { "vue": "^3.5.0", "vue-router": "^4.0.0" } }, "sha512-3AsoSU5CfJyJRQ0HgnJ2AlDo45NEnxvNT7b/Zynx0Db6KfER1PviChPcpALGFpNikWOgsVdm6br+7PMeuZzR9A=="],
 
     "@vueuse/shared": ["@vueuse/shared@13.2.0", "", { "peerDependencies": { "vue": "^3.5.0" } }, "sha512-vx9ZPDF5HcU9up3Jgt3G62dMUfZEdk6tLyBAHYAG4F4n73vpaA7J5hdncDI/lS9Vm7GA/FPlbOmh9TrDZROTpg=="],
 

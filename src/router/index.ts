@@ -8,7 +8,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 const views = import.meta.glob('/src/views/*/*.vue')
 
-export default function router(screenSize: number) {
+function router(screenSize: number) {
   let layoutType: LayoutType = 'mobile';
   let Layout: Component = MobileLayout;
 
@@ -93,6 +93,8 @@ export default function router(screenSize: number) {
 
   return _router
 }
+
+export default router(document.body.getBoundingClientRect().width)
 
 
 function importView(layout: LayoutType, view: string) {

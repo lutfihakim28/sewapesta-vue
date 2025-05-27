@@ -30,6 +30,7 @@
     "@vue/tsconfig": "^0.7.0",
     "@vueuse/core": "^13.2.0",
     "@vueuse/integrations": "^13.2.0",
+    "@vueuse/router": "^13.2.0",
     "dayjs": "^1.11.13",
     "eslint": "^9.27.0",
     "eslint-plugin-oxlint": "^0.16.12",

@@ -3,8 +3,8 @@ import { EnumSchema } from './utils/enum';
 import { PaginationSchema } from './utils/pagination';
 import { SearchSchema } from './utils/search';
 import { SortSchema } from './utils/sort';
-import { StringSchema } from './utils/string';
 import type { SchemaType } from '../types/schema';
+import { NumberSchema } from './utils/number';
 
 export const ItemFilterSchema = SearchSchema
   .merge(SortSchema(['id',
@@ -13,7 +13,7 @@ export const ItemFilterSchema = SearchSchema
   .merge(PaginationSchema)
   .extend({
     type: new EnumSchema('Type', ItemTypeEnum).getSchema().optional(),
-    categoryId: new StringSchema('Product ID').numeric({ min: 1, subset: 'natural' }).getSchema().optional(),
+    categoryId: new NumberSchema('Product ID').positive().integer().getSchema().optional(),
   })
 
 export type ItemFilter = SchemaType<typeof ItemFilterSchema>

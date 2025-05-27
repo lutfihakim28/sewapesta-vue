@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useApiFetch } from '@/utils/composables/api-fetch';
+  import { useApiFetch } from '@/utils/composables/useApiFetch';
   import { ApiResponseList } from '@/utils/dtos/ApiResponse';
   import { Category } from '@/utils/dtos/Category';
   import { useQuery } from '@pinia/colada';
@@ -9,8 +9,7 @@
     return `private/categories`
   });
 
-  const { fetch } = useApiFetch()
-  const { data: fetchData, get } = fetch<ApiResponseList<Category>>(path.value);
+  const { data: fetchData, get } = useApiFetch<ApiResponseList<Category>>(path.value);
 
   const { data } = useQuery({
     key: () => [path.value],

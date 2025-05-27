@@ -1,6 +1,5 @@
 import { useAuthStore } from '@/stores/auth';
 import { useLastRouteStore } from '@/stores/last-route';
-import { useApiFetch } from '@/utils/composables/api-fetch';
 import { ApiResponseData } from '@/utils/dtos/ApiResponse';
 import { LoginResponse } from '@/utils/dtos/LoginResponse';
 import type { LoginRequest } from '@/utils/schemas/login-request';
@@ -8,6 +7,7 @@ import { onMounted, reactive, useTemplateRef } from 'vue';
 import type { ComponentExposed } from 'vue-component-type-helpers';
 import { useRouter } from 'vue-router';
 import UInput from '@nuxt/ui/runtime/components/Input.vue'
+import { useApiFetch } from '@/utils/composables/useApiFetch';
 
 export function useLoginCore() {
   const authStore = useAuthStore();
@@ -27,8 +27,7 @@ export function useLoginCore() {
     username: undefined
   })
 
-  const { fetch } = useApiFetch();
-  const { data, isFetching, error, execute } = fetch('auth/login', { immediate: false }).post(loginRequest)
+  const { data, isFetching, error, execute } = useApiFetch('auth/login', { immediate: false }).post(loginRequest)
 
   async function onSubmit() {
     await execute();

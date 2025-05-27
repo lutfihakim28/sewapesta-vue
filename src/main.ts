@@ -12,11 +12,9 @@ import router from './router'
 
 const app = createApp(App)
 
-const screenSize = document.body.getBoundingClientRect().width;
-
 app.use(createPinia())
 app.use(PiniaColada, {})
-app.use(router(screenSize))
+app.use(router)
 app.use(PerfectScrollbarPlugin)
 app.use(ui)
 

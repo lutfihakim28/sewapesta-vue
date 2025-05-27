@@ -1,26 +1,30 @@
 <script setup lang="ts">
-import { useApiFetch } from '@/utils/composables/api-fetch';
+import TableItemType from '@/components/table-controlls/TableItemType.vue';
+import { useApiFetch } from '@/utils/composables/useApiFetch';
+import { useQueryParam } from '@/utils/composables/useQueryParam';
 import { ApiResponseList } from '@/utils/dtos/ApiResponse';
 import type { Category } from '@/utils/dtos/Category';
 import { Item } from '@/utils/dtos/Item';
 import type { Meta } from '@/utils/dtos/Meta';
 import type { Unit } from '@/utils/dtos/Unit';
 import { ItemTypeEnum } from '@/utils/enums/item-type';
-import type { ItemFilter } from '@/utils/schemas/item-filter';
 import type { TableColumn } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
-import { computed, h, reactive, ref, useTemplateRef } from 'vue';
+import { computed, h } from 'vue';
 
-const table = useTemplateRef('table')
+// const table = useTemplateRef('table')
+const basePath = 'private/items'
 
-const filter = reactive<ItemFilter>({
-  asc: undefined,
-  categoryId: undefined,
-  desc: undefined,
-  keyword: undefined,
-  page: 1,
-  pageSize: 5
-})
+const { path } = useQueryParam(basePath)
+
+// const filter = reactive<ItemFilter>({
+//   asc: ['id', 'name'],
+//   categoryId: undefined,
+//   desc: undefined,
+//   keyword: undefined,
+//   page: 1,
+//   pageSize: 5
+// })
 
 const columns: TableColumn<Item>[] = [
   {
@@ -62,28 +66,9 @@ const columns: TableColumn<Item>[] = [
   },
 ];
 
-const basePath = ref('private/items')
-
-const path = computed(() => {
-  const query = new URLSearchParams()
-  Object.entries(filter).forEach(([_key, value]) => {
-    const key = _key as keyof ItemFilter;
-    if ((key === 'asc' || key === 'desc') && Array.isArray(value)) {
-      value.forEach((v) => query.append(key, v))
-    }
-    if (value) {
-      query.append(key, value.toString())
-    }
-  })
-  return `${basePath.value}?${query.toString()}`
-});
-
-const { fetch } = useApiFetch()
-const { data: fetchData, get } = fetch<ApiResponseList<Item>>(path.value);
-
 const { data } = useQuery({
-  key: () => [basePath.value, path.value],
-  query: () => fetcher(),
+  key: () => [basePath, path.value],
+  query: () => fetcher(path.value),
 })
 
 const items = computed<Item[]>(() => {
@@ -100,22 +85,20 @@ const meta = computed<Meta | undefined>(() => {
   return response.meta
 })
 
-async function fetcher() {
+async function fetcher(path: string) {
+  const { data, get } = useApiFetch<ApiResponseList<Item>>(path);
   await get();
-  return fetchData.value;
+  return data.value;
 }
 </script>
 
 <template>
-  <section>
-    <UTable ref="table" :columns="columns" :data="items" />
-    <div class="flex justify-end border-t border-default pt-4">
-      <UPagination
-        v-model:page="filter.page"
-        :total="meta?.totalData"
-        :items-per-page="filter.pageSize"
-        show-edges
-      />
-    </div>
+  <section class="flex flex-col justify-between">
+    <section class="flex items-center gap-x-2 flex-wrap p-4">
+      <TableSearch />
+      <TableItemType />
+    </section>
+    <UTable sticky :columns="columns" :data="items" :ui="{ root: 'px-0.5 flex-1' }" />
+    <TablePagination :meta="meta" />
   </section>
 </template>
