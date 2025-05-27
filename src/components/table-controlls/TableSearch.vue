@@ -3,7 +3,7 @@ import { watchDebounced } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
 import { ref } from 'vue';
 
-const keyword = useRouteQuery<string | undefined>('keyword', undefined, { mode: 'push' })
+const keyword = useRouteQuery<string | undefined>('keyword', undefined )
 
 const _keyword = ref<string>();
 

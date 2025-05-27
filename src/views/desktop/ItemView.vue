@@ -66,7 +66,7 @@ const columns: TableColumn<Item>[] = [
   },
 ];
 
-const { data } = useQuery({
+const { data, isLoading } = useQuery({
   key: () => [basePath, path.value],
   query: () => fetcher(path.value),
 })
@@ -99,6 +99,6 @@ async function fetcher(path: string) {
       <TableItemType />
     </section>
     <UTable sticky :columns="columns" :data="items" :ui="{ root: 'px-0.5 flex-1' }" />
-    <TablePagination :meta="meta" />
+    <TablePagination :meta="meta" :loading="isLoading" />
   </section>
 </template>

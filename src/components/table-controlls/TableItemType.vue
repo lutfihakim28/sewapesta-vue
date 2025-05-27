@@ -4,7 +4,7 @@ import type { SelectItem } from '@nuxt/ui';
 import { useRouteQuery } from '@vueuse/router';
 import { ref } from 'vue';
 
-const type = useRouteQuery<ItemTypeEnum | undefined>('type', undefined, { mode: 'push' })
+const type = useRouteQuery<ItemTypeEnum | undefined>('type', undefined )
 const items = ref<SelectItem[]>([
   {
     label: 'All types',

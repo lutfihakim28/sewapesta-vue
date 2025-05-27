@@ -2,19 +2,23 @@
   import type { Meta } from '@/utils/dtos/Meta';
   import type { SelectItem } from '@nuxt/ui'
   import { useRouteQuery } from '@vueuse/router'
-  import { computed, onMounted, ref } from 'vue'
+  import { computed, onMounted, ref, watch } from 'vue'
+  import { useRoute } from 'vue-router';
 
   const { meta = {
     page: 1,
     pageCount: 1,
     pageSize: 5,
     totalData: 0,
-  } } = defineProps<{
-    meta?: Meta
+  }, loading } = defineProps<{
+    meta?: Meta,
+    loading?: boolean
   }>()
 
-  const page = useRouteQuery('page', undefined, { transform: Number, mode: 'push' })
-  const pageSize = useRouteQuery('pageSize', undefined, { transform: Number, mode: 'push' })
+  const route = useRoute();
+
+  const page = useRouteQuery('page', undefined, { transform: Number })
+  const pageSize = useRouteQuery('pageSize', undefined, { transform: Number })
 
   const availableSize = ref<SelectItem[]>([
     5,
@@ -24,6 +28,7 @@
     50,
     100,
   ])
+  const totalData = ref<number>(meta.totalData)
 
   const dataRange = computed<number[]>(() => {
     const start = ((meta.page - 1) * meta.pageSize) + 1;
@@ -35,6 +40,27 @@
     page.value = 1
     pageSize.value = 10
   })
+
+watch(() => route.query, (value, oldValue) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { page: pageValue, ...restValue } = value;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { page: pageOldValue, ...restOldValue } = oldValue;
+
+  const otherChanged = Object.keys(restValue).some(
+    key => restValue[key] !== restOldValue[key]
+  )
+
+  if (otherChanged) {
+    page.value = 1
+  }
+
+}, { deep: true })
+
+watch(() => loading, () => {
+  console.log(loading)
+  if (!loading) totalData.value = meta.totalData
+})
 </script>
 
 <template>
@@ -43,9 +69,9 @@
       <span v-if="dataRange.length" class="text-muted">
         Showing
         <span class="text-highlighted">{{ dataRange[0] }}</span>
-          - 
+          -
         <span class="text-highlighted">{{ dataRange[1] }}</span>
-          of 
+          of
         <span class="text-highlighted">{{ meta?.totalData }}</span>
           items
       </span>
