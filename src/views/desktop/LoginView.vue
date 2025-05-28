@@ -1,9 +1,6 @@
 <script setup lang="ts">
   import { useLoginCore } from '@/core/login-core';
   import { LoginRequestSchema } from '@/utils/schemas/login-request';
-  import UInput from '@nuxt/ui/runtime/components/Input.vue'
-  // import { onMounted, useTemplateRef } from 'vue';
-  // import type { ComponentExposed } from 'vue-component-type-helpers';
 
 
   const { loginRequest, onSubmit, isFetching } = useLoginCore()

@@ -5,14 +5,9 @@
   import { computed, onMounted, ref, watch } from 'vue'
   import { useRoute } from 'vue-router';
 
-  const { meta = {
-    page: 1,
-    pageCount: 1,
-    pageSize: 5,
-    totalData: 0,
-  }, loading } = defineProps<{
+  const { meta, disabled } = defineProps<{
     meta?: Meta,
-    loading?: boolean
+    disabled?: boolean
   }>()
 
   const route = useRoute();
@@ -28,9 +23,10 @@
     50,
     100,
   ])
-  const totalData = ref<number>(meta.totalData)
+  const totalData = ref<number>()
 
   const dataRange = computed<number[]>(() => {
+    if (!meta) return [0, 0]
     const start = ((meta.page - 1) * meta.pageSize) + 1;
     const end = meta.page * meta.pageSize > meta.totalData ? meta.totalData : meta.page * meta.pageSize;
     return [start, end]
@@ -57,9 +53,10 @@ watch(() => route.query, (value, oldValue) => {
 
 }, { deep: true })
 
-watch(() => loading, () => {
-  console.log(loading)
-  if (!loading) totalData.value = meta.totalData
+watch(() => meta, () => {
+  if (meta) {
+    totalData.value = meta.totalData
+  }
 })
 </script>
 
@@ -80,8 +77,9 @@ watch(() => loading, () => {
       <USelect v-model="pageSize" :items="availableSize" />
       <UPagination
         v-model:page="page"
-        :total="meta.totalData"
+        :total="totalData"
         :items-per-page="pageSize"
+        :disabled="disabled"
         show-edges
       />
     </section>

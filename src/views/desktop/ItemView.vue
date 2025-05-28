@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TableItemType from '@/components/table-controlls/TableItemType.vue';
+import { useCategoryOptionStore } from '@/stores/category-option';
 import { useApiFetch } from '@/utils/composables/useApiFetch';
 import { useQueryParam } from '@/utils/composables/useQueryParam';
 import { ApiResponseList } from '@/utils/dtos/ApiResponse';
@@ -8,12 +8,12 @@ import { Item } from '@/utils/dtos/Item';
 import type { Meta } from '@/utils/dtos/Meta';
 import type { Unit } from '@/utils/dtos/Unit';
 import { ItemTypeEnum } from '@/utils/enums/item-type';
-import type { TableColumn } from '@nuxt/ui';
+import type { SelectItem, TableColumn } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
-import { computed, h } from 'vue';
+import { computed, h, ref } from 'vue';
 
-// const table = useTemplateRef('table')
 const basePath = 'private/items'
+const categoryOptionStore = useCategoryOptionStore();
 
 const { path } = useQueryParam(basePath)
 
@@ -25,6 +25,17 @@ const { path } = useQueryParam(basePath)
 //   page: 1,
 //   pageSize: 5
 // })
+
+const filterTypeOptions = ref<SelectItem[]>([
+  {
+    label: ItemTypeEnum.Equipment,
+    value: ItemTypeEnum.Equipment,
+  },
+  {
+    label: ItemTypeEnum.Inventory,
+    value: ItemTypeEnum.Inventory,
+  }
+])
 
 const columns: TableColumn<Item>[] = [
   {
@@ -66,7 +77,7 @@ const columns: TableColumn<Item>[] = [
   },
 ];
 
-const { data, isLoading } = useQuery({
+const { data, isPending } = useQuery({
   key: () => [basePath, path.value],
   query: () => fetcher(path.value),
 })
@@ -96,9 +107,10 @@ async function fetcher(path: string) {
   <section class="flex flex-col justify-between">
     <section class="flex items-center gap-x-2 flex-wrap p-4">
       <TableSearch />
-      <TableItemType />
+      <TableSelect label="types" query-key="type" class="w-32" :options="filterTypeOptions" />
+      <TableSelect label="categories" query-key="categoryId" class="w-48" :options="categoryOptionStore.options" :transform="Number" />
     </section>
-    <UTable sticky :columns="columns" :data="items" :ui="{ root: 'px-0.5 flex-1' }" />
-    <TablePagination :meta="meta" :loading="isLoading" />
+    <UTable sticky :loading="isPending" :columns="columns" :data="items" :ui="{ root: 'px-0.5 flex-1' }" />
+    <TablePagination :meta="meta" :disabled="isPending" />
   </section>
 </template>
