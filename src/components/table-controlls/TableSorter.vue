@@ -11,21 +11,24 @@ const asc = useRouteQuery<string[]>('asc', undefined);
 const desc = useRouteQuery<string[]>('desc', undefined);
 
 const icon = computed<string>(() => {
-  if (asc.value.includes(columnKey)) return 'i-lucide-arrow-up-narrow-wide'
-  if (desc.value.includes(columnKey)) return 'i-lucide-arrow-down-wide-narrow'
+  if (asc.value?.includes(columnKey)) return 'i-lucide-arrow-up-narrow-wide'
+  if (desc.value?.includes(columnKey)) return 'i-lucide-arrow-down-wide-narrow'
   return 'i-lucide-arrow-up-down';
 })
 
 function toggleSorting() {
-  if (desc.value.includes(columnKey)) {
-    desc.value = desc.value.filter((key) => key !== columnKey)
-    return
+  if (!asc.value || !asc.value.includes(columnKey) && (desc.value && !desc.value.includes(columnKey))) {
+    asc.value = asc.value ? [...asc.value, columnKey] : [columnKey]
+    return;
   }
-  if (asc.value.includes(columnKey)) {
+
+  if (!desc.value || !desc.value.includes(columnKey)) {
+    desc.value = desc.value ? [...desc.value, columnKey] : [columnKey]
     asc.value = asc.value.filter((key) => key !== columnKey)
-    return
+    return;
   }
-  asc.value.push(columnKey)
+
+  desc.value = desc.value.filter((key) => key !== columnKey)
 }
 </script>
 

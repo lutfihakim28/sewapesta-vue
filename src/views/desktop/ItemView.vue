@@ -10,7 +10,9 @@ import type { Unit } from '@/utils/dtos/Unit';
 import { ItemTypeEnum } from '@/utils/enums/item-type';
 import type { SelectItem, TableColumn } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
-import { computed, h, ref } from 'vue';
+import { computed, h, ref, resolveComponent } from 'vue';
+
+const TableSorter = resolveComponent('TableSorter')
 
 const basePath = 'private/items'
 const categoryOptionStore = useCategoryOptionStore();
@@ -40,15 +42,24 @@ const filterTypeOptions = ref<SelectItem[]>([
 const columns: TableColumn<Item>[] = [
   {
     accessorKey: 'id',
-    header: '#',
+    header: () => h(TableSorter, {
+      label: 'ID',
+      columnKey: 'id'
+    }),
   },
   {
     accessorKey: 'name',
-    header: 'Name'
+    header: () => h(TableSorter, {
+      label: 'Name',
+      columnKey: 'name'
+    }),
   },
   {
     accessorKey: 'type',
-    header: 'Type',
+    header: () => h(TableSorter, {
+      label: 'Type',
+      columnKey: 'type'
+    }),
     cell: ({ row }) => {
       const type = row.getValue('type') as ItemTypeEnum;
       const colors: Record<ItemTypeEnum, string> = {
