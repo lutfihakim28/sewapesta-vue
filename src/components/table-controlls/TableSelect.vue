@@ -3,10 +3,11 @@ import type { SelectItem } from '@nuxt/ui';
 import { useRouteQuery } from '@vueuse/router';
 import { computed } from 'vue';
 
-const { label, options, queryKey, transform } = defineProps<{
+const { label, options, queryKey, loading, transform } = defineProps<{
   label: string,
   options: SelectItem[],
   queryKey: string,
+  loading?: boolean,
   transform?: (value: T) => T
 }>()
 
@@ -22,7 +23,7 @@ const items = computed<SelectItem[]>(() => [
 </script>
 
 <template>
-  <USelect v-model="value" :placeholder="`All ${label}`" :items="items" :ui="{
+  <USelectMenu v-model="value" value-key="value" :loading="loading" :placeholder="`All ${label}`" :items="items" :ui="{
     content: 'z-50',
     base: `py-2 ${$attrs.class}`
   }" />

@@ -8,8 +8,11 @@ const keyword = useRouteQuery<string | undefined>('keyword', undefined )
 const _keyword = ref<string>();
 
 watchDebounced(_keyword, () => {
+  if ((_keyword.value?.length || 0) < 3) {
+    keyword.value = undefined
+  }
   if ((_keyword.value?.length || 0) === 0 || (_keyword.value?.length || 0) >= 3) {
-    keyword.value = _keyword.value || undefined
+    keyword.value = _keyword.value
   }
 }, { debounce: 500 })
 </script>

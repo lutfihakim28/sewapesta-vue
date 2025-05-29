@@ -19,15 +19,6 @@ const categoryOptionStore = useCategoryOptionStore();
 
 const { path } = useQueryParam(basePath)
 
-// const filter = reactive<ItemFilter>({
-//   asc: ['id', 'name'],
-//   categoryId: undefined,
-//   desc: undefined,
-//   keyword: undefined,
-//   page: 1,
-//   pageSize: 5
-// })
-
 const filterTypeOptions = ref<SelectItem[]>([
   {
     label: ItemTypeEnum.Equipment,
@@ -108,6 +99,7 @@ const meta = computed<Meta | undefined>(() => {
 })
 
 async function fetcher(path: string) {
+  if (!path.includes('page=')) return
   const { data, get } = useApiFetch<ApiResponseList<Item>>(path);
   await get();
   return data.value;
@@ -119,7 +111,7 @@ async function fetcher(path: string) {
     <section class="flex items-center gap-x-2 flex-wrap p-4">
       <TableSearch />
       <TableSelect label="types" query-key="type" class="w-32" :options="filterTypeOptions" />
-      <TableSelect label="categories" query-key="categoryId" class="w-48" :options="categoryOptionStore.options" :transform="Number" />
+      <TableSelect label="categories" query-key="categoryId" class="w-48" :options="categoryOptionStore.options" :loading="categoryOptionStore.loading" :transform="Number" />
     </section>
     <UTable sticky :loading="isPending" :columns="columns" :data="items" :ui="{ root: 'px-0.5 flex-1' }" />
     <TablePagination :meta="meta" :disabled="isPending" />

@@ -26,6 +26,25 @@ export const useApiFetch = createFetch({
       }
       return { options };
     },
+    async afterFetch(ctx) {
+      if (ctx.response.status >= 200 && ctx.response.status < 400 && ctx.context.options.method !== 'GET' && !ctx.context.url.includes('auth/refresh')) {
+        const response = new ApiResponse(JSON.parse(ctx.data));
+        const toast = useToast()
+
+        for (const message of response.messages) {
+          toast.add({
+            title: `Success`,
+            description: message,
+            color: 'success'
+          })
+        }
+      }
+
+      ctx.data = JSON.parse(ctx.data);
+
+
+      return ctx
+    },
     async onFetchError(ctx) {
       const authStore = useAuthStore()
 
@@ -42,45 +61,76 @@ export const useApiFetch = createFetch({
             })
           }
 
-          if (ctx.context.url.includes('auth/refresh')) {
-            authStore.reset()
-            await router.push({ name: 'Login' })
-            return ctx;
-          }
-
           return ctx
         }
 
-        if (!isRefreshing) {
-          isRefreshing = true
-
+        return new Promise((resolve) => {
           refreshSubscribers.push(async () => {
-            const response = await ctx.execute();
+            try {
+              const retryResponse = await ctx.execute()
+              resolve(retryResponse)
+            } catch (error) {
+              if ((error as { response: { status: number } }).response?.status === 401) {
+                const authStore = useAuthStore()
+                authStore.reset()
+                await router.push({ name: 'Login' })
+                resolve(ctx)
+              } else {
+                const response = new ApiResponse(JSON.parse(ctx.data));
+                const toast = useToast()
 
-            ctx.response = response;
+                for (const message of response.messages) {
+                  toast.add({
+                    title: `Error ${response.code}`,
+                    description: message,
+                    color: 'error'
+                  })
+                }
 
-            return ctx;
+                return ctx
+              }
+            }
           })
 
-          if (!authStore.token && !authStore.user) {
-            await router.push({ name: 'Login' })
-            return ctx;
+          if (!isRefreshing) {
+            isRefreshing = true
+
+            if (!authStore.token && !authStore.user) {
+              router.push({ name: 'Login' })
+              return;
+            }
+
+            const performRefresh = async () => {
+              try {
+                const { data, execute } = useApiFetch<string>('auth/refresh', {
+                  immediate: false,
+                }).post()
+
+                await execute()
+
+                if (data.value) {
+                  const response = new ApiResponseData(data.value, LoginResponse)
+                  authStore.setToken(response.data.token)
+
+                  const callbacks = [...refreshSubscribers]
+                  refreshSubscribers.length = 0
+
+                  callbacks.forEach(callback => callback())
+                } else {
+                  authStore.reset()
+                  await router.push({ name: 'Login' })
+                }
+              } catch (error) {
+                authStore.reset()
+                await router.push({ name: 'Login' })
+              } finally {
+                isRefreshing = false
+              }
+            }
+
+            performRefresh()
           }
-
-          const { data, error, execute } = useApiFetch(`auth/refresh`, { immediate: false }).post()
-
-          await execute();
-
-          if (!error.value) {
-            const response = new ApiResponseData(data.value, LoginResponse)
-            authStore.setToken(response.data.token)
-            refreshSubscribers.forEach(callback => callback())
-            refreshSubscribers.length = 0
-          }
-
-          return ctx;
-        }
-        return ctx;
+        })
       } else {
         const response = new ApiResponse(JSON.parse(ctx.data));
         const toast = useToast()
@@ -92,29 +142,9 @@ export const useApiFetch = createFetch({
             color: 'error'
           })
         }
+
+        return ctx
       }
-
-      return ctx
-    },
-    async afterFetch(ctx) {
-      if (ctx.response.status >= 200 && ctx.response.status < 400 && ctx.context.options.method !== 'GET' && !ctx.context.url.includes('auth/refresh')) {
-        const response = new ApiResponse(JSON.parse(ctx.data));
-        const toast = useToast()
-
-        for (const message of response.messages) {
-          toast.add({
-            title: `Success`,
-            description: message,
-            color: 'success'
-          })
-        }
-      }
-      isRefreshing = false;
-
-      ctx.data = JSON.parse(ctx.data);
-
-
-      return ctx
     },
   }
 })
