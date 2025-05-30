@@ -41,7 +41,7 @@ function router(screenSize: number) {
       },
       {
         path: '/',
-        redirect: { name: 'Dashboard' },
+        // redirect: { name: 'Dashboard' },
         component: Layout,
         children: [
           {
@@ -59,7 +59,6 @@ function router(screenSize: number) {
             path: 'items',
             name: 'Item',
             component: importView(layoutType, 'ItemView'),
-
           },
         ],
         meta: {
@@ -101,7 +100,9 @@ function importView(layout: LayoutType, view: string) {
   const path = `/src/views/${layout}/${view}.vue`;
   const loader = views[path];
   if (!loader) {
-    throw new Error(`${view} not found for layout: ${layout}`);
+    const underConstructionPath = `/src/views/${layout}/UnderConstructionView.vue`;
+    const underConstructionLoader = views[underConstructionPath];
+    return underConstructionLoader;
   }
   return loader;
 }

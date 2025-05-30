@@ -7,11 +7,14 @@
     <!-- Header -->
     <section class="sticky top-0 py-4 bg-(--ui-bg)">
       <section class="flex items-center justify-between rounded-md p-4 bg-elevated/50">
-        <UDrawer direction="left">
+        <UDrawer direction="left" :ui="{
+          content: 'z-50',
+          overlay: 'z-50'
+        }">
           <UButton icon="i-lucide-menu" variant="outline" color="neutral" />
-  
+
           <!-- Side Menu -->
-          <template #content>
+          <template #body>
             <section class="overflow-y-auto">
               <SideMenu />
             </section>
@@ -26,7 +29,7 @@
 
     <!-- Content -->
     <main class="flex-1">
-      <slot />
+      <RouterView />
     </main>
   </section>
 </template>
