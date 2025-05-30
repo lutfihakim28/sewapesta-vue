@@ -33,7 +33,7 @@ function toggleSorting() {
 </script>
 
 <template>
-  <UButton 
+  <UButton
     color="neutral"
     variant="ghost"
     class="-mx-2.5"
