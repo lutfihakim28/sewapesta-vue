@@ -12,7 +12,7 @@ export const useCategoryOptionStore = defineStore('category-option', () => {
   const _options = shallowRef<SelectItem[]>([])
   const authStore = useAuthStore()
 
-  const { data, isPending } = useQuery({
+  const { data, isPending, refresh } = useQuery({
     key: () => [...path, authStore.token],
     query: getCategoryOptions
   })
@@ -31,5 +31,5 @@ export const useCategoryOptionStore = defineStore('category-option', () => {
     }
   })
 
-  return { options, loading: isPending }
+  return { options, loading: isPending, refresh }
 })

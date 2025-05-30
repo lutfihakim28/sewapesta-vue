@@ -18,6 +18,7 @@ const TableSorter = resolveComponent('TableSorter')
 const basePath = 'private/items'
 const categoryOptionStore = useCategoryOptionStore();
 const authStore = useAuthStore()
+const toast = useToast()
 
 const { path } = useQueryParam(basePath)
 
@@ -81,7 +82,7 @@ const columns: TableColumn<Item>[] = [
   },
 ];
 
-const { data, isPending } = useQuery({
+const { data, isPending, refresh } = useQuery({
   key: () => [basePath, path.value, authStore.token],
   query: () => fetcher(path.value),
 })
@@ -106,16 +107,37 @@ async function fetcher(path: string) {
   await get();
   return data.value;
 }
+
+async function refreshData() {
+  await Promise.all([
+    refresh(),
+    categoryOptionStore.refresh()
+  ])
+  toast.add({
+    color: 'success',
+    title: 'Refreshed',
+    duration: 1500,
+  })
+}
 </script>
 
 <template>
   <section class="flex flex-col justify-between">
-    <section class="flex items-center gap-x-2 flex-wrap p-4">
-      <TableSearch />
-      <TableSelect label="types" query-key="type" class="w-32" :options="filterTypeOptions" />
-      <TableSelect label="categories" query-key="categoryId" class="w-48" :options="categoryOptionStore.options" :loading="categoryOptionStore.loading" :transform="Number" />
+    <section class="p-4 space-y-4">
+      <section class="flex justify-between items-center">
+        <h4 class="text-2xl font-semibold">Items</h4>
+        <section class="flex items-center gap-x-2">
+          <UButton label="New Item" icon="i-lucide-plus" />
+          <UButton icon="i-lucide-refresh-cw" variant="ghost" color="warning" @click="refreshData" />
+        </section>
+      </section>
+      <section class="flex items-center gap-x-2 flex-wrap">
+        <TableSearch />
+        <TableSelect label="types" query-key="type" class="w-32" :options="filterTypeOptions" />
+        <TableSelect label="categories" query-key="categoryId" class="w-48" :options="categoryOptionStore.options" :loading="categoryOptionStore.loading" :transform="Number" />
+      </section>
     </section>
     <UTable sticky :loading="isPending" :columns="columns" :data="items" :ui="{ root: 'px-0.5 flex-1' }" />
-    <TablePagination :meta="meta" :disabled="isPending" />
+    <TablePagination :meta="meta" :disabled="isPending" record-name="items" />
   </section>
 </template>
