@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth';
 import { useCategoryOptionStore } from '@/stores/category-option';
 import { useApiFetch } from '@/utils/composables/useApiFetch';
 import { useQueryParam } from '@/utils/composables/useQueryParam';
@@ -16,6 +17,7 @@ const TableSorter = resolveComponent('TableSorter')
 
 const basePath = 'private/items'
 const categoryOptionStore = useCategoryOptionStore();
+const authStore = useAuthStore()
 
 const { path } = useQueryParam(basePath)
 
@@ -80,7 +82,7 @@ const columns: TableColumn<Item>[] = [
 ];
 
 const { data, isPending } = useQuery({
-  key: () => [basePath, path.value],
+  key: () => [basePath, path.value, authStore.token],
   query: () => fetcher(path.value),
 })
 

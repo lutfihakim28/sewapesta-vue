@@ -4,14 +4,16 @@ import type { SelectItem } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
 import { defineStore } from 'pinia';
 import { computed, shallowRef, watch } from 'vue';
+import { useAuthStore } from './auth';
 
 const path = ['private/categories', 'options']
 
 export const useCategoryOptionStore = defineStore('category-option', () => {
   const _options = shallowRef<SelectItem[]>([])
+  const authStore = useAuthStore()
 
   const { data, isPending } = useQuery({
-    key: () => path,
+    key: () => [...path, authStore.token],
     query: getCategoryOptions
   })
 
