@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ROUTE_NAMES } from '@/router/routes';
 import { useAuthStore } from '@/stores/auth';
 import { useCategoryOptionStore } from '@/stores/category-option';
 import { useApiFetch } from '@/utils/composables/useApiFetch';
@@ -12,6 +13,7 @@ import { ItemTypeEnum } from '@/utils/enums/item-type';
 import type { SelectItem, TableColumn } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
 import { computed, h, ref, resolveComponent } from 'vue';
+import { useRouter } from 'vue-router';
 
 const TableSorter = resolveComponent('TableSorter')
 
@@ -19,6 +21,7 @@ const basePath = 'private/items'
 const categoryOptionStore = useCategoryOptionStore();
 const authStore = useAuthStore()
 const toast = useToast()
+const router = useRouter()
 
 const { path } = useQueryParam(basePath)
 
@@ -119,6 +122,10 @@ async function refreshData() {
     duration: 1500,
   })
 }
+
+function toCreateView() {
+  router.push({ name: ROUTE_NAMES.ITEM_CREATE })
+}
 </script>
 
 <template>
@@ -127,14 +134,15 @@ async function refreshData() {
       <section class="flex justify-between items-center">
         <h4 class="text-2xl font-semibold">Items</h4>
         <section class="flex items-center gap-x-2">
-          <UButton label="New Item" icon="i-lucide-plus" />
+          <UButton label="New Item" icon="i-lucide-plus" @click="toCreateView" />
           <UButton icon="i-lucide-refresh-cw" variant="ghost" color="warning" @click="refreshData" />
         </section>
       </section>
       <section class="flex items-center gap-x-2 flex-wrap">
         <TableSearch />
         <TableSelect label="types" query-key="type" class="w-32" :options="filterTypeOptions" />
-        <TableSelect label="categories" query-key="categoryId" class="w-48" :options="categoryOptionStore.options" :loading="categoryOptionStore.loading" :transform="Number" />
+        <TableSelect label="categories" query-key="categoryId" class="w-48" :options="categoryOptionStore.options"
+          :loading="categoryOptionStore.loading" :transform="Number" />
       </section>
     </section>
     <UTable sticky :loading="isPending" :columns="columns" :data="items" :ui="{ root: 'px-0.5 flex-1' }" />
