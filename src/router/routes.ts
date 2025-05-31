@@ -4,7 +4,7 @@ import TabletLayout from '@/components/layouts/TabletLayout.vue';
 import type { Component } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
 
-const views = import.meta.glob('/src/views/*/*.vue')
+const pages = import.meta.glob('/src/pages/*/*.vue')
 
 const screenSize = document.body.getBoundingClientRect().width;
 
@@ -44,7 +44,7 @@ export const routes: readonly RouteRecordRaw[] = [
       {
         path: 'login',
         name: ROUTE_NAMES.LOGIN,
-        component: importView(layoutType, 'LoginView')
+        component: importPage(layoutType, 'LoginPage')
       }
     ],
   },
@@ -55,7 +55,7 @@ export const routes: readonly RouteRecordRaw[] = [
       {
         path: DEFAULT_PATH,
         name: ROUTE_NAMES.DASHBOARD,
-        component: importView(layoutType, 'DashboardView'),
+        component: importPage(layoutType, 'DashboardPage'),
       },
       {
         path: 'categories',
@@ -63,7 +63,7 @@ export const routes: readonly RouteRecordRaw[] = [
           {
             path: DEFAULT_PATH,
             name: ROUTE_NAMES.CATEGORIES,
-            component: importView(layoutType, 'CategoryView'),
+            component: importPage(layoutType, 'CategoryPage'),
           }
         ],
 
@@ -74,12 +74,12 @@ export const routes: readonly RouteRecordRaw[] = [
           {
             path: DEFAULT_PATH,
             name: ROUTE_NAMES.ITEMS,
-            component: importView(layoutType, 'ItemView'),
+            component: importPage(layoutType, 'ItemPage'),
           },
           {
             path: 'create',
             name: ROUTE_NAMES.ITEM_CREATE,
-            component: importView(layoutType, 'ItemCreateView'),
+            component: importPage(layoutType, 'ItemCreatePage'),
           },
         ],
       },
@@ -94,12 +94,12 @@ export const routesName = routes
   .flatMap((route) => route.name)
   .filter((name) => !!name)
 
-function importView(layout: LayoutType, view: string) {
-  const path = `/src/views/${layout}/${view}.vue`;
-  const loader = views[path];
+function importPage(layout: LayoutType, view: string) {
+  const path = `/src/pages/${layout}/${view}.vue`;
+  const loader = pages[path];
   if (!loader) {
-    const underConstructionPath = `/src/views/${layout}/UnderConstructionView.vue`;
-    const underConstructionLoader = views[underConstructionPath];
+    const underConstructionPath = `/src/pages/${layout}/UnderConstructionPage.vue`;
+    const underConstructionLoader = pages[underConstructionPath];
     return underConstructionLoader;
   }
   return loader;

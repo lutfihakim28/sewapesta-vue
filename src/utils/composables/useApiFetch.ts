@@ -124,6 +124,7 @@ export const useApiFetch = createFetch({
               } catch (error) {
                 authStore.reset()
                 await router.push({ name: ROUTE_NAMES.LOGIN })
+                console.error(error)
               } finally {
                 isRefreshing = false
               }

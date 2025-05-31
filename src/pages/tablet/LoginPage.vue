@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LoginView from '../desktop/LoginView.vue';
+import LoginView from '../desktop/LoginPage.vue';
 
 </script>
 
