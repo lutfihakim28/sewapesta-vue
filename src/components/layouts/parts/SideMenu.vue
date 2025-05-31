@@ -2,7 +2,9 @@
 import { ROUTE_NAMES, type RouteName } from '@/router/routes';
 import type { NavigationMenuItem } from '@nuxt/ui';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
+import { capitalCase } from 'change-case';
 
 const {
   collapsed = false,
@@ -10,20 +12,22 @@ const {
   collapsed?: boolean
 }>()
 
-const MENU_LABEL: {
+const { t } = useI18n();
+
+const menuLabel = computed<{
   [key in RouteName]?: string
-} = {
+}>(() => ({
   Dashboard: 'Dashboard',
-  Categories: 'Category',
-  Items: 'Item',
-}
+  Categories: capitalCase(t('category')),
+  Items: capitalCase(t('item')),
+}))
 
 const route = useRoute();
 
 const items = computed<NavigationMenuItem[][]>(() => ([
   [
     {
-      label: MENU_LABEL[ROUTE_NAMES.DASHBOARD],
+      label: menuLabel.value[ROUTE_NAMES.DASHBOARD],
       icon: 'i-lucide-layout-dashboard',
       active: route.name === ROUTE_NAMES.DASHBOARD,
       to: route.name === ROUTE_NAMES.DASHBOARD ? undefined : { name: ROUTE_NAMES.DASHBOARD }
@@ -41,7 +45,7 @@ const items = computed<NavigationMenuItem[][]>(() => ([
       type: 'label'
     },
     {
-      label: MENU_LABEL[ROUTE_NAMES.ITEMS],
+      label: menuLabel.value[ROUTE_NAMES.ITEMS],
       icon: 'i-lucide-box',
       active: route.name === ROUTE_NAMES.ITEMS,
       to: route.name === ROUTE_NAMES.ITEMS ? undefined : { name: ROUTE_NAMES.ITEMS }
@@ -65,7 +69,7 @@ const items = computed<NavigationMenuItem[][]>(() => ([
       type: 'label'
     },
     {
-      label: MENU_LABEL[ROUTE_NAMES.CATEGORIES],
+      label: menuLabel.value[ROUTE_NAMES.CATEGORIES],
       icon: 'i-lucide-shapes',
       active: route.name === ROUTE_NAMES.CATEGORIES,
       to: route.name === ROUTE_NAMES.CATEGORIES ? undefined : { name: ROUTE_NAMES.CATEGORIES }
@@ -133,7 +137,7 @@ const items = computed<NavigationMenuItem[][]>(() => ([
 
 defineExpose({
   menuItems: items,
-  MENU_LABEL,
+  MENU_LABEL: menuLabel,
 })
 </script>
 

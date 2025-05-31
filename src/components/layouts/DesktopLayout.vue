@@ -2,19 +2,22 @@
 import { DEFAULT_PATH, ROUTE_NAMES, routes, type RouteName } from '@/router/routes';
 import type { BreadcrumbItem } from '@nuxt/ui';
 import { templateRef } from '@vueuse/core';
-import { ref, shallowRef, watch } from 'vue';
+import { capitalCase } from 'change-case';
+import { computed, ref, shallowRef, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { RouterView, useRoute, type RouteRecordRaw } from 'vue-router';
 
 const route = useRoute();
+const { t } = useI18n();
 
-const BREADCRUMB_LABEL: {
+const breadcrumbLabel = computed<{
   [key in RouteName]?: string
-} = {
+}>(() => ({
   Dashboard: 'Dashboard',
-  Categories: 'Categories',
-  Items: 'Items',
+  Categories: capitalCase(t('category')),
+  Items: capitalCase(t('item')),
   ItemCreate: 'Create New Item',
-}
+}))
 
 const sideMenu = templateRef('side-menu');
 const isMenuCollapsed = ref(false);
@@ -39,13 +42,13 @@ function arrangeBreadcrumbs(_routes: RouteRecordRaw,) {
     const routeName = _routes.name as RouteName;
 
     const existIndex = breadcrumbs.value.findIndex((breadcrumb) => {
-      const key = Object.keys(BREADCRUMB_LABEL).find((key) => BREADCRUMB_LABEL[key as RouteName] === breadcrumb.label)
+      const key = Object.keys(breadcrumbLabel.value).find((key) => breadcrumbLabel.value[key as RouteName] === breadcrumb.label)
       return key === routeName
     });
 
     if (existIndex === -1) {
       breadcrumbs.value = [...breadcrumbs.value, {
-        label: BREADCRUMB_LABEL[routeName],
+        label: breadcrumbLabel.value[routeName],
         icon: getMenuIcon(routeName),
         to: route.name === routeName ? undefined : { name: routeName }
       }]
@@ -70,7 +73,7 @@ function arrangeBreadcrumbs(_routes: RouteRecordRaw,) {
       if (defaultRoute && defaultRoute.name) {
         breadcrumbs.value = [...breadcrumbs.value, {
           icon: getMenuIcon(defaultRoute.name as RouteName),
-          label: BREADCRUMB_LABEL[defaultRoute.name as RouteName],
+          label: breadcrumbLabel.value[defaultRoute.name as RouteName],
           to: route.name === defaultRoute.name ? undefined : { name: defaultRoute.name }
         }]
       }
@@ -92,17 +95,16 @@ function arrangeBreadcrumbs(_routes: RouteRecordRaw,) {
 }
 
 watch(
-  [sideMenu, () => route.fullPath],
+  [sideMenu, () => route.fullPath, breadcrumbLabel],
   () => {
     const [protectedRoutes] = routes.filter((route) => !!route.meta?.requiresAuth)
     breadcrumbs.value = [{
-      label: BREADCRUMB_LABEL[ROUTE_NAMES.DASHBOARD],
+      label: breadcrumbLabel.value[ROUTE_NAMES.DASHBOARD],
       icon: getMenuIcon('Dashboard'),
       to: route.name === ROUTE_NAMES.DASHBOARD ? undefined : { name: ROUTE_NAMES.DASHBOARD }
     }];
     arrangeBreadcrumbs(protectedRoutes)
   },
-  // { immediate: true }
 )
 </script>
 
@@ -138,6 +140,7 @@ watch(
         <UBreadcrumb :items="breadcrumbs" />
       </section>
       <section class="flex items-center gap-x-4">
+        <LocaleSelect />
         <ThemeSwitch />
         <LogoutButton />
       </section>

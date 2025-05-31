@@ -25,6 +25,11 @@ export default defineConfig({
             variant: 'subtle',
           }
         },
+        select: {
+          slots: {
+            trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200'
+          }
+        }
       },
       components: {
         dts: true

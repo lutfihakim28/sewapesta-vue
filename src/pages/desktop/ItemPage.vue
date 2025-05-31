@@ -12,7 +12,9 @@ import type { Unit } from '@/utils/dtos/Unit';
 import { ItemTypeEnum } from '@/utils/enums/item-type';
 import type { SelectItem, TableColumn } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
+import { capitalCase } from 'change-case';
 import { computed, h, ref, resolveComponent } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 const TableSorter = resolveComponent('TableSorter')
@@ -22,6 +24,7 @@ const categoryOptionStore = useCategoryOptionStore();
 const authStore = useAuthStore()
 const toast = useToast()
 const router = useRouter()
+const { t } = useI18n()
 
 const { path } = useQueryParam(basePath)
 
@@ -134,15 +137,15 @@ function toCreateView() {
       <section class="flex justify-between items-center">
         <h4 class="text-2xl font-semibold">Items</h4>
         <section class="flex items-center gap-x-2">
-          <UButton label="New Item" icon="i-lucide-plus" @click="toCreateView" />
+          <UButton :label="capitalCase(t('new-item'))" icon="i-lucide-plus" @click="toCreateView" />
           <UButton icon="i-lucide-refresh-cw" variant="ghost" color="warning" @click="refreshData" />
         </section>
       </section>
       <section class="flex items-center gap-x-2 flex-wrap">
         <TableSearch />
-        <TableSelect label="types" query-key="type" class="w-32" :options="filterTypeOptions" />
-        <TableSelect label="categories" query-key="categoryId" class="w-48" :options="categoryOptionStore.options"
-          :loading="categoryOptionStore.loading" :transform="Number" />
+        <TableSelect :label="t('type', 2)" query-key="type" class="w-32" :options="filterTypeOptions" />
+        <TableSelect :label="t('category', 2)" query-key="categoryId" class="w-48"
+          :options="categoryOptionStore.options" :loading="categoryOptionStore.loading" :transform="Number" />
       </section>
     </section>
     <UTable sticky :loading="isPending" :columns="columns" :data="items" :ui="{ root: 'px-0.5 flex-1' }" />

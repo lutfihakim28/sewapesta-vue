@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import ItemView from '../desktop/ItemPage.vue';
+import ItemPage from '../desktop/ItemPage.vue';
 
 onMounted(() => {
   console.log('Tessss')
@@ -8,5 +8,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <ItemView />
+  <ItemPage />
 </template>
