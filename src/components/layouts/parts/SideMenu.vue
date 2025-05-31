@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ROUTE_NAMES, type RouteName } from '@/router/routes';
 import type { NavigationMenuItem } from '@nuxt/ui';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
@@ -9,15 +10,23 @@ const {
   collapsed?: boolean
 }>()
 
+const MENU_LABEL: {
+  [key in RouteName]?: string
+} = {
+  Dashboard: 'Dashboard',
+  Categories: 'Category',
+  Items: 'Item',
+}
+
 const route = useRoute();
 
 const items = computed<NavigationMenuItem[][]>(() => ([
   [
     {
-      label: 'Dashboard',
+      label: MENU_LABEL[ROUTE_NAMES.DASHBOARD],
       icon: 'i-lucide-layout-dashboard',
-      active: route.name === 'Dashboard',
-      to: { name: 'Dashboard' }
+      active: route.name === ROUTE_NAMES.DASHBOARD,
+      to: route.name === ROUTE_NAMES.DASHBOARD ? undefined : { name: ROUTE_NAMES.DASHBOARD }
     },
   ],
   [
@@ -32,10 +41,10 @@ const items = computed<NavigationMenuItem[][]>(() => ([
       type: 'label'
     },
     {
-      label: 'Item',
+      label: MENU_LABEL[ROUTE_NAMES.ITEMS],
       icon: 'i-lucide-box',
-      active: route.name === 'Item',
-      to: { name: 'Item' }
+      active: route.name === ROUTE_NAMES.ITEMS,
+      to: route.name === ROUTE_NAMES.ITEMS ? undefined : { name: ROUTE_NAMES.ITEMS }
     },
     {
       label: 'Package',
@@ -56,10 +65,10 @@ const items = computed<NavigationMenuItem[][]>(() => ([
       type: 'label'
     },
     {
-      label: 'Category',
+      label: MENU_LABEL[ROUTE_NAMES.CATEGORIES],
       icon: 'i-lucide-shapes',
-      active: route.name === 'Category',
-      to: { name: 'Category' }
+      active: route.name === ROUTE_NAMES.CATEGORIES,
+      to: route.name === ROUTE_NAMES.CATEGORIES ? undefined : { name: ROUTE_NAMES.CATEGORIES }
     },
     {
       label: 'Unit',
@@ -122,6 +131,10 @@ const items = computed<NavigationMenuItem[][]>(() => ([
   ],
 ]))
 
+defineExpose({
+  menuItems: items,
+  MENU_LABEL,
+})
 </script>
 
 <template>
