@@ -4,6 +4,7 @@ import { createFetch } from '@vueuse/core';
 import { ApiResponse, ApiResponseData } from '../dtos/ApiResponse';
 import { LoginResponse } from '../dtos/LoginResponse';
 import router from '@/router';
+import { ROUTE_NAMES } from '@/router/routes';
 
 const baseUrl = import.meta.env.VITE_API_URL
 let isRefreshing = false;
@@ -73,7 +74,7 @@ export const useApiFetch = createFetch({
               if ((error as { response: { status: number } }).response?.status === 401) {
                 const authStore = useAuthStore()
                 authStore.reset()
-                await router.push({ name: 'Login' })
+                await router.push({ name: ROUTE_NAMES.LOGIN })
                 resolve(ctx)
               } else {
                 const response = new ApiResponse(JSON.parse(ctx.data));
@@ -96,7 +97,7 @@ export const useApiFetch = createFetch({
             isRefreshing = true
 
             if (!authStore.token && !authStore.user) {
-              router.push({ name: 'Login' })
+              router.push({ name: ROUTE_NAMES.LOGIN })
               return;
             }
 
@@ -118,11 +119,11 @@ export const useApiFetch = createFetch({
                   callbacks.forEach(callback => callback())
                 } else {
                   authStore.reset()
-                  await router.push({ name: 'Login' })
+                  await router.push({ name: ROUTE_NAMES.LOGIN })
                 }
               } catch (error) {
                 authStore.reset()
-                await router.push({ name: 'Login' })
+                await router.push({ name: ROUTE_NAMES.LOGIN })
               } finally {
                 isRefreshing = false
               }

@@ -2,6 +2,7 @@
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { useApiFetch } from '@/utils/composables/useApiFetch';
+import { ROUTE_NAMES } from '@/router/routes';
 
 const { isFetching, error, execute } = useApiFetch('auth/logout', { immediate: false }).delete();
 const authStore = useAuthStore();
@@ -10,7 +11,7 @@ const router = useRouter();
 async function logout() {
   await execute()
   if (!error.value) {
-    router.push({ name: 'Login' })
+    router.push({ name: ROUTE_NAMES.LOGIN })
     authStore.reset();
   }
 }
