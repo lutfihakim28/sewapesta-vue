@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { watchDebounced } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
-import { capitalCase } from 'change-case';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -25,7 +24,7 @@ watchDebounced(_keyword, () => {
 </script>
 
 <template>
-  <UInput v-model="_keyword" :placeholder="`${capitalCase(t('search'))}...`" icon="i-lucide-search">
+  <UInput v-model="_keyword" :placeholder="`${t('Search')}...`" icon="i-lucide-search">
     <template v-if="_keyword" #trailing>
       <UButton icon="i-lucide-x" variant="ghost" size="xs" color="neutral" @click.stop="clear" />
     </template>

@@ -43,7 +43,7 @@ watch(value, async () => {
   await loadLocaleMessages(i18n, value.value)
   setI18nLanguage(i18n, value.value)
   storageLocale.value = value.value
-}, { immediate: true })
+})
 </script>
 
 <template>

@@ -12,8 +12,7 @@ import type { Unit } from '@/utils/dtos/Unit';
 import { ItemTypeEnum } from '@/utils/enums/item-type';
 import type { SelectItem, TableColumn } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
-import { capitalCase } from 'change-case';
-import { computed, h, ref, resolveComponent } from 'vue';
+import { computed, h, resolveComponent } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
@@ -28,18 +27,18 @@ const { t } = useI18n()
 
 const { path } = useQueryParam(basePath)
 
-const filterTypeOptions = ref<SelectItem[]>([
+const filterTypeOptions = computed<SelectItem[]>(() => [
   {
-    label: ItemTypeEnum.Equipment,
+    label: t(ItemTypeEnum.Equipment),
     value: ItemTypeEnum.Equipment,
   },
   {
-    label: ItemTypeEnum.Inventory,
+    label: t(ItemTypeEnum.Inventory),
     value: ItemTypeEnum.Inventory,
   }
 ])
 
-const columns: TableColumn<Item>[] = [
+const columns = computed<TableColumn<Item>[]>(() => [
   {
     accessorKey: 'id',
     header: () => h(TableSorter, {
@@ -50,14 +49,14 @@ const columns: TableColumn<Item>[] = [
   {
     accessorKey: 'name',
     header: () => h(TableSorter, {
-      label: 'Name',
+      label: t('Name'),
       columnKey: 'name'
     }),
   },
   {
     accessorKey: 'type',
     header: () => h(TableSorter, {
-      label: 'Type',
+      label: t('Type'),
       columnKey: 'type'
     }),
     cell: ({ row }) => {
@@ -67,12 +66,12 @@ const columns: TableColumn<Item>[] = [
         [ItemTypeEnum.Inventory]: 'text-secondary' as const,
       };
       const color = colors[type]
-      return h('div', { class: color }, type)
+      return h('div', { class: color }, t(type))
     }
   },
   {
     accessorKey: 'category',
-    header: 'Category',
+    header: () => h('span', t('Category')),
     cell: ({ row }) => {
       const category = row.getValue('category') as Category;
       return category.name
@@ -80,13 +79,13 @@ const columns: TableColumn<Item>[] = [
   },
   {
     accessorKey: 'unit',
-    header: 'Unit',
+    header: () => h('span', t('Unit')),
     cell: ({ row }) => {
       const unit = row.getValue('unit') as Unit;
       return unit.name
     }
   },
-];
+]);
 
 const { data, isPending, refresh } = useQuery({
   key: () => [basePath, path.value, authStore.token],
@@ -137,7 +136,7 @@ function toCreateView() {
       <section class="flex justify-between items-center">
         <h4 class="text-2xl font-semibold">Items</h4>
         <section class="flex items-center gap-x-2">
-          <UButton :label="capitalCase(t('new-item'))" icon="i-lucide-plus" @click="toCreateView" />
+          <UButton :label="t('New-Item')" icon="i-lucide-plus" @click="toCreateView" />
           <UButton icon="i-lucide-refresh-cw" variant="ghost" color="warning" @click="refreshData" />
         </section>
       </section>
@@ -149,6 +148,6 @@ function toCreateView() {
       </section>
     </section>
     <UTable sticky :loading="isPending" :columns="columns" :data="items" :ui="{ root: 'px-0.5 flex-1' }" />
-    <TablePagination :meta="meta" :disabled="isPending" record-name="items" />
+    <TablePagination :meta="meta" :disabled="isPending" record-name="item" />
   </section>
 </template>

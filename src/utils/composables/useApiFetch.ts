@@ -1,10 +1,11 @@
 
 import { useAuthStore } from '@/stores/auth';
-import { createFetch } from '@vueuse/core';
+import { createFetch, useStorage } from '@vueuse/core';
 import { ApiResponse, ApiResponseData } from '../dtos/ApiResponse';
 import { LoginResponse } from '../dtos/LoginResponse';
 import router from '@/router';
 import { ROUTE_NAMES } from '@/router/routes';
+import { STORAGE_LOCALE_KEY } from '../constants/locales';
 
 const baseUrl = import.meta.env.VITE_API_URL
 let isRefreshing = false;
@@ -16,8 +17,9 @@ export const useApiFetch = createFetch({
     credentials: 'include',
   },
   options: {
-    async beforeFetch({ options }) {
+    async beforeFetch({ options, url }) {
       const authStore = useAuthStore()
+      const locale = useStorage(STORAGE_LOCALE_KEY, 'en')
       if (authStore.token) {
         options.headers = {
           ...options.headers,
@@ -25,7 +27,9 @@ export const useApiFetch = createFetch({
           'ngrok-skip-browser-warning': '69420'
         }
       }
-      return { options };
+      const newUrl = new URL(url)
+      newUrl.searchParams.append('lang', locale.value)
+      return { options, url: newUrl.toString() };
     },
     async afterFetch(ctx) {
       if (ctx.response.status >= 200 && ctx.response.status < 400 && ctx.context.options.method !== 'GET' && !ctx.context.url.includes('auth/refresh')) {

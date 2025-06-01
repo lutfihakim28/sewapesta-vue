@@ -2,7 +2,6 @@
 import { DEFAULT_PATH, ROUTE_NAMES, routes, type RouteName } from '@/router/routes';
 import type { BreadcrumbItem } from '@nuxt/ui';
 import { templateRef } from '@vueuse/core';
-import { capitalCase } from 'change-case';
 import { computed, ref, shallowRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { RouterView, useRoute, type RouteRecordRaw } from 'vue-router';
@@ -13,9 +12,9 @@ const { t } = useI18n();
 const breadcrumbLabel = computed<{
   [key in RouteName]?: string
 }>(() => ({
-  Dashboard: 'Dashboard',
-  Categories: capitalCase(t('category')),
-  Items: capitalCase(t('item')),
+  Dashboard: t('Dashboard'),
+  Categories: t('Category'),
+  Items: t('Item'),
   ItemCreate: 'Create New Item',
 }))
 

@@ -2,18 +2,25 @@ import { useAuthStore } from '@/stores/auth';
 import { useLastRouteStore } from '@/stores/last-route';
 import { ApiResponseData } from '@/utils/dtos/ApiResponse';
 import { LoginResponse } from '@/utils/dtos/LoginResponse';
-import type { LoginRequest } from '@/utils/schemas/login-request';
-import { onMounted, reactive, useTemplateRef } from 'vue';
+import { generateLoginRequestSchema } from '@/utils/schemas/login-request';
+import { onMounted, reactive, ref, useTemplateRef, watch } from 'vue';
 import type { ComponentExposed } from 'vue-component-type-helpers';
 import { useRouter } from 'vue-router';
 import UInput from '@nuxt/ui/runtime/components/Input.vue'
+import UForm from '@nuxt/ui/runtime/components/Form.vue'
 import { useApiFetch } from '@/utils/composables/useApiFetch';
+import { useI18n } from 'vue-i18n';
+import type { SchemaType } from '@/utils/types/schema';
 
 export function useLoginCore() {
   const authStore = useAuthStore();
   const router = useRouter()
   const lastRouteStore = useLastRouteStore();
+  const { t, locale } = useI18n();
 
+  const LoginRequestSchema = ref<ReturnType<typeof generateLoginRequestSchema>>(generateLoginRequestSchema(t));
+
+  const loginForm = useTemplateRef<ComponentExposed<typeof UForm>>('login-form');
   const usernameInput = useTemplateRef<ComponentExposed<typeof UInput>>('username-input');
 
   onMounted(() => {
@@ -22,7 +29,7 @@ export function useLoginCore() {
     }
   })
 
-  const loginRequest = reactive<Partial<LoginRequest>>({
+  const loginRequest = reactive<Partial<SchemaType<typeof LoginRequestSchema.value>>>({
     password: undefined,
     username: undefined
   })
@@ -43,9 +50,16 @@ export function useLoginCore() {
     }
   }
 
+  watch(locale, () => {
+    LoginRequestSchema.value = generateLoginRequestSchema(t)
+    loginForm.value?.clear();
+  }, { immediate: true })
+
   return {
     loginRequest,
     isFetching,
+    LoginRequestSchema,
     onSubmit,
+    t
   }
 }

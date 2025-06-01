@@ -4,7 +4,6 @@ import type { NavigationMenuItem } from '@nuxt/ui';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { capitalCase } from 'change-case';
 
 const {
   collapsed = false,
@@ -17,9 +16,10 @@ const { t } = useI18n();
 const menuLabel = computed<{
   [key in RouteName]?: string
 }>(() => ({
-  Dashboard: 'Dashboard',
-  Categories: capitalCase(t('category')),
-  Items: capitalCase(t('item')),
+  Dashboard: t('Dashboard'),
+  Categories: t('Category'),
+  Items: t('Item'),
+  Equipment: t('Equipment')
 }))
 
 const route = useRoute();

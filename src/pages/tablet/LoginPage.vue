@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import LoginView from '../desktop/LoginPage.vue';
+import LoginPage from '../desktop/LoginPage.vue';
 
 </script>
 
 <template>
-  <LoginView />
+  <LoginPage />
 </template>

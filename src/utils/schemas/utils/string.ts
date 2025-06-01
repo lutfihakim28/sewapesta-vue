@@ -1,14 +1,18 @@
+import { i18n } from '@/i18n';
 import { validationMessages } from '@/utils/constants/validation-message';
+import type { Composer } from 'vue-i18n';
 import { z } from 'zod';
 
 export class StringSchema {
   #schema!: z.ZodString
   #field!: string;
+  #i18n: Composer;
 
   constructor(field: string) {
+    this.#i18n = i18n.global as Composer
     this.#schema = z.string({
-      invalid_type_error: validationMessages.string(field),
-      required_error: validationMessages.required(field)
+      invalid_type_error: this.#i18n.t('validation.string', { field }),
+      required_error: this.#i18n.t('validation.required', { field })
     })
     this.#field = field;
   }
@@ -19,7 +23,7 @@ export class StringSchema {
 
   neutralNumeric() {
     this.#schema = this.#schema.regex(/^[1-9]\d*$/, {
-      message: validationMessages.numeric(this.#field),
+      message: this.#i18n.t('validation.numeric', { field: this.#field }),
     });
     return this;
   }
@@ -27,59 +31,52 @@ export class StringSchema {
   phone() {
     this.#schema = this.#schema
       .regex(/^\d+(\.\d+)?$/, {
-        message: validationMessages.numeric('Phone number'),
+        message: this.#i18n.t('validation.numeric', { field: this.#field }),
       }).regex(/^628[1-9][0-9]{6,9}$/, {
-        message: 'Phone number should start with 628 with minimum 10 digits and maximum 13 digits.'
+        message: this.#i18n.t('validation.phone', { field: this.#field })
       })
     return this;
   }
 
   min(length: number) {
     this.#schema = this.#schema.min(length, {
-      message: validationMessages.minLength(this.#field, length)
+      message: this.#i18n.t('validation.min-length', { field: this.#field, length })
     })
     return this;
   }
 
   length(length: number) {
     this.#schema = this.#schema.length(length, {
-      message: validationMessages.length(this.#field, length)
+      message: this.#i18n.t('validation.length', { field: this.#field, length })
     })
     return this;
   }
 
   subdistrictCode() {
     this.#schema = this.#schema.regex(/^[1-9]{2}\.[0-9]{2}\.[0-9]{2}\.[1-9][0-9]{2}[1-9]$/, {
-      message: 'Should in format xx.xx.xx.xxxx'
+      message: this.#i18n.t('validation.location-code', { field: this.#field, format: 'xx.xx.xx.xxxx' })
     })
     return this;
   }
 
   districtCode() {
     this.#schema = this.#schema.regex(/^[1-9]{2}\.[0-9]{2}\.[0-9]{2}$/, {
-      message: 'Should in format xx.xx.xx'
+      message: this.#i18n.t('validation.location-code', { field: this.#field, format: 'xx.xx.xx' })
     })
     return this;
   }
 
   cityCode() {
     this.#schema = this.#schema.regex(/^[1-9]{2}\.[0-9]{2}$/, {
-      message: 'Should in format xx.xx'
+      message: this.#i18n.t('validation.location-code', { field: this.#field, format: 'xx.xx' })
     })
     return this;
   }
 
   provinceCode() {
     this.#schema = this.#schema.regex(/^[1-9]{2}$/, {
-      message: 'Should in format xx'
+      message: this.#i18n.t('validation.location-code', { field: this.#field, format: 'xx' })
     })
     return this;
   }
-}
-
-export function _StringSchema(field: string) {
-  return z.string({
-    invalid_type_error: validationMessages.string(field),
-    required_error: validationMessages.required(field)
-  })
 }

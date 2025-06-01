@@ -19,10 +19,6 @@ export const i18n = setupI18n({
   legacy: false,
   locale: locale,
   availableLocales: ['en', 'id'],
-  // messages: {
-  //   en,
-  //   id
-  // }
 })
 
 export const SUPPORT_LOCALES = ['en', 'id']
@@ -35,9 +31,7 @@ export function setLocale(_i18n: I18n, locale: Locale): void {
   if (typeof _i18n.global.locale === 'string') {
     _i18n.global.locale = locale
   } else {
-    console.log(_i18n.global.locale.value)
     _i18n.global.locale.value = locale
-    console.log(_i18n.global.locale.value)
   }
 }
 
@@ -48,7 +42,6 @@ export function setupI18n(options: I18nOptions = { locale: 'en' }): I18n {
 }
 
 export function setI18nLanguage(_i18n: I18n, locale: Locale): void {
-  console.log(locale)
   setLocale(_i18n, locale)
   /**
    * NOTE:

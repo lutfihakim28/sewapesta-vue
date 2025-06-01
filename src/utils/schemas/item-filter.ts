@@ -13,7 +13,7 @@ export const ItemFilterSchema = SearchSchema
   .merge(PaginationSchema)
   .extend({
     type: new EnumSchema('Type', ItemTypeEnum).getSchema().optional(),
-    categoryId: new NumberSchema('Product ID').positive().integer().getSchema().optional(),
+    categoryId: new NumberSchema('Category ID').positive().integer().getSchema().optional(),
   })
 
 export type ItemFilter = SchemaType<typeof ItemFilterSchema>
