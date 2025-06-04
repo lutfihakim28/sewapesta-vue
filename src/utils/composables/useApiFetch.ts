@@ -6,6 +6,8 @@ import { LoginResponse } from '../dtos/LoginResponse';
 import router from '@/router';
 import { ROUTE_NAMES } from '@/router/routes';
 import { STORAGE_LOCALE_KEY } from '../constants/locales';
+import { i18n } from '@/i18n';
+import type { Composer } from 'vue-i18n';
 
 const baseUrl = import.meta.env.VITE_API_URL
 let isRefreshing = false;
@@ -32,13 +34,14 @@ export const useApiFetch = createFetch({
       return { options, url: newUrl.toString() };
     },
     async afterFetch(ctx) {
+      const { t } = i18n.global as Composer
       if (ctx.response.status >= 200 && ctx.response.status < 400 && ctx.context.options.method !== 'GET' && !ctx.context.url.includes('auth/refresh')) {
         const response = new ApiResponse(JSON.parse(ctx.data));
         const toast = useToast()
 
         for (const message of response.messages) {
           toast.add({
-            title: `Success`,
+            title: t('Success'),
             description: message,
             color: 'success'
           })

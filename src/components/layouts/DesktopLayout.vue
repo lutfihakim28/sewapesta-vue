@@ -58,17 +58,13 @@ function arrangeBreadcrumbs(_routes: RouteRecordRaw,) {
 
   let routeGroup: RouteRecordRaw | undefined = undefined;
 
-  // find next route group in one level down of nested routes
   for (const _route of _routes.children) {
-    // If route has children and some of its nested children's name is match with current route's name
     if (_route.children && _route.children.flat().some((child) => child.name === route.name)) {
       routeGroup = _route;
 
-      // Get default route, mark with path value = ''
       const defaultRoute = _route.children
         .find((childRoute) => childRoute.path === DEFAULT_PATH)
 
-      // if default route exist and have name, push it into breadcrumbs
       if (defaultRoute && defaultRoute.name) {
         breadcrumbs.value = [...breadcrumbs.value, {
           icon: getMenuIcon(defaultRoute.name as RouteName),
@@ -80,7 +76,6 @@ function arrangeBreadcrumbs(_routes: RouteRecordRaw,) {
       break;
     }
 
-    // If last route (didn't have children) and the route's name match with current iteration route's name
     if (_route.name === route.name) {
       routeGroup = _route
       break;
@@ -109,10 +104,10 @@ watch(
 
 <template>
   <section :class="[
-    'w-screen p-4 h-dvh grid grid-rows-12 gap-4',
+    'w-screen max-w-[1366px] mx-auto p-4 h-dvh grid grid-rows-12 gap-4',
     {
       'grid-cols-[max-content_1fr]': isMenuCollapsed,
-      'grid-cols-[minmax(0,_min(25%,_240px))_1fr] xl:grid-cols-[minmax(0,_min(18%,_320px))_1fr]': !isMenuCollapsed,
+      'grid-cols-[minmax(0,_min(calc(25%*1366px),_240px))_1fr] xl:grid-cols-[minmax(0,_min(18%,_320px))_1fr]': !isMenuCollapsed,
     }
   ]">
     <!-- Side Menu -->

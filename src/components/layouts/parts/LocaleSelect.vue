@@ -48,6 +48,6 @@ watch(value, async () => {
 
 <template>
   <USelect v-model="value" :items="items" :avatar="FLAGS[value]" variant="soft" :ui="{
-    base: 'w-30'
+    base: 'w-34'
   }" />
 </template>

@@ -25,6 +25,8 @@
   "pagination-info": "Showing {lowerLimit} - {upperLimit} of {totalData} {dataLabel}",
   "Search": "@.capitalize:search",
   "search": "search",
+  "success": "success",
+  "Success": "@.capitalize:success",
   "Type": "@.capitalize:type",
   "type": "type | types",
   "Unit": "@.capitalize:unit",
