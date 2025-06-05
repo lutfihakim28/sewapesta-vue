@@ -21,6 +21,7 @@ const {
       <TableSelect :label="t('type', 2)" query-key="type" class="w-32" :options="filterTypeOptions" />
       <TableSelect :label="t('category', 2)" query-key="categoryId" class="w-48"
         :options="categoryOptionStore.options" :loading="categoryOptionStore.loading" :transform="Number" />
+        <LocationInput />
     </template>
   </DataTable>
 </template>

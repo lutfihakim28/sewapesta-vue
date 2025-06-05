@@ -18,7 +18,7 @@ const value = useRouteQuery<T>(queryKey, undefined, { transform })
 
 const items = computed<SelectItem[]>(() => [
   {
-    label: `All ${label}`,
+    label: `${t('All')} ${label}`,
     value: undefined
   },
   ...options
