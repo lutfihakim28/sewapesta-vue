@@ -2,7 +2,7 @@
 import type { Meta } from '@/utils/dtos/Meta';
 import type { SelectItem } from '@nuxt/ui'
 import { useRouteQuery } from '@vueuse/router'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeMount, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
@@ -35,7 +35,7 @@ const dataRange = computed<number[]>(() => {
   return [start, end]
 })
 
-onMounted(() => {
+onBeforeMount(() => {
   if (!page.value) {
     page.value = 1
   }
