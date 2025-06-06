@@ -20,7 +20,9 @@ const menuLabel = computed<{
   Categories: t('Category'),
   Item: t('Item'),
   Equipment: t('Equipment'),
-  Admin: 'Admin'
+  Admin: 'Admin',
+  Owner: t('Owner'),
+  Employee: t('Employee'),
 }))
 
 const route = useRoute();
@@ -96,12 +98,16 @@ const items = computed<NavigationMenuItem[][]>(() => ([
       to: route.name === ROUTE_NAMES.ADMIN ? undefined : { name: ROUTE_NAMES.ADMIN },
     },
     {
-      label: 'Owner',
-      icon: 'i-lucide-users-round'
+      label: menuLabel.value[ROUTE_NAMES.OWNER],
+      icon: 'i-lucide-users-round',
+      active: route.name === ROUTE_NAMES.OWNER,
+      to: route.name === ROUTE_NAMES.OWNER ? undefined : { name: ROUTE_NAMES.OWNER },
     },
     {
-      label: 'Employee',
-      icon: 'i-lucide-users-round'
+      label: menuLabel.value[ROUTE_NAMES.EMPLOYEE],
+      icon: 'i-lucide-users-round',
+      active: route.name === ROUTE_NAMES.EMPLOYEE,
+      to: route.name === ROUTE_NAMES.EMPLOYEE ? undefined : { name: ROUTE_NAMES.EMPLOYEE },
     }
   ],
   [

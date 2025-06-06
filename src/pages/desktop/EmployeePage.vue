@@ -4,5 +4,5 @@ import { RoleEnum } from '@/utils/enums/role';
 </script>
 
 <template>
-  <UserPage :role="RoleEnum.Admin" />
+  <UserPage :role="RoleEnum.Employee" />
 </template>

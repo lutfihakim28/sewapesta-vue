@@ -3,11 +3,11 @@ import { Category } from './Category';
 import { Unit } from './Unit';
 
 export class Item {
-  id!: number;
-  name!: string;
-  type!: ItemTypeEnum;
-  unit!: Unit
-  category!: Category
+  id: number;
+  name: string;
+  type: ItemTypeEnum;
+  unit: Unit
+  category: Category
 
   constructor(data: Item) {
     this.id = data.id;

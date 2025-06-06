@@ -11,7 +11,7 @@ import type { Unit } from '@/utils/dtos/Unit';
 import { ItemTypeEnum } from '@/utils/enums/item-type';
 import type { SelectItem, TableColumn } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
-import { computed, h } from 'vue';
+import { computed, h, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 export function useItemCore() {
@@ -88,11 +88,15 @@ export function useItemCore() {
     query: () => fetcher(path.value),
   })
 
-  const items = computed<Item[]>(() => {
-    if (!data.value) return [];
-    const response = new ApiResponseList(data.value, Item)
+  const items = computed<Item[]>((previous) => {
+    if (data.value) {
+      const response = new ApiResponseList(data.value, Item)
 
-    return response.data
+      return response.data
+    }
+
+    if (previous) return previous;
+    return []
   })
 
   const meta = computed<Meta | undefined>(() => {

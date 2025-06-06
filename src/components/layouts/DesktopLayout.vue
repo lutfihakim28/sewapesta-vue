@@ -17,7 +17,9 @@ const breadcrumbLabel = computed<{
   Categories: t('Category'),
   Item: t('Item'),
   ItemCreate: 'Create New Item',
-  Admin: 'Admin'
+  Admin: 'Admin',
+  Owner: t('Owner'),
+  Employee: t('Employee'),
 }))
 
 const sideMenu = templateRef('side-menu');

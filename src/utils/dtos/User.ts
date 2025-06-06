@@ -1,9 +1,9 @@
 import { RoleEnum } from '../enums/role';
 
 export class User {
-  public id!: number;
-  public username!: string;
-  public roles!: RoleEnum[]
+  public id: number;
+  public username: string;
+  public roles: RoleEnum[]
 
   constructor(data: User) {
     this.id = data.id;

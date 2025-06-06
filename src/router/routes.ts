@@ -76,7 +76,17 @@ export const routes: readonly RouteRecordRaw[] = [
         path: 'admins',
         name: ROUTE_NAMES.ADMIN,
         component: importPage(layoutType, 'AdminPage'),
-      }
+      },
+      {
+        path: 'owners',
+        name: ROUTE_NAMES.OWNER,
+        component: importPage(layoutType, 'OwnerPage'),
+      },
+      {
+        path: 'employees',
+        name: ROUTE_NAMES.EMPLOYEE,
+        component: importPage(layoutType, 'EmployeePage'),
+      },
     ],
     meta: {
       requiresAuth: true,
