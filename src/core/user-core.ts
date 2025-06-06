@@ -109,12 +109,21 @@ export function useUserCore(role: RoleEnum) {
   }
 
   async function refreshData() {
-    await refresh()
-    toast.add({
-      color: 'success',
-      title: t('refreshed'),
-      duration: 1500,
-    })
+    try {
+      await refresh()
+      toast.add({
+        color: 'success',
+        title: t('refreshed'),
+        duration: 1500,
+      })
+    } catch (error) {
+      toast.add({
+        color: 'error',
+        title: 'Error',
+        duration: 1500,
+      })
+      throw error;
+    }
   }
 
   return {

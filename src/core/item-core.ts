@@ -114,15 +114,24 @@ export function useItemCore() {
   }
 
   async function refreshData() {
-    await Promise.all([
-      refresh(),
-      categoryOptionStore.refresh()
-    ])
-    toast.add({
-      color: 'success',
-      title: t('refreshed'),
-      duration: 1500,
-    })
+    try {
+      await Promise.all([
+        refresh(),
+        categoryOptionStore.refresh()
+      ])
+      toast.add({
+        color: 'success',
+        title: t('refreshed'),
+        duration: 1500,
+      })
+    } catch (error) {
+      toast.add({
+        color: 'error',
+        title: 'Error',
+        duration: 1500,
+      })
+      throw error;
+    }
   }
 
   return {

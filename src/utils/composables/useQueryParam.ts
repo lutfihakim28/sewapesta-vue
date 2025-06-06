@@ -7,10 +7,14 @@ export function useQueryParam<T extends Record<string, string | string[] | undef
     const query = new URLSearchParams()
 
     const routeQuery = route.query as T
+
     Object.entries(routeQuery).forEach(([_key, value]) => {
       const key = (_key as keyof T).toString();
       if (Array.isArray(value)) {
-        value.forEach((v) => query.append(key, v))
+        value.forEach((v) => {
+          if (v) query.append(key, v)
+        })
+        return;
       }
       if (value) {
         query.append(key, value.toString())
