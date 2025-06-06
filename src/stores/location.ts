@@ -13,10 +13,10 @@ export const useLocationStore = defineStore('location', () => {
   const districts = shallowRef<District[]>([])
   const subdistricts = shallowRef<Subdistrict[]>([])
 
-  const { data: provincesData } = useApiFetch<ApiResponseList<Province>>('/public/locations/provinces')
-  const { data: cityData } = useApiFetch<ApiResponseList<City>>('/public/locations/cities')
-  const { data: districtData } = useApiFetch<ApiResponseList<District>>('/public/locations/districts')
-  const { data: subdistrictData } = useApiFetch<ApiResponseList<Subdistrict>>('/public/locations/subdistricts')
+  const { data: provincesData, isFetching: provinceFetch } = useApiFetch<ApiResponseList<Province>>('/public/locations/provinces')
+  const { data: cityData, isFetching: cityFetch } = useApiFetch<ApiResponseList<City>>('/public/locations/cities')
+  const { data: districtData, isFetching: districtFetch } = useApiFetch<ApiResponseList<District>>('/public/locations/districts')
+  const { data: subdistrictData, isFetching: subdistrictFetch } = useApiFetch<ApiResponseList<Subdistrict>>('/public/locations/subdistricts')
 
   watch(provincesData, (data) => {
     if (data) {
@@ -46,6 +46,10 @@ export const useLocationStore = defineStore('location', () => {
     provinces,
     cities,
     districts,
-    subdistricts
+    subdistricts,
+    provinceFetch,
+    cityFetch,
+    districtFetch,
+    subdistrictFetch
   }
 })

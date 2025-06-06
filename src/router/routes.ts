@@ -3,6 +3,7 @@ import MobileLayout from '@/components/layouts/MobileLayout.vue';
 import TabletLayout from '@/components/layouts/TabletLayout.vue';
 import type { Component } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
+import { DEFAULT_PATH, ROUTE_NAMES } from './constants';
 
 const pages = import.meta.glob('/src/pages/*/*.vue')
 
@@ -23,18 +24,6 @@ if (screenSize >= 1024) {
   layoutType = 'desktop'
   Layout = DesktopLayout;
 };
-
-export const DEFAULT_PATH = ''
-
-export const ROUTE_NAMES = {
-  LOGIN: 'Login',
-  DASHBOARD: 'Dashboard',
-  CATEGORIES: 'Categories',
-  ITEMS: 'Items',
-  ITEM_CREATE: 'ItemCreate',
-} as const
-
-export type RouteName = typeof ROUTE_NAMES[keyof typeof ROUTE_NAMES]
 
 export const routes: readonly RouteRecordRaw[] = [
   {
@@ -73,7 +62,7 @@ export const routes: readonly RouteRecordRaw[] = [
         children: [
           {
             path: DEFAULT_PATH,
-            name: ROUTE_NAMES.ITEMS,
+            name: ROUTE_NAMES.ITEM,
             component: importPage(layoutType, 'ItemPage'),
           },
           {
@@ -83,6 +72,11 @@ export const routes: readonly RouteRecordRaw[] = [
           },
         ],
       },
+      {
+        path: 'admins',
+        name: ROUTE_NAMES.ADMIN,
+        component: importPage(layoutType, 'AdminPage'),
+      }
     ],
     meta: {
       requiresAuth: true,

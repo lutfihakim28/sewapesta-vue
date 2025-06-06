@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { DEFAULT_PATH, ROUTE_NAMES, routes, type RouteName } from '@/router/routes';
+import { DEFAULT_PATH, ROUTE_NAMES, type RouteName } from '@/router/constants';
+import { routes } from '@/router/routes';
 import type { BreadcrumbItem } from '@nuxt/ui';
 import { templateRef } from '@vueuse/core';
 import { computed, ref, shallowRef, watch } from 'vue';
@@ -14,8 +15,9 @@ const breadcrumbLabel = computed<{
 }>(() => ({
   Dashboard: t('Dashboard'),
   Categories: t('Category'),
-  Items: t('Item'),
+  Item: t('Item'),
   ItemCreate: 'Create New Item',
+  Admin: 'Admin'
 }))
 
 const sideMenu = templateRef('side-menu');

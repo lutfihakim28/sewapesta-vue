@@ -1,3 +1,4 @@
+import TableSorter from '@/components/table-controlls/TableSorter.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useCategoryOptionStore } from '@/stores/category-option';
 import { useApiFetch } from '@/utils/composables/useApiFetch';
@@ -10,12 +11,10 @@ import type { Unit } from '@/utils/dtos/Unit';
 import { ItemTypeEnum } from '@/utils/enums/item-type';
 import type { SelectItem, TableColumn } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
-import { computed, h, resolveComponent } from 'vue';
+import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 export function useItemCore() {
-  const TableSorter = resolveComponent('TableSorter')
-
   const basePath = 'private/items'
   const categoryOptionStore = useCategoryOptionStore();
   const authStore = useAuthStore()

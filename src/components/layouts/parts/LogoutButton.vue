@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
-import { useRouter } from 'vue-router';
 import { useApiFetch } from '@/utils/composables/useApiFetch';
-import { ROUTE_NAMES } from '@/router/routes';
+import { ROUTE_NAMES } from '@/router/constants';
+import { useAppRouter } from '@/router/useAppRouter';
 
 const { isFetching, error, execute } = useApiFetch('auth/logout', { immediate: false }).delete();
 const authStore = useAuthStore();
-const router = useRouter();
+const appRouuter = useAppRouter();
 
 async function logout() {
   await execute()
   if (!error.value) {
-    router.push({ name: ROUTE_NAMES.LOGIN })
+    appRouuter.push({ name: ROUTE_NAMES.LOGIN })
     authStore.reset();
   }
 }

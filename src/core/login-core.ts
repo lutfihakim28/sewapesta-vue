@@ -5,16 +5,17 @@ import { LoginResponse } from '@/utils/dtos/LoginResponse';
 import { generateLoginRequestSchema } from '@/utils/schemas/login-request';
 import { onMounted, reactive, ref, useTemplateRef, watch } from 'vue';
 import type { ComponentExposed } from 'vue-component-type-helpers';
-import { useRouter } from 'vue-router';
 import UInput from '@nuxt/ui/runtime/components/Input.vue'
 import UForm from '@nuxt/ui/runtime/components/Form.vue'
 import { useApiFetch } from '@/utils/composables/useApiFetch';
 import { useI18n } from 'vue-i18n';
 import type { SchemaType } from '@/utils/types/schema';
+import { useAppRouter } from '@/router/useAppRouter';
+import { ROUTE_NAMES, type RouteName } from '@/router/constants';
 
 export function useLoginCore() {
   const authStore = useAuthStore();
-  const router = useRouter()
+  const appRouter = useAppRouter()
   const lastRouteStore = useLastRouteStore();
   const { t, locale } = useI18n();
 
@@ -43,8 +44,8 @@ export function useLoginCore() {
       const response = new ApiResponseData(data.value, LoginResponse)
 
       authStore.setToken(response.data.token)
-      router.push({
-        path: lastRouteStore.route?.path || '/',
+      appRouter.push({
+        name: lastRouteStore.route?.name as RouteName || ROUTE_NAMES.DASHBOARD,
         query: lastRouteStore.route?.query,
       })
     }

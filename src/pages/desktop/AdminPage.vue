@@ -1,8 +1,6 @@
 <script setup lang="ts">
-
 </script>
 
 <template>
-  <section>
-  </section>
+  <span>Admin Page</span>
 </template>

@@ -17,28 +17,38 @@ const icon = computed<string>(() => {
 })
 
 function toggleSorting() {
-  if (!asc.value || !asc.value.includes(columnKey) && (desc.value && !desc.value.includes(columnKey))) {
-    asc.value = asc.value ? [...asc.value, columnKey] : [columnKey]
-    return;
+  if (isNotSorted()) {
+    addToAscending();
+  } else if (isAscending()) {
+    moveToDescending();
+  } else {
+    removeFromDescending();
   }
+}
 
-  if (!desc.value || !desc.value.includes(columnKey)) {
-    desc.value = desc.value ? [...desc.value, columnKey] : [columnKey]
-    asc.value = asc.value.filter((key) => key !== columnKey)
-    return;
-  }
+function isNotSorted(): boolean {
+  return (!asc.value || !asc.value.includes(columnKey)) &&
+    (!desc.value || !desc.value.includes(columnKey));
+}
 
-  desc.value = desc.value.filter((key) => key !== columnKey)
+function addToAscending(): void {
+  asc.value = asc.value ? [...asc.value, columnKey] : [columnKey];
+}
+
+function isAscending(): boolean {
+  return asc.value?.includes(columnKey);
+}
+
+function moveToDescending(): void {
+  desc.value = desc.value ? [...desc.value, columnKey] : [columnKey];
+  asc.value = asc.value.filter((key) => key !== columnKey);
+}
+
+function removeFromDescending(): void {
+  desc.value = desc.value.filter((key) => key !== columnKey);
 }
 </script>
 
 <template>
-  <UButton
-    color="neutral"
-    variant="ghost"
-    class="-mx-2.5"
-    :label="label"
-    :icon="icon"
-    @click="toggleSorting"
-  />
+  <UButton color="neutral" variant="ghost" class="-mx-2.5" :label="label" :icon="icon" @click="toggleSorting" />
 </template>

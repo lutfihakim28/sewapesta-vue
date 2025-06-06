@@ -7,12 +7,20 @@
   "Equipment": "@.capitalize:equipment",
   "equipment": "equipment | equipments",
   "field": {
+    "City": "@.capitalize:field.city",
+    "city": "city",
     "Category-ID": "@:Category ID",
+    "District": "@.capitalize:field.district",
+    "district": "district",
     "Type": "@:Type",
-    "password": "password",
     "Password": "@.capitalize:field.password",
-    "username": "username",
-    "Username": "@.capitalize:field.username"
+    "password": "password",
+    "Province": "@.capitalize:field.province",
+    "province": "province",
+    "Subdistrict": "@.capitalize:field.subdistrict",
+    "subdistrict": "subdistrict",
+    "Username": "@.capitalize:field.username",
+    "username": "username"
   },
   "Inventory": "@.capitalize:inventory",
   "inventory": "inventory | inventories",

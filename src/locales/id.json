@@ -7,10 +7,18 @@
   "Equipment": "@.capitalize:equipment",
   "equipment": "peralatan",
   "field": {
+    "City": "@.capitalize:field.city",
+    "city": "kabupaten / kota",
     "Category-ID": "ID @:Category",
+    "District": "@.capitalize:field.district",
+    "district": "kecamatan",
     "Type": "@:Type",
     "password": "kata sandi",
     "Password": "@.capitalize:field.password",
+    "Province": "@.capitalize:field.province",
+    "province": "provinsi",
+    "Subdistrict": "@.capitalize:field.subdistrict",
+    "subdistrict": "kelurahan",
     "username": "nama pengguna",
     "Username": "@.capitalize:field.username"
   },

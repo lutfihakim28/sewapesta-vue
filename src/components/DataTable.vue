@@ -1,9 +1,9 @@
 <script setup lang="ts" generic="T">
-import type { RouteName } from '@/router/routes';
+import type { RouteName } from '@/router/constants';
+import { useAppRouter } from '@/router/useAppRouter';
 import type { Meta } from '@/utils/dtos/Meta';
 import type { TableColumn } from '@nuxt/ui';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
 
 const { columns, loading, items, postPageName, meta, recordName, postButtonLabel } = defineProps<{
   columns: TableColumn<T>[]
@@ -15,16 +15,17 @@ const { columns, loading, items, postPageName, meta, recordName, postButtonLabel
   postPageName?: RouteName,
 }>()
 
+const appRouter = useAppRouter();
+
 const emit = defineEmits<{
   refresh: []
 }>()
 
 const { t } = useI18n()
-const router = useRouter()
 
 function toCreatePage() {
   if (!postPageName) return;
-  router.push({ name: postPageName })
+  appRouter.push({ name: postPageName })
 }
 
 function refreshData() {

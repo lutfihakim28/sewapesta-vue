@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ROUTE_NAMES, type RouteName } from '@/router/routes';
+import { ROUTE_NAMES, type RouteName } from '@/router/constants'
 import type { NavigationMenuItem } from '@nuxt/ui';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -18,8 +18,9 @@ const menuLabel = computed<{
 }>(() => ({
   Dashboard: t('Dashboard'),
   Categories: t('Category'),
-  Items: t('Item'),
-  Equipment: t('Equipment')
+  Item: t('Item'),
+  Equipment: t('Equipment'),
+  Admin: 'Admin'
 }))
 
 const route = useRoute();
@@ -30,7 +31,7 @@ const items = computed<NavigationMenuItem[][]>(() => ([
       label: menuLabel.value[ROUTE_NAMES.DASHBOARD],
       icon: 'i-lucide-layout-dashboard',
       active: route.name === ROUTE_NAMES.DASHBOARD,
-      to: route.name === ROUTE_NAMES.DASHBOARD ? undefined : { name: ROUTE_NAMES.DASHBOARD }
+      to: route.name === ROUTE_NAMES.DASHBOARD ? undefined : { name: ROUTE_NAMES.DASHBOARD },
     },
   ],
   [
@@ -45,10 +46,10 @@ const items = computed<NavigationMenuItem[][]>(() => ([
       type: 'label'
     },
     {
-      label: menuLabel.value[ROUTE_NAMES.ITEMS],
+      label: menuLabel.value[ROUTE_NAMES.ITEM],
       icon: 'i-lucide-box',
-      active: route.name === ROUTE_NAMES.ITEMS,
-      to: route.name === ROUTE_NAMES.ITEMS ? undefined : { name: ROUTE_NAMES.ITEMS }
+      active: route.name === ROUTE_NAMES.ITEM,
+      to: route.name === ROUTE_NAMES.ITEM ? undefined : { name: ROUTE_NAMES.ITEM },
     },
     {
       label: 'Package',
@@ -72,7 +73,7 @@ const items = computed<NavigationMenuItem[][]>(() => ([
       label: menuLabel.value[ROUTE_NAMES.CATEGORIES],
       icon: 'i-lucide-shapes',
       active: route.name === ROUTE_NAMES.CATEGORIES,
-      to: route.name === ROUTE_NAMES.CATEGORIES ? undefined : { name: ROUTE_NAMES.CATEGORIES }
+      to: route.name === ROUTE_NAMES.CATEGORIES ? undefined : { name: ROUTE_NAMES.CATEGORIES },
     },
     {
       label: 'Unit',
@@ -89,8 +90,10 @@ const items = computed<NavigationMenuItem[][]>(() => ([
       type: 'label'
     },
     {
-      label: 'Admin',
-      icon: 'i-lucide-users-round'
+      label: menuLabel.value[ROUTE_NAMES.ADMIN],
+      icon: 'i-lucide-users-round',
+      active: route.name === ROUTE_NAMES.ADMIN,
+      to: route.name === ROUTE_NAMES.ADMIN ? undefined : { name: ROUTE_NAMES.ADMIN },
     },
     {
       label: 'Owner',
