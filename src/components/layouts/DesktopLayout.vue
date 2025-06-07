@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { generatePageLabel, type PageLabel } from '@/helpers/generate-page-label';
 import { DEFAULT_PATH, ROUTE_NAMES, type RouteName } from '@/router/constants';
 import { routes } from '@/router/routes';
 import type { BreadcrumbItem } from '@nuxt/ui';
@@ -10,19 +11,11 @@ import { RouterView, useRoute, type RouteRecordRaw } from 'vue-router';
 const route = useRoute();
 const { t } = useI18n();
 
-const breadcrumbLabel = computed<{
-  [key in RouteName]?: string
-}>(() => ({
-  Dashboard: t('Dashboard'),
-  Categories: t('Category'),
-  Item: t('Item'),
-  ItemCreate: 'Create New Item',
-  Admin: 'Admin',
-  Owner: t('Owner'),
-  Employee: t('Employee'),
-  Unit: t('Unit'),
-  Product: t('Product'),
-}))
+const breadcrumbLabel = computed<PageLabel>(() => {
+  return {
+    ...generatePageLabel(t),
+  }
+})
 
 const sideMenu = templateRef('side-menu');
 const isMenuCollapsed = ref(false);

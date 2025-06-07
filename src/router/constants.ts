@@ -5,7 +5,7 @@ export const DEFAULT_PATH = ''
 export const ROUTE_NAMES = {
   LOGIN: 'Login',
   DASHBOARD: 'Dashboard',
-  CATEGORIES: 'Categories',
+  CATEGROY: 'Category',
   ITEM: 'Item',
   ITEM_CREATE: 'ItemCreate',
   ADMIN: 'Admin',
@@ -20,7 +20,7 @@ export type RouteName = typeof ROUTE_NAMES[keyof typeof ROUTE_NAMES]
 export type RouteNameParam = {
   Login: never;
   Dashboard: never;
-  Categories: never;
+  Category: never;
   Item: never;
   ItemCreate: never;
   Admin: never;

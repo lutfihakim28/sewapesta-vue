@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ROUTE_NAMES, type RouteName } from '@/router/constants'
+import { generatePageLabel, type PageLabel } from '@/helpers/generate-page-label';
+import { ROUTE_NAMES } from '@/router/constants'
 import type { NavigationMenuItem } from '@nuxt/ui';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -13,19 +14,9 @@ const {
 
 const { t } = useI18n();
 
-const menuLabel = computed<{
-  [key in RouteName]?: string
-}>(() => ({
-  Dashboard: t('Dashboard'),
-  Categories: t('Category'),
-  Item: t('Item'),
-  Equipment: t('Equipment'),
-  Admin: 'Admin',
-  Owner: t('Owner'),
-  Employee: t('Employee'),
-  Unit: t('Unit'),
-  Product: t('Product'),
-}))
+const menuLabel = computed<PageLabel>(() => {
+  return generatePageLabel(t);
+})
 
 const route = useRoute();
 
@@ -74,10 +65,10 @@ const items = computed<NavigationMenuItem[][]>(() => ([
       type: 'label'
     },
     {
-      label: menuLabel.value[ROUTE_NAMES.CATEGORIES],
+      label: menuLabel.value[ROUTE_NAMES.CATEGROY],
       icon: 'i-lucide-shapes',
-      active: route.name === ROUTE_NAMES.CATEGORIES,
-      to: route.name === ROUTE_NAMES.CATEGORIES ? undefined : { name: ROUTE_NAMES.CATEGORIES },
+      active: route.name === ROUTE_NAMES.CATEGROY,
+      to: route.name === ROUTE_NAMES.CATEGROY ? undefined : { name: ROUTE_NAMES.CATEGROY },
     },
     {
       label: menuLabel.value[ROUTE_NAMES.UNIT],

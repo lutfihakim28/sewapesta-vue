@@ -51,7 +51,7 @@ export const routes: readonly RouteRecordRaw[] = [
         children: [
           {
             path: DEFAULT_PATH,
-            name: ROUTE_NAMES.CATEGORIES,
+            name: ROUTE_NAMES.CATEGROY,
             component: importPage(layoutType, 'CategoryPage'),
           }
         ],
