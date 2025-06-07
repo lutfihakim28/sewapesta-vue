@@ -55,7 +55,6 @@ export const routes: readonly RouteRecordRaw[] = [
             component: importPage(layoutType, 'CategoryPage'),
           }
         ],
-
       },
       {
         path: 'units',
@@ -66,7 +65,16 @@ export const routes: readonly RouteRecordRaw[] = [
             component: importPage(layoutType, 'UnitPage'),
           }
         ],
-
+      },
+      {
+        path: 'products',
+        children: [
+          {
+            path: DEFAULT_PATH,
+            name: ROUTE_NAMES.PRODUCT,
+            component: importPage(layoutType, 'ProductPage'),
+          }
+        ],
       },
       {
         path: 'items',

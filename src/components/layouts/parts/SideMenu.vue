@@ -23,7 +23,8 @@ const menuLabel = computed<{
   Admin: 'Admin',
   Owner: t('Owner'),
   Employee: t('Employee'),
-  Unit: t('Unit')
+  Unit: t('Unit'),
+  Product: t('Product'),
 }))
 
 const route = useRoute();
@@ -85,9 +86,11 @@ const items = computed<NavigationMenuItem[][]>(() => ([
       to: route.name === ROUTE_NAMES.UNIT ? undefined : { name: ROUTE_NAMES.UNIT },
     },
     {
-      label: 'Product',
-      icon: 'i-lucide-boxes'
-    }
+      label: menuLabel.value[ROUTE_NAMES.PRODUCT],
+      icon: 'i-lucide-box',
+      active: route.name === ROUTE_NAMES.PRODUCT,
+      to: route.name === ROUTE_NAMES.PRODUCT ? undefined : { name: ROUTE_NAMES.PRODUCT },
+    },
   ],
   [
     {

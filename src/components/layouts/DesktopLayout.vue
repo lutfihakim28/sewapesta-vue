@@ -21,6 +21,7 @@ const breadcrumbLabel = computed<{
   Owner: t('Owner'),
   Employee: t('Employee'),
   Unit: t('Unit'),
+  Product: t('Product'),
 }))
 
 const sideMenu = templateRef('side-menu');
