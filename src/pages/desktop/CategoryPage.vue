@@ -1,38 +1,35 @@
 <script setup lang="ts">
-  import { useApiFetch } from '@/utils/composables/useApiFetch';
-  import { ApiResponseList } from '@/utils/dtos/ApiResponse';
-  import { Category } from '@/utils/dtos/Category';
-  import { useQuery } from '@pinia/colada';
-  import { computed } from 'vue';
+import DataGrid from '@/components/desktop/DataGrid.vue';
+import { useCategoryCore } from '@/core/category';
+import { ROUTE_NAMES } from '@/router/constants';
 
-  const path = computed(() => {
-    return `private/categories`
-  });
-
-  const { data: fetchData, get } = useApiFetch<ApiResponseList<Category>>(path.value);
-
-  const { data } = useQuery({
-    key: () => [path.value],
-    query: () => fetcher(),
-  })
-
-  const categories = computed<Category[]>(() => {
-    if (!data.value) return [];
-    const response = new ApiResponseList(data.value, Category)
-
-    return response.data
-  })
-
-  async function fetcher() {
-    await get();
-    return fetchData.value;
-  }
+const {
+  categories,
+  meta,
+  isPending,
+  refreshData,
+  t
+} = useCategoryCore();
 </script>
 
 <template>
-  <section>
-    <ul>
-      <li v-for="(category, index) in categories" :key="`${category}_${index}`">{{ category.name }}</li>
-    </ul>
-  </section>
+  <DataGrid record-name="category" :post-button-label="t('New-category')" :items="categories" :loading="isPending"
+    :meta="meta" :post-page-name="ROUTE_NAMES.ITEM_CREATE" @refresh="refreshData">
+    <template #filter>
+      <TableSearch />
+    </template>
+
+    <template #item="{ item: category }">
+      <section class="h-full flex flex-col gap-y-1.5">
+        <section class="flex gap-x-2 items-start flex-1">
+          <span class="font-semibold flex-1 text-wrap">{{ category.name }}</span>
+          <span class="text-sm opacity-50">#{{ category.id }}</span>
+        </section>
+        <p>
+          <span class="font-medium">{{ category.itemCount }}</span>
+          <span class="opacity-70"> total {{ t('item', category.itemCount) }}</span>
+        </p>
+      </section>
+    </template>
+  </DataGrid>
 </template>

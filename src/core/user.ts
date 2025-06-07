@@ -50,7 +50,7 @@ export function useUserCore(role: RoleEnum) {
     },
     {
       accessorKey: 'roles',
-      header: () => h('span', `${t('field.Role')}(s)`),
+      header: () => h('span', `${t('field.Role(s)')}`),
       cell: ({ row }) => {
         const roles = row.getValue('roles') as RoleEnum[];
         return roles.join(', ')
@@ -83,7 +83,7 @@ export function useUserCore(role: RoleEnum) {
     query: () => fetcher(path.value),
   })
 
-  const items = computed<UserProfile[]>((previous) => {
+  const users = computed<UserProfile[]>((previous) => {
     if (data.value) {
       const response = new ApiResponseList(data.value, UserProfile)
 
@@ -128,7 +128,7 @@ export function useUserCore(role: RoleEnum) {
 
   return {
     columns,
-    items,
+    users,
     meta,
     refreshData,
     isPending,

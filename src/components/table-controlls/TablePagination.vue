@@ -30,7 +30,7 @@ const totalData = ref<number>()
 
 const dataRange = computed<number[]>(() => {
   if (!meta) return [0, 0]
-  const start = ((meta.page - 1) * meta.pageSize) + 1;
+  const start = meta.totalData ? ((meta.page - 1) * meta.pageSize) + 1 : 0;
   const end = meta.page * meta.pageSize > meta.totalData ? meta.totalData : meta.page * meta.pageSize;
   return [start, end]
 })
@@ -97,14 +97,8 @@ watch(() => meta, () => {
       <span v-if="dataRange.length" class="text-muted">
         {{ t('pagination-info', {
           lowerLimit: dataRange[0], upperLimit: dataRange[1], totalData: meta?.totalData,
-          dataLabel: t(recordName, 2) }) }}
-        <!-- Showing
-        <span class="text-highlighted">{{ dataRange[0] }}</span>
-          -
-        <span class="text-highlighted">{{ dataRange[1] }}</span>
-          of
-        <span class="text-highlighted">{{ meta?.totalData }}</span>
-          {{ recordName }} -->
+          dataLabel: t(recordName, 2)
+        }) }}
       </span>
     </p>
     <section class="flex items-center gap-x-4">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useItemCore } from '@/core/item-core';
+import { useItemCore } from '@/core/item';
 import { ROUTE_NAMES } from '@/router/constants';
 
 const {

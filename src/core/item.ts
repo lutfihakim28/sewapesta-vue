@@ -11,7 +11,7 @@ import type { Unit } from '@/utils/dtos/Unit';
 import { ItemTypeEnum } from '@/utils/enums/item-type';
 import type { SelectItem, TableColumn } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
-import { computed, h, watch } from 'vue';
+import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 export function useItemCore() {

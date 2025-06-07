@@ -21,8 +21,8 @@ export class ApiResponseData<T> extends ApiResponse {
 }
 
 export class ApiResponseList<T> extends ApiResponse {
-  public data!: T[]
-  public meta!: Meta
+  public data: T[]
+  public meta: Meta
 
   constructor(response: unknown, DataClass: new (prop: T) => T) {
     super(response)
