@@ -4,7 +4,7 @@ import type { SelectItem } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
 import { defineStore } from 'pinia';
 import { computed, shallowRef, watch } from 'vue';
-import { useAuthStore } from './auth';
+import { useAuthStore } from './useAuthStore';
 
 const path = ['private/categories', 'options']
 

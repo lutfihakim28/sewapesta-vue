@@ -1,5 +1,5 @@
 
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { createFetch, useStorage } from '@vueuse/core';
 import { ApiResponse, ApiResponseData } from '../dtos/ApiResponse';
 import { LoginResponse } from '../dtos/LoginResponse';

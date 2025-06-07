@@ -1,23 +1,18 @@
 import TableSorter from '@/components/table-controlls/TableSorter.vue';
-import { useAuthStore } from '@/stores/auth';
-import { useApiFetch } from '@/utils/composables/useApiFetch';
-import { useQueryParam } from '@/utils/composables/useQueryParam';
-import { ApiResponseList } from '@/utils/dtos/ApiResponse';
 import { UserProfile } from '@/utils/dtos/UserProfile';
-import type { Meta } from '@/utils/dtos/Meta';
 import type { RoleEnum } from '@/utils/enums/role';
 import type { TableColumn } from '@nuxt/ui';
-import { useQuery } from '@pinia/colada';
 import { computed, h } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { useListCore } from './parts/useListCore';
 
 export function useUserCore(role: RoleEnum) {
   const basePath = 'private/users'
-  const authStore = useAuthStore()
-  const toast = useToast()
-  const { t } = useI18n()
 
-  const { path } = useQueryParam(basePath)
+  const { isPending, list, meta, refreshData, t } = useListCore<UserProfile>({
+    basePath,
+    dto: UserProfile,
+    additionalQueryParam: `role=${role}`,
+  })
 
   const columns = computed<TableColumn<UserProfile>[]>(() => [
     {
@@ -78,57 +73,9 @@ export function useUserCore(role: RoleEnum) {
     }
   ]);
 
-  const { data, isPending, refresh } = useQuery({
-    key: () => [basePath, path.value, authStore.token],
-    query: () => fetcher(path.value),
-  })
-
-  const users = computed<UserProfile[]>((previous) => {
-    if (data.value) {
-      const response = new ApiResponseList(data.value, UserProfile)
-
-      return response.data
-    }
-
-    if (previous) return previous;
-    return []
-  })
-
-  const meta = computed<Meta | undefined>(() => {
-    if (!data.value) return;
-    const response = new ApiResponseList(data.value, UserProfile)
-
-    return response.meta
-  })
-
-  async function fetcher(path: string) {
-    if (!path.includes('page=')) return
-    const { data, get } = useApiFetch<ApiResponseList<UserProfile>>(path + `&role=${role}`);
-    await get();
-    return data.value;
-  }
-
-  async function refreshData() {
-    try {
-      await refresh()
-      toast.add({
-        color: 'success',
-        title: t('refreshed'),
-        duration: 1500,
-      })
-    } catch (error) {
-      toast.add({
-        color: 'error',
-        title: 'Error',
-        duration: 1500,
-      })
-      throw error;
-    }
-  }
-
   return {
     columns,
-    users,
+    users: list,
     meta,
     refreshData,
     isPending,

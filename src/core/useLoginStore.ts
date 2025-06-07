@@ -1,5 +1,5 @@
-import { useAuthStore } from '@/stores/auth';
-import { useLastRouteStore } from '@/stores/last-route';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { useLastRouteStore } from '@/stores/useLastRouteStore';
 import { ApiResponseData } from '@/utils/dtos/ApiResponse';
 import { LoginResponse } from '@/utils/dtos/LoginResponse';
 import { generateLoginRequestSchema } from '@/utils/schemas/login-request';

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import DataGrid from '@/components/desktop/DataGrid.vue';
-import { useCategoryCore } from '@/core/category';
+import { useCategoryCore } from '@/core/useCategoryCore';
 import { ROUTE_NAMES } from '@/router/constants';
 
 const {

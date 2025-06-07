@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLoginCore } from '@/core/login';
+import { useLoginCore } from '@/core/useLoginStore';
 
 const { loginRequest, onSubmit, t, isFetching, LoginRequestSchema } = useLoginCore()
 </script>
