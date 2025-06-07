@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { LOCALES } from './utils/constants/locales';
+import { LOCALES } from './constants/locales';
 
 const { locale } = useI18n()
 
