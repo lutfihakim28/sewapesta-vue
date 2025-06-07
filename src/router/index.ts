@@ -3,7 +3,7 @@ import { useLastRouteStore } from '@/stores/useLastRouteStore';
 import { createRouter, createWebHistory } from 'vue-router';
 import { routes } from './routes';
 import { useStorage } from '@vueuse/core';
-import { STORAGE_LOCALE_KEY } from '@/utils/constants/locales';
+import { STORAGE_LOCALE_KEY } from '@/constants/locales';
 import { i18n, loadLocaleMessages } from '@/i18n';
 
 const router = createRouter({

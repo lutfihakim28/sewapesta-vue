@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useUserCore } from '@/core/useUserStore';
 import { ROUTE_NAMES } from '@/router/constants';
-import type { RoleEnum } from '@/utils/enums/role';
+import type { RoleEnum } from '@/enums/role';
 
 const { role } = defineProps<{
   role: RoleEnum

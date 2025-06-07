@@ -1,9 +1,9 @@
 import TableSorter from '@/components/table-controlls/TableSorter.vue';
 import { useCategoryOptionStore } from '@/stores/useCategoryOptionStore';
-import type { Category } from '@/utils/dtos/Category';
-import { Item } from '@/utils/dtos/Item';
-import type { Unit } from '@/utils/dtos/Unit';
-import { ItemTypeEnum } from '@/utils/enums/item-type';
+import type { Category } from '@/dtos/Category';
+import { Item } from '@/dtos/Item';
+import type { Unit } from '@/dtos/Unit';
+import { ItemTypeEnum } from '@/enums/item-type';
 import type { SelectItem, TableColumn } from '@nuxt/ui';
 import { computed, h } from 'vue';
 import { useListCore } from './parts/useListCore';

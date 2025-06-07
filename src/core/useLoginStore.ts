@@ -1,15 +1,15 @@
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useLastRouteStore } from '@/stores/useLastRouteStore';
-import { ApiResponseData } from '@/utils/dtos/ApiResponse';
-import { LoginResponse } from '@/utils/dtos/LoginResponse';
-import { generateLoginRequestSchema } from '@/utils/schemas/login-request';
+import { ApiResponseData } from '@/dtos/ApiResponse';
+import { LoginResponse } from '@/dtos/LoginResponse';
+import { generateLoginRequestSchema } from '@/schemas/login-request';
 import { onMounted, reactive, ref, useTemplateRef, watch } from 'vue';
 import type { ComponentExposed } from 'vue-component-type-helpers';
 import UInput from '@nuxt/ui/runtime/components/Input.vue'
 import UForm from '@nuxt/ui/runtime/components/Form.vue'
-import { useApiFetch } from '@/utils/composables/useApiFetch';
+import { useApiFetch } from '@/composables/useApiFetch';
 import { useI18n } from 'vue-i18n';
-import type { SchemaType } from '@/utils/types/schema';
+import type { SchemaType } from '@/types/schema';
 import { useAppRouter } from '@/router/useAppRouter';
 import { ROUTE_NAMES, type RouteName } from '@/router/constants';
 

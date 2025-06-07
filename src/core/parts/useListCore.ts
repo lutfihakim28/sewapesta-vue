@@ -1,8 +1,8 @@
 import { useAuthStore } from '@/stores/useAuthStore';
-import { useApiFetch } from '@/utils/composables/useApiFetch';
-import { useQueryParam } from '@/utils/composables/useQueryParam';
-import { ApiResponseList } from '@/utils/dtos/ApiResponse';
-import type { Meta } from '@/utils/dtos/Meta';
+import { useApiFetch } from '@/composables/useApiFetch';
+import { useQueryParam } from '@/composables/useQueryParam';
+import { ApiResponseList } from '@/dtos/ApiResponse';
+import type { Meta } from '@/dtos/Meta';
 import { useQuery } from '@pinia/colada';
 import { computed, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';

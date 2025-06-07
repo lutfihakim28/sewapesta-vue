@@ -1,9 +1,9 @@
-import { useApiFetch } from '@/utils/composables/useApiFetch';
-import type { ApiResponseList } from '@/utils/dtos/ApiResponse';
-import type { City } from '@/utils/dtos/City';
-import type { District } from '@/utils/dtos/District';
-import type { Province } from '@/utils/dtos/Province';
-import type { Subdistrict } from '@/utils/dtos/Subdistrict';
+import { useApiFetch } from '@/composables/useApiFetch';
+import type { ApiResponseList } from '@/dtos/ApiResponse';
+import type { City } from '@/dtos/City';
+import type { District } from '@/dtos/District';
+import type { Province } from '@/dtos/Province';
+import type { Subdistrict } from '@/dtos/Subdistrict';
 import { defineStore } from 'pinia';
 import { shallowRef, watch } from 'vue';
 

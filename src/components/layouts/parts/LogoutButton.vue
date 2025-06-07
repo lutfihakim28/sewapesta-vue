@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/useAuthStore';
-import { useApiFetch } from '@/utils/composables/useApiFetch';
+import { useApiFetch } from '@/composables/useApiFetch';
 import { ROUTE_NAMES } from '@/router/constants';
 import { useAppRouter } from '@/router/useAppRouter';
 

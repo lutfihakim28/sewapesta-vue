@@ -1,4 +1,4 @@
-import { Category } from '@/utils/dtos/Category';
+import { Category } from '@/dtos/Category';
 import { useListCore } from './parts/useListCore';
 
 export function useCategoryCore() {

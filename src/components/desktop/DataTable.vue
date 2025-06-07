@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T">
 import type { RouteName } from '@/router/constants';
 import { useAppRouter } from '@/router/useAppRouter';
-import type { Meta } from '@/utils/dtos/Meta';
+import type { Meta } from '@/dtos/Meta';
 import type { TableColumn } from '@nuxt/ui';
 import { useI18n } from 'vue-i18n';
 

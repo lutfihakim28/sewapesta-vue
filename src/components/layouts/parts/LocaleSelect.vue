@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { i18n, loadLocaleMessages, setI18nLanguage } from '@/i18n';
-import { STORAGE_LOCALE_KEY, type LOCALES } from '@/utils/constants/locales';
+import { STORAGE_LOCALE_KEY, type LOCALES } from '@/constants/locales';
 import type { AvatarProps, SelectItem } from '@nuxt/ui';
 import { useStorage } from '@vueuse/core';
 import { ref, watch } from 'vue';

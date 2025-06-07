@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RoleEnum } from '@/utils/enums/role';
+import { RoleEnum } from '@/enums/role';
 
 </script>
 

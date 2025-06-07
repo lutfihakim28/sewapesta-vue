@@ -1,5 +1,5 @@
-import { useApiFetch } from '@/utils/composables/useApiFetch';
-import type { ApiResponseData } from '@/utils/dtos/ApiResponse';
+import { useApiFetch } from '@/composables/useApiFetch';
+import type { ApiResponseData } from '@/dtos/ApiResponse';
 import type { SelectItem } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
 import { defineStore } from 'pinia';

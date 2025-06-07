@@ -1,5 +1,5 @@
 import { i18n } from '@/i18n';
-import { validationMessages } from '@/utils/constants/validation-message';
+import { validationMessages } from '@/constants/validation-message';
 import type { Composer } from 'vue-i18n';
 import { z } from 'zod';
 
