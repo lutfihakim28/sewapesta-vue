@@ -10,7 +10,8 @@ export const ROUTE_NAMES = {
   ITEM_CREATE: 'ItemCreate',
   ADMIN: 'Admin',
   OWNER: 'Owner',
-  EMPLOYEE: 'Employee'
+  EMPLOYEE: 'Employee',
+  UNIT: 'Unit'
 } as const
 
 export type RouteName = typeof ROUTE_NAMES[keyof typeof ROUTE_NAMES]
@@ -24,6 +25,7 @@ export type RouteNameParam = {
   Admin: never;
   Owner: never;
   Employee: never;
+  Unit: never
 }
 
 export type RouteParams<T extends keyof RouteNameParam | RouteName> = RouteNameParam[T] extends never ? undefined : RouteNameParam[T]

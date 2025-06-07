@@ -58,6 +58,17 @@ export const routes: readonly RouteRecordRaw[] = [
 
       },
       {
+        path: 'units',
+        children: [
+          {
+            path: DEFAULT_PATH,
+            name: ROUTE_NAMES.UNIT,
+            component: importPage(layoutType, 'UnitPage'),
+          }
+        ],
+
+      },
+      {
         path: 'items',
         children: [
           {

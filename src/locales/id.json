@@ -41,6 +41,8 @@
   "name": "nama",
   "New-category": "@:Category baru",
   "new-category": "@:category baru",
+  "New-unit": "@:Unit baru",
+  "new-unit": "@:unit baru",
   "New-Item": "@.capitalize:new-item",
   "New-item": "@:Item baru",
   "new-item": "@:item baru",

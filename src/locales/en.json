@@ -41,6 +41,8 @@
   "name": "name",
   "New-category": "New @:category",
   "new-category": "new @:category",
+  "New-unit": "New @:unit",
+  "new-unit": "new @:unit",
   "New-item": "New @:item",
   "new-item": "new @:item",
   "New-user": "New @:user",
