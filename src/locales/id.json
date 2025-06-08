@@ -1,4 +1,6 @@
 {
+  "Action": "@.capitalize:action",
+  "action": "aksi",
   "Admin": "@.capitalize:admin",
   "admin": "admin",
   "All": "@.capitalize:all",

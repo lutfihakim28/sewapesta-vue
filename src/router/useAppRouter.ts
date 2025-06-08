@@ -12,13 +12,18 @@ export function useAppRouter() {
     return router.back();
   }
 
+  function go(delta: number) {
+    return router.go(delta);
+  }
+
   function replace<T extends keyof RouteNameParam | RouteName>(route: Route<T>) {
     return router.replace(route);
   }
 
   return {
-    push,
     back,
+    go,
+    push,
     replace,
   }
 }

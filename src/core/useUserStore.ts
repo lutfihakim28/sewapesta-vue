@@ -4,6 +4,7 @@ import type { RoleEnum } from '@/enums/role';
 import type { TableColumn } from '@nuxt/ui';
 import { computed, h } from 'vue';
 import { useListCore } from './parts/useListCore';
+import UButton from '@nuxt/ui/runtime/components/Button.vue'
 
 export function useUserCore(role: RoleEnum) {
   const basePath = 'private/users'
@@ -70,6 +71,31 @@ export function useUserCore(role: RoleEnum) {
     {
       accessorKey: 'location.province',
       header: () => h('span', t('field.Province')),
+    },
+    {
+      accessorKey: 'action',
+      header: () => h('div', { class: 'text-center' }, t('Action')),
+      cell: ({ row }) => {
+        const id = row.getValue('id') as number;
+        return h('section', { class: 'flex gap-x-1 justify-center' }, [
+          h(UButton, {
+            icon: 'i-lucide-pencil',
+            variant: 'ghost',
+            color: 'info',
+            onClick() {
+              console.log('edit', id);
+            }
+          }),
+          h(UButton, {
+            icon: 'i-lucide-trash',
+            variant: 'ghost',
+            color: 'error',
+            onClick() {
+              console.log('delete', id);
+            }
+          })
+        ])
+      }
     }
   ]);
 

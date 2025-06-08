@@ -57,7 +57,7 @@ function refreshData() {
             </section>
             <section class="border-t border-default pt-2 flex justify-end gap-x-1">
               <UButton icon="i-lucide-pencil" variant="ghost" color="info" />
-              <UButton icon="i-lucide-trash" size="sm" variant="ghost" color="error" />
+              <UButton icon="i-lucide-trash" variant="ghost" color="error" />
             </section>
           </section>
         </section>

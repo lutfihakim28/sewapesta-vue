@@ -1,4 +1,6 @@
 {
+  "Action": "@.capitalize:action",
+  "action": "action | actions",
   "Admin": "@.capitalize:admin",
   "admin": "admin | admins",
   "All": "@.capitalize:all",
@@ -45,7 +47,7 @@
   "new-product": "new @:product",
   "New-unit": "@.capitalize:new-unit",
   "new-unit": "new @:unit",
-  "New-item": "@capitalize.new-item",
+  "New-item": "@.capitalize:new-item",
   "new-item": "new @:item",
   "New-package": "@.capitalize:new-package",
   "new-package": "new @:package",
