@@ -48,39 +48,62 @@
         animation-timing-function: ease-in-out;
       }
 
-      .dark .app-loading-indicator {
-        border: 5px solid #FFF;
-        border-bottom-color: transparent;
+      .dark .indicator {
+        background-color: #fff;
       }
 
-      .light .app-loading-indicator {
-        border: 5px solid oklch(43.9% 0 0);
-        border-bottom-color: transparent;
+      .light .indicator {
+        background-color: oklch(28% 0 0);
       }
 
-      .app-loading-indicator {
-        width: 48px;
-        height: 48px;
+      .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .indicator {
+        width: 16px;
+        height: 16px;
         border-radius: 50%;
-        display: inline-block;
-        box-sizing: border-box;
-        animation: app-loading-indicator-rotation 1s linear infinite;
       }
 
-      @keyframes app-loading-indicator-rotation {
-        0% {
-          transform: rotate(0deg);
-        }
+      .indicator:nth-child(1) {
+        animation: loading-indicator-pulse 1s ease-in-out infinite;
+      }
 
+      .indicator:nth-child(2) {
+        animation: loading-indicator-pulse 1s ease-in-out 0.2s infinite;
+      }
+
+      .indicator:nth-child(3) {
+        animation: loading-indicator-pulse 1s ease-in-out 0.3s infinite;
+      }
+
+      @keyframes loading-indicator-pulse {
+        0% {
+          transform: scale(0.5);
+          opacity: 0.5;
+        }
+        50% {
+          transform: scale(1);
+          opacity: 1;
+        }
         100% {
-          transform: rotate(360deg);
+          transform: scale(0.5);
+          opacity: 0.5;
         }
       }
     </style>
   </head>
   <body>
     <div id="app-splash-screen">
-      <div class="app-loading-indicator" aria-label="Loading..." aria-busy="true"></div>
+      <div class="loading" aria-label="Loading...">
+        <div class="indicator"></div>
+        <div class="indicator"></div>
+        <div class="indicator"></div>
+      </div>
     </div>
     <script>
       let colorMode = localStorage.getItem('sewapesta-color-scheme');
