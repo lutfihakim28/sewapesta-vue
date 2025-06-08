@@ -1,11 +1,11 @@
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useApiFetch } from '@/composables/useApiFetch';
 import { useQueryParam } from '@/composables/useQueryParam';
-import { ApiResponseList } from '@/dtos/ApiResponse';
-import type { Meta } from '@/dtos/Meta';
 import { useQuery } from '@pinia/colada';
 import { computed, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { ApiResponseList } from '@/dto/ApiResponse';
+import type { Meta } from '@/dto/Meta';
 
 interface UseListCoreOptions<T> {
   basePath: string;
