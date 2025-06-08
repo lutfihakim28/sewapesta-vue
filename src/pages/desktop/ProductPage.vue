@@ -27,7 +27,7 @@ const {
         </section>
         <p>
           <span class="font-medium">{{ product.packageCount }}</span>
-          <span class="opacity-70"> total {{ t('package', product.packageCount) }}</span>
+          <span class="opacity-70"> total {{ t('package', product.packageCount || 0) }}</span>
         </p>
       </section>
     </template>

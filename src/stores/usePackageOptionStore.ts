@@ -6,20 +6,20 @@ import { defineStore } from 'pinia';
 import { computed, shallowRef, watch } from 'vue';
 import { useAuthStore } from './useAuthStore';
 
-const path = ['private/categories', 'options']
+const path = ['private/packages', 'options']
 
-export const useCategoryOptionStore = defineStore('category-option', () => {
+export const usePackageOptionStore = defineStore('package-option', () => {
   const _options = shallowRef<SelectItem[]>([])
   const authStore = useAuthStore()
 
   const { data, isPending, refresh } = useQuery({
     key: () => [...path, authStore.token],
-    query: getCategoryOptions
+    query: getPackageOptions
   })
 
   const options = computed(() => _options.value)
 
-  async function getCategoryOptions() {
+  async function getPackageOptions() {
     const { data, get } = useApiFetch<ApiResponseData<SelectItem[]>>(path.join('/'))
     await get();
     return data.value

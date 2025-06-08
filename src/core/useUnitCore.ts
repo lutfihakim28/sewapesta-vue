@@ -1,4 +1,4 @@
-import { Unit } from '@/dtos/Unit';
+import { Unit } from '@/dto/Unit';
 import { useListCore } from './parts/useListCore';
 
 export function useUnitCore() {

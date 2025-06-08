@@ -47,8 +47,10 @@ const items = computed<NavigationMenuItem[][]>(() => ([
       to: route.name === ROUTE_NAMES.ITEM ? undefined : { name: ROUTE_NAMES.ITEM },
     },
     {
-      label: 'Package',
-      icon: 'i-lucide-package'
+      label: menuLabel.value[ROUTE_NAMES.PACKAGE],
+      icon: 'i-lucide-package',
+      active: route.name === ROUTE_NAMES.PACKAGE,
+      to: route.name === ROUTE_NAMES.PACKAGE ? undefined : { name: ROUTE_NAMES.PACKAGE },
     },
     {
       label: 'Equipment',

@@ -1,4 +1,4 @@
-import { Product } from '@/dtos/Product';
+import { Product } from '@/dto/Product';
 import { useListCore } from './parts/useListCore';
 
 export function useProductCore() {

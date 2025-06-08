@@ -92,6 +92,16 @@ export const routes: readonly RouteRecordRaw[] = [
         ],
       },
       {
+        path: 'packages',
+        children: [
+          {
+            path: DEFAULT_PATH,
+            name: ROUTE_NAMES.PACKAGE,
+            component: importPage(layoutType, 'PackagePage'),
+          },
+        ],
+      },
+      {
         path: 'admins',
         name: ROUTE_NAMES.ADMIN,
         component: importPage(layoutType, 'AdminPage'),

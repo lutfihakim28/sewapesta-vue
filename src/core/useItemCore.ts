@@ -1,8 +1,6 @@
 import TableSorter from '@/components/table-controlls/TableSorter.vue';
 import { useCategoryOptionStore } from '@/stores/useCategoryOptionStore';
-import type { Category } from '@/dtos/Category';
-import { Item } from '@/dtos/Item';
-import type { Unit } from '@/dtos/Unit';
+import { Item } from '@/dto/Item';
 import { ItemTypeEnum } from '@/enums/item-type';
 import type { SelectItem, TableColumn } from '@nuxt/ui';
 import { computed, h } from 'vue';
@@ -60,20 +58,12 @@ export function useItemCore() {
       }
     },
     {
-      accessorKey: 'category',
+      accessorKey: 'category.name',
       header: () => h('span', t('Category')),
-      cell: ({ row }) => {
-        const category = row.getValue('category') as Category;
-        return category.name;
-      }
     },
     {
-      accessorKey: 'unit',
+      accessorKey: 'unit.name',
       header: () => h('span', t('Unit')),
-      cell: ({ row }) => {
-        const unit = row.getValue('unit') as Unit;
-        return unit.name;
-      }
     },
   ]);
 

@@ -1,7 +1,7 @@
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useLastRouteStore } from '@/stores/useLastRouteStore';
-import { ApiResponseData } from '@/dtos/ApiResponse';
-import { LoginResponse } from '@/dtos/LoginResponse';
+import { ApiResponseData } from '@/dto/ApiResponse';
+import { LoginResponse } from '@/dto/LoginResponse';
 import { generateLoginRequestSchema } from '@/schemas/login-request';
 import { onMounted, reactive, ref, useTemplateRef, watch } from 'vue';
 import type { ComponentExposed } from 'vue-component-type-helpers';

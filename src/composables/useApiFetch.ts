@@ -1,8 +1,8 @@
 
 import { useAuthStore } from '@/stores/useAuthStore';
 import { createFetch, useStorage } from '@vueuse/core';
-import { ApiResponse, ApiResponseData } from '../dtos/ApiResponse';
-import { LoginResponse } from '../dtos/LoginResponse';
+import { ApiResponse, ApiResponseData } from '../dto/ApiResponse';
+import { LoginResponse } from '../dto/LoginResponse';
 import router from '@/router';
 import { STORAGE_LOCALE_KEY } from '../constants/locales';
 import { i18n } from '@/i18n';

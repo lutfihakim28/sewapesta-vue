@@ -1,5 +1,5 @@
 import TableSorter from '@/components/table-controlls/TableSorter.vue';
-import { UserProfile } from '@/dtos/UserProfile';
+import { UserProfile } from '@/dto/UserProfile';
 import type { RoleEnum } from '@/enums/role';
 import type { TableColumn } from '@nuxt/ui';
 import { computed, h } from 'vue';

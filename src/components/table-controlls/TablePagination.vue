@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Meta } from '@/dtos/Meta';
+import type { Meta } from '@/dto/Meta';
 import type { SelectItem } from '@nuxt/ui'
 import { useRouteQuery } from '@vueuse/router'
 import { computed, onBeforeMount, ref, watch } from 'vue'

@@ -1,4 +1,4 @@
-import { User } from '@/dtos/User';
+import { User } from '@/dto/User';
 import { useStorage } from '@vueuse/core';
 import { useJwt } from '@vueuse/integrations/useJwt';
 import { defineStore } from 'pinia';
