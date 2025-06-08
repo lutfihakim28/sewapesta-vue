@@ -106,7 +106,7 @@ watch(
     'w-screen p-4 h-dvh grid grid-rows-12 gap-4',
     {
       'grid-cols-[max-content_1fr]': isMenuCollapsed,
-      'grid-cols-[minmax(0,_min(25%,_240px))_1fr] xl:grid-cols-[minmax(0,_min(18%,_320px))_1fr]': !isMenuCollapsed,
+      'grid-cols-[minmax(0,_min(25%,_240px))_1fr] xl:grid-cols-[minmax(0,_min(18%,_240px))_1fr]': !isMenuCollapsed,
     }
   ]">
     <!-- Side Menu -->
@@ -144,7 +144,5 @@ watch(
       class="row-span-11 rounded-md min-w-0 bg-elevated/20 ring ring-default [&>*]:h-full [&>*]:w-full [&>*]:overflow-auto">
       <RouterView />
     </main>
-    <!-- <PerfectScrollbar>
-    </PerfectScrollbar> -->
   </section>
 </template>

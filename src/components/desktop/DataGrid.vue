@@ -46,8 +46,10 @@ function refreshData() {
       </section>
     </section>
     <section class="overflow-y-auto flex-1 p-4">
+      <UProgress v-if="loading" size="2xs" class="mb-2" />
+      <section v-else class="border-t border-default mb-2"></section>
       <section v-if="items.length">
-        <section class="grid grid-cols-4 grid-flow-row gap-4">
+        <section class="grid grid-cols-3 xl:grid-cols-4 grid-flow-row gap-4">
           <section v-for="item in items" :key="item.id"
             class="rounded border border-default p-4 bg-(--ui-bg) flex flex-col gap-y-2">
             <section class="flex-1">
