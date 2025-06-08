@@ -2,7 +2,10 @@
 import { useColorMode } from '@vueuse/core';
 import { computed } from 'vue';
 
-const mode = useColorMode();
+const mode = useColorMode({
+  storageKey: 'sewapesta-color-scheme',
+  initialValue: 'dark'
+});
 
 const icon = computed(() => mode.value === 'dark' ? 'i-lucide-moon' : 'i-lucide-sun-medium')
 const color = computed(() => mode.value === 'dark' ? 'primary' : 'warning')

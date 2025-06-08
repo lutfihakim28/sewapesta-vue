@@ -3,11 +3,11 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import { createFetch, useStorage } from '@vueuse/core';
 import { ApiResponse, ApiResponseData } from '../dto/ApiResponse';
 import { LoginResponse } from '../dto/LoginResponse';
-import router from '@/router';
 import { STORAGE_LOCALE_KEY } from '../constants/locales';
 import { i18n } from '@/i18n';
 import type { Composer } from 'vue-i18n';
 import { ROUTE_NAMES } from '@/router/constants';
+import { useAppRouter } from '@/router/useAppRouter';
 
 const baseUrl = import.meta.env.VITE_API_URL
 let isRefreshing = false;
@@ -55,6 +55,7 @@ export const useApiFetch = createFetch({
     },
     async onFetchError(ctx) {
       const authStore = useAuthStore()
+      const router = useAppRouter()
 
       if (ctx.response?.status === 401) {
         if (ctx.context.url.includes('auth')) {
@@ -80,6 +81,7 @@ export const useApiFetch = createFetch({
             } catch (error) {
               if ((error as { response: { status: number } }).response?.status === 401) {
                 const authStore = useAuthStore()
+                const router = useAppRouter()
                 authStore.reset()
                 await router.push({ name: ROUTE_NAMES.LOGIN })
                 resolve(ctx)

@@ -5,9 +5,93 @@
     <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vite App</title>
+
+    <style>
+      #app-splash-screen {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        inset: 0;
+        align-items: center;
+        color: white;
+      }
+
+      .dark #app-splash-screen {
+        background-color: oklch(20.5% 0 0);
+      }
+
+      .light #app-splash-screen {
+        background-color: white;
+      }
+
+      @keyframes app-splash-screen-exit {
+        0% {
+          display: flex;
+          visibility: visible;
+          opacity: 1;
+        }
+
+        100% {
+          display: none;
+          visibility: hidden;
+          opacity: 0;
+        }
+      }
+
+      .app-splash-screen-exit {
+        animation-name: app-splash-screen-exit;
+        animation-delay: 0;
+        animation-duration: 500ms;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        animation-timing-function: ease-in-out;
+      }
+
+      .dark .app-loading-indicator {
+        border: 5px solid #FFF;
+        border-bottom-color: transparent;
+      }
+
+      .light .app-loading-indicator {
+        border: 5px solid oklch(43.9% 0 0);
+        border-bottom-color: transparent;
+      }
+
+      .app-loading-indicator {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: app-loading-indicator-rotation 1s linear infinite;
+      }
+
+      @keyframes app-loading-indicator-rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="app" class="w-full h-dvh"></div>
+    <div id="app-splash-screen">
+      <div class="app-loading-indicator" aria-label="Loading..." aria-busy="true"></div>
+    </div>
+    <script>
+      let colorMode = localStorage.getItem('sewapesta-color-scheme');
+
+      if (colorMode === null || colorMode === 'auto') {
+        colorMode = 'dark'
+        localStorage.setItem('sewapesta-color-scheme', colorMode);
+      }
+
+      document.documentElement.classList.add(colorMode);
+    </script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

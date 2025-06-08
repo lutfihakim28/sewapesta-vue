@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { generatePageLabel, type PageLabel } from '@/helpers/generate-page-label';
 import { DEFAULT_PATH, ROUTE_NAMES, type RouteName } from '@/router/constants';
-import { routes } from '@/router/routes';
+import routes from '@/router/routes/desktop';
 import type { BreadcrumbItem } from '@nuxt/ui';
 import { templateRef } from '@vueuse/core';
 import { computed, ref, shallowRef, watch } from 'vue';

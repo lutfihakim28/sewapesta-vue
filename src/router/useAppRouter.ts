@@ -5,15 +5,15 @@ export function useAppRouter() {
   const router = useRouter();
 
   function push<T extends keyof RouteNameParam | RouteName>(route: Route<T>) {
-    router.push(route);
+    return router.push(route);
   }
 
   function back() {
-    router.back();
+    return router.back();
   }
 
   function replace<T extends keyof RouteNameParam | RouteName>(route: Route<T>) {
-    router.replace(route);
+    return router.replace(route);
   }
 
   return {
