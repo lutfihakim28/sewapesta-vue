@@ -1,4 +1,3 @@
-import { useApiFetch } from '@/composables/useApiFetch';
 import { useQueryParam } from '@/composables/useQueryParam';
 import { useQuery } from '@pinia/colada';
 import { computed, type Ref } from 'vue';
@@ -6,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { ApiResponseList } from '@/dto/ApiResponse';
 import type { Meta } from '@/dto/Meta';
 import { PRIVATE_QUERY_KEYS, type AvailablePrivateKey } from '@/constants/query-keys';
+import { useApiFetch } from '@/plugins/api-fetch';
 
 interface UseListCoreOptions<T> {
   key: AvailablePrivateKey;
@@ -18,6 +18,7 @@ export function useListCore<T>(options: UseListCoreOptions<T>) {
   const { key, isPublic, dto, additionalQueryParam } = options;
   const toast = useToast();
   const { t } = useI18n();
+  const apiFetch = useApiFetch()
 
   const { path } = useQueryParam(isPublic ? `public/${key}` : `private/${key}`);
 
@@ -56,7 +57,7 @@ export function useListCore<T>(options: UseListCoreOptions<T>) {
   async function fetcher(currentPath: string) {
     if (!currentPath.includes('page=')) return;
 
-    const { data, get } = useApiFetch<ApiResponseList<T>>(currentPath);
+    const { data, get } = apiFetch<ApiResponseList<T>>(currentPath);
     await get();
     return data.value;
   }

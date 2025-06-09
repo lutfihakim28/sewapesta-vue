@@ -1,16 +1,17 @@
-import { useApiFetch } from '@/composables/useApiFetch';
 import type { ApiResponseData } from '@/dto/ApiResponse';
 import type { SelectItem } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
 import { defineStore } from 'pinia';
 import { computed, shallowRef, watch } from 'vue';
 import { useAuthStore } from './useAuthStore';
+import { useApiFetch } from '@/plugins/api-fetch';
 
 const path = ['private/products', 'options']
 
 export const useProductOptionStore = defineStore('product-option', () => {
   const _options = shallowRef<SelectItem[]>([])
   const authStore = useAuthStore()
+  const apiFetch = useApiFetch()
 
   const { data, isPending, refresh } = useQuery({
     key: () => [...path, authStore.token],
@@ -20,7 +21,7 @@ export const useProductOptionStore = defineStore('product-option', () => {
   const options = computed(() => _options.value)
 
   async function getProductOptions() {
-    const { data, get } = useApiFetch<ApiResponseData<SelectItem[]>>(path.join('/'))
+    const { data, get } = apiFetch<ApiResponseData<SelectItem[]>>(path.join('/'))
     await get();
     return data.value
   }

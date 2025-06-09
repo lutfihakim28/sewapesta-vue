@@ -1,9 +1,9 @@
-import { useApiFetch } from '@/composables/useApiFetch';
 import type { ApiResponseList } from '@/dto/ApiResponse';
 import type { City } from '@/dto/City';
 import type { District } from '@/dto/District';
 import type { Province } from '@/dto/Province';
 import type { Subdistrict } from '@/dto/Subdistrict';
+import { useApiFetch } from '@/plugins/api-fetch';
 import { defineStore } from 'pinia';
 import { shallowRef, watch } from 'vue';
 
@@ -12,11 +12,12 @@ export const useLocationStore = defineStore('location', () => {
   const cities = shallowRef<City[]>([]);
   const districts = shallowRef<District[]>([])
   const subdistricts = shallowRef<Subdistrict[]>([])
+  const apiFetch = useApiFetch()
 
-  const { data: provincesData, isFetching: provinceFetch } = useApiFetch<ApiResponseList<Province>>('/public/locations/provinces')
-  const { data: cityData, isFetching: cityFetch } = useApiFetch<ApiResponseList<City>>('/public/locations/cities')
-  const { data: districtData, isFetching: districtFetch } = useApiFetch<ApiResponseList<District>>('/public/locations/districts')
-  const { data: subdistrictData, isFetching: subdistrictFetch } = useApiFetch<ApiResponseList<Subdistrict>>('/public/locations/subdistricts')
+  const { data: provincesData, isFetching: provinceFetch } = apiFetch<ApiResponseList<Province>>('/public/locations/provinces')
+  const { data: cityData, isFetching: cityFetch } = apiFetch<ApiResponseList<City>>('/public/locations/cities')
+  const { data: districtData, isFetching: districtFetch } = apiFetch<ApiResponseList<District>>('/public/locations/districts')
+  const { data: subdistrictData, isFetching: subdistrictFetch } = apiFetch<ApiResponseList<Subdistrict>>('/public/locations/subdistricts')
 
   watch(provincesData, (data) => {
     if (data) {

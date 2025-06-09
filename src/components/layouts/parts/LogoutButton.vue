@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/useAuthStore';
-import { useApiFetch } from '@/composables/useApiFetch';
 import { ROUTE_NAMES } from '@/router/constants';
 import { useAppRouter } from '@/router/useAppRouter';
+import { useApiFetch } from '@/plugins/api-fetch';
 
-const { isFetching, error, execute } = useApiFetch('auth/logout', { immediate: false }).delete();
+const apiFetch = useApiFetch()
+
+const { isFetching, error, execute } = apiFetch('auth/logout', { immediate: false }).delete();
 const authStore = useAuthStore();
 const appRouter = useAppRouter();
 

@@ -11,6 +11,7 @@ import App from './App.vue'
 import { i18n } from './i18n/i18n'
 import { initRouter } from './router/router'
 import { useRouter } from 'vue-router'
+import { apiFetch } from './plugins/api-fetch'
 
 window.addEventListener('load', async () => {
   const appElement = document.createElement('div');
@@ -26,6 +27,7 @@ window.addEventListener('load', async () => {
   app.use(router)
   app.use(PerfectScrollbarPlugin)
   app.use(ui)
+  app.use(apiFetch, { router })
 
   app.mount(appElement)
 

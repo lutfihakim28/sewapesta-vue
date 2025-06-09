@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLoginCore } from '@/core/useLoginStore';
+import { useLoginCore } from '@/core/useLoginCore';
 
 
 const { loginRequest, onSubmit, t, isFetching, LoginRequestSchema } = useLoginCore()
@@ -20,7 +20,7 @@ const { loginRequest, onSubmit, t, isFetching, LoginRequestSchema } = useLoginCo
 
         <section class="space-y-4">
           <UFormField :label="t('field.Username')" name="username">
-            <UInput ref="username-input" v-model="loginRequest.username" :ui="{ root: 'w-full' }" />
+            <UInput v-model="loginRequest.username" :ui="{ root: 'w-full' }" />
           </UFormField>
 
           <UFormField :label="t('field.Password')" name="password">
