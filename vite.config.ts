@@ -29,6 +29,12 @@ export default defineConfig({
           slots: {
             trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200'
           }
+        },
+        modal: {
+          slots: {
+            overlay: 'z-10',
+            content: 'z-20'
+          }
         }
       },
       components: {

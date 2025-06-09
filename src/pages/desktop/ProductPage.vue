@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import DataGrid from '@/components/desktop/DataGrid.vue';
 import { useProductCore } from '@/core/useProductCore';
-import { ROUTE_NAMES } from '@/router/constants';
 
 const {
   products,
@@ -14,7 +13,7 @@ const {
 
 <template>
   <DataGrid record-name="product" :post-button-label="t('New-product')" :items="products" :loading="isPending"
-    :meta="meta" :post-page-name="ROUTE_NAMES.ITEM_CREATE" @refresh="refreshData">
+    :meta="meta" @refresh="refreshData">
     <template #filter>
       <TableSearch />
     </template>

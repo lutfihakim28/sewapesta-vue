@@ -1,6 +1,6 @@
 import { useQueryParam } from '@/composables/useQueryParam';
 import { useQuery } from '@pinia/colada';
-import { computed, type Ref } from 'vue';
+import { computed, shallowRef, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ApiResponseList } from '@/dto/ApiResponse';
 import type { Meta } from '@/dto/Meta';
@@ -22,6 +22,8 @@ export function useListCore<T>(options: UseListCoreOptions<T>) {
 
   const { path } = useQueryParam(isPublic ? `public/${key}` : `private/${key}`);
 
+  const meta = shallowRef<Meta>();
+
   const fullPath = computed(() => {
     let currentPath = path.value;
     if (additionalQueryParam) {
@@ -41,17 +43,10 @@ export function useListCore<T>(options: UseListCoreOptions<T>) {
 
   const list = computed<T[]>((previous) => {
     if (data.value) {
-      const response = new ApiResponseList(data.value, dto);
-      return response.data;
+      return data.value || [];
     }
     if (previous) return previous;
     return [];
-  });
-
-  const meta = computed<Meta | undefined>(() => {
-    if (!data.value) return;
-    const response = new ApiResponseList(data.value, dto);
-    return response.meta;
   });
 
   async function fetcher(currentPath: string) {
@@ -59,7 +54,9 @@ export function useListCore<T>(options: UseListCoreOptions<T>) {
 
     const { data, get } = apiFetch<ApiResponseList<T>>(currentPath);
     await get();
-    return data.value;
+    const response = new ApiResponseList(data.value, dto);
+    meta.value = response.meta;
+    return response.data;
   }
 
   async function refreshData() {
@@ -84,6 +81,7 @@ export function useListCore<T>(options: UseListCoreOptions<T>) {
     list,
     meta,
     isPending,
+    fullPath,
     refreshData,
     t,
   };

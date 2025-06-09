@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import DataGrid from '@/components/desktop/DataGrid.vue';
 import { useCategoryCore } from '@/core/useCategoryCore';
-import { ROUTE_NAMES } from '@/router/constants';
 
 const {
   categories,
   meta,
   isPending,
   refreshData,
-  t
+  t,
+  openForm,
 } = useCategoryCore();
 </script>
 
 <template>
   <DataGrid record-name="category" :post-button-label="t('New-category')" :items="categories" :loading="isPending"
-    :meta="meta" :post-page-name="ROUTE_NAMES.ITEM_CREATE" @refresh="refreshData">
+    :meta="meta" @refresh="refreshData" @add-record="openForm" @edit-record="(category) => openForm(category)">
     <template #filter>
       <TableSearch />
     </template>

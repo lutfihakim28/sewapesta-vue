@@ -1,33 +1,38 @@
 <script setup lang="ts" generic="T extends { id: number }">
-import type { RouteName } from '@/router/constants';
-import { useAppRouter } from '@/router/useAppRouter';
 import type { Meta } from '@/dto/Meta';
 import { useI18n } from 'vue-i18n';
 
-const { loading, items, postPageName, meta, recordName, postButtonLabel } = defineProps<{
+const { loading, items, meta, recordName, postButtonLabel } = defineProps<{
   recordName: string,
   loading: boolean,
   postButtonLabel: string,
   items: T[]
   meta?: Meta
-  postPageName?: RouteName,
 }>()
 
-const appRouter = useAppRouter();
-
 const emit = defineEmits<{
-  refresh: []
+  refresh: [],
+  addRecord: [],
+  editRecord: [T],
+  deleteRecord: [T],
 }>()
 
 const { t } = useI18n()
 
-function toCreatePage() {
-  if (!postPageName) return;
-  appRouter.push({ name: postPageName })
+function addRecord() {
+  emit('addRecord')
 }
 
 function refreshData() {
   emit('refresh')
+}
+
+function editRecord(item: T) {
+  emit('editRecord', item)
+}
+
+function deleteRecord(item: T) {
+  emit('deleteRecord', item)
 }
 </script>
 
@@ -37,7 +42,7 @@ function refreshData() {
       <section class="flex justify-between items-center">
         <h4 class="text-2xl font-semibold capitalize">{{ t(recordName, 2) }}</h4>
         <section class="flex items-center gap-x-2">
-          <UButton v-if="postPageName" :label="postButtonLabel" icon="i-lucide-plus" @click="toCreatePage" />
+          <UButton :label="postButtonLabel" icon="i-lucide-plus" @click="addRecord" />
           <UButton icon="i-lucide-refresh-cw" variant="ghost" color="warning" @click="refreshData" />
         </section>
       </section>
@@ -56,8 +61,8 @@ function refreshData() {
               <slot name="item" :item="item" />
             </section>
             <section class="border-t border-default pt-2 flex justify-end gap-x-1">
-              <UButton icon="i-lucide-pencil" variant="ghost" color="info" />
-              <UButton icon="i-lucide-trash" variant="ghost" color="error" />
+              <UButton icon="i-lucide-pencil" variant="ghost" color="info" @click="() => editRecord(item)" />
+              <UButton icon="i-lucide-trash" variant="ghost" color="error" @click="() => deleteRecord(item)" />
             </section>
           </section>
         </section>
