@@ -4,10 +4,10 @@ import { createFetch, useStorage } from '@vueuse/core';
 import { ApiResponse, ApiResponseData } from '../dto/ApiResponse';
 import { LoginResponse } from '../dto/LoginResponse';
 import { STORAGE_LOCALE_KEY } from '../constants/locales';
-import { i18n } from '@/i18n';
 import type { Composer } from 'vue-i18n';
 import { ROUTE_NAMES } from '@/router/constants';
 import { useAppRouter } from '@/router/useAppRouter';
+import { i18n } from '@/i18n/i18n';
 
 const baseUrl = import.meta.env.VITE_API_URL
 let isRefreshing = false;

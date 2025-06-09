@@ -3,7 +3,7 @@ import { useLastRouteStore } from '@/stores/useLastRouteStore';
 import { createRouter, createWebHistory } from 'vue-router';
 import { useStorage } from '@vueuse/core';
 import { STORAGE_LOCALE_KEY } from '@/constants/locales';
-import { i18n, loadLocaleMessages } from '@/i18n';
+import { i18n, loadLocaleMessages } from '@/i18n/i18n';
 import { importRoutes } from './routes/routes';
 
 const screenSize = document.body.getBoundingClientRect().width;

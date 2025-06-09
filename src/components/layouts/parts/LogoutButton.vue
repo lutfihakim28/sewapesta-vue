@@ -6,12 +6,12 @@ import { useAppRouter } from '@/router/useAppRouter';
 
 const { isFetching, error, execute } = useApiFetch('auth/logout', { immediate: false }).delete();
 const authStore = useAuthStore();
-const appRouuter = useAppRouter();
+const appRouter = useAppRouter();
 
 async function logout() {
   await execute()
   if (!error.value) {
-    appRouuter.push({ name: ROUTE_NAMES.LOGIN })
+    appRouter.push({ name: ROUTE_NAMES.LOGIN })
     authStore.reset();
   }
 }

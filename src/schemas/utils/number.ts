@@ -1,4 +1,4 @@
-import { i18n } from '@/i18n';
+import { i18n } from '@/i18n/i18n';
 import type { Composer } from 'vue-i18n';
 import { z } from 'zod';
 

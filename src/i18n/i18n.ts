@@ -6,7 +6,7 @@ import { nextTick } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 import type { I18n, I18nOptions, Locale } from 'vue-i18n'
-import { STORAGE_LOCALE_KEY } from './constants/locales';
+import { STORAGE_LOCALE_KEY } from '../constants/locales';
 
 let locale = localStorage.getItem(STORAGE_LOCALE_KEY);
 

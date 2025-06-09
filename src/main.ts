@@ -8,7 +8,7 @@ import { PerfectScrollbarPlugin } from 'vue3-perfect-scrollbar';
 import 'vue3-perfect-scrollbar/style.css';
 
 import App from './App.vue'
-import { i18n } from './i18n'
+import { i18n } from './i18n/i18n'
 import { initRouter } from './router/router'
 import { useRouter } from 'vue-router'
 

@@ -3,21 +3,18 @@ import type { ApiResponseData } from '@/dto/ApiResponse';
 import type { SelectItem } from '@nuxt/ui';
 import { useQuery } from '@pinia/colada';
 import { defineStore } from 'pinia';
-import { computed, shallowRef, watch } from 'vue';
-import { useAuthStore } from './useAuthStore';
+import { shallowRef, watch } from 'vue';
+import { PRIVATE_QUERY_KEYS } from '@/constants/query-keys';
 
 const path = ['private/categories', 'options']
 
 export const useCategoryOptionStore = defineStore('category-option', () => {
-  const _options = shallowRef<SelectItem[]>([])
-  const authStore = useAuthStore()
+  const options = shallowRef<SelectItem[]>([])
 
   const { data, isPending, refresh } = useQuery({
-    key: () => [...path, authStore.token],
-    query: getCategoryOptions
+    key: PRIVATE_QUERY_KEYS.categories.options,
+    query: getCategoryOptions,
   })
-
-  const options = computed(() => _options.value)
 
   async function getCategoryOptions() {
     const { data, get } = useApiFetch<ApiResponseData<SelectItem[]>>(path.join('/'))
@@ -27,7 +24,7 @@ export const useCategoryOptionStore = defineStore('category-option', () => {
 
   watch(data, () => {
     if (data.value) {
-      _options.value = data.value.data
+      options.value = data.value.data
     }
   })
 

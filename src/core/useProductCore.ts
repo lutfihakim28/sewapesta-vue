@@ -2,10 +2,8 @@ import { Product } from '@/dto/Product';
 import { useListCore } from './parts/useListCore';
 
 export function useProductCore() {
-  const basePath = 'private/products'
-
   const { isPending, list, meta, refreshData, t } = useListCore({
-    basePath,
+    key: 'products',
     dto: Product,
   })
 

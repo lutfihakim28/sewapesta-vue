@@ -7,11 +7,10 @@ import { useProductOptionStore } from '@/stores/useProductOptionStore';
 import UButton from '@nuxt/ui/runtime/components/Button.vue';
 
 export function usePackageCore() {
-  const basePath = 'private/packages'
   const productOptionStore = useProductOptionStore();
 
   const { list: packages, meta, isPending, refreshData, t } = useListCore<Package>({
-    basePath,
+    key: 'packages',
     dto: Package,
   });
 

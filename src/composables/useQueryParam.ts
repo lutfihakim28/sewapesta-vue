@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router';
 
 export function useQueryParam<T extends Record<string, string | string[] | undefined>>(basePath: string) {
   const route = useRoute()
-  const path = computed(() => {
+  const path = computed<string>(() => {
     const query = new URLSearchParams()
 
     const routeQuery = route.query as T

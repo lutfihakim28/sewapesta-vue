@@ -2,10 +2,8 @@ import { Unit } from '@/dto/Unit';
 import { useListCore } from './parts/useListCore';
 
 export function useUnitCore() {
-  const basePath = 'private/units'
-
   const { isPending, list, meta, refreshData, t } = useListCore({
-    basePath,
+    key: 'units',
     dto: Unit,
   })
 

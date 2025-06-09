@@ -8,11 +8,10 @@ import { useListCore } from './parts/useListCore';
 import UButton from '@nuxt/ui/runtime/components/Button.vue'
 
 export function useItemCore() {
-  const basePath = 'private/items'
   const categoryOptionStore = useCategoryOptionStore();
 
   const { list: items, meta, isPending, refreshData, t } = useListCore<Item>({
-    basePath,
+    key: 'items',
     dto: Item,
   });
 

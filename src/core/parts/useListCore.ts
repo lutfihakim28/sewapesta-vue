@@ -1,4 +1,3 @@
-import { useAuthStore } from '@/stores/useAuthStore';
 import { useApiFetch } from '@/composables/useApiFetch';
 import { useQueryParam } from '@/composables/useQueryParam';
 import { useQuery } from '@pinia/colada';
@@ -6,20 +5,21 @@ import { computed, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ApiResponseList } from '@/dto/ApiResponse';
 import type { Meta } from '@/dto/Meta';
+import { PRIVATE_QUERY_KEYS, type AvailablePrivateKey } from '@/constants/query-keys';
 
 interface UseListCoreOptions<T> {
-  basePath: string;
+  key: AvailablePrivateKey;
   dto: new (data: T) => T;
+  isPublic?: boolean;
   additionalQueryParam?: Ref<string> | string;
 }
 
 export function useListCore<T>(options: UseListCoreOptions<T>) {
-  const { basePath, dto, additionalQueryParam } = options;
-  const authStore = useAuthStore();
+  const { key, isPublic, dto, additionalQueryParam } = options;
   const toast = useToast();
   const { t } = useI18n();
 
-  const { path } = useQueryParam(basePath);
+  const { path } = useQueryParam(isPublic ? `public/${key}` : `private/${key}`);
 
   const fullPath = computed(() => {
     let currentPath = path.value;
@@ -34,7 +34,7 @@ export function useListCore<T>(options: UseListCoreOptions<T>) {
   });
 
   const { data, isPending, refresh } = useQuery({
-    key: () => [basePath, fullPath.value, authStore.token],
+    key: () => PRIVATE_QUERY_KEYS[key].list(fullPath.value),
     query: () => fetcher(fullPath.value),
   });
 
