@@ -17,7 +17,7 @@ watchDebounced(_keyword, () => {
   if ((_keyword.value?.length || 0) < 3) {
     keyword.value = undefined
   }
-  if ((_keyword.value?.length || 0) === 0 || (_keyword.value?.length || 0) >= 3) {
+  if ((_keyword.value?.length || 0) >= 3) {
     keyword.value = _keyword.value
   }
 }, { debounce: 500 })

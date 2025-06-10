@@ -3,7 +3,7 @@ import { useListCore } from './parts/useListCore';
 import CategoryRequest from '@/components/desktop/CategoryRequest.vue';
 import { useMutation, useQueryCache } from '@pinia/colada';
 import { useApiFetch } from '@/plugins/api-fetch';
-import { ApiResponseData, ApiResponseList } from '@/dto/ApiResponse';
+import { ApiResponseData } from '@/dto/ApiResponse';
 import { PRIVATE_QUERY_KEYS } from '@/constants/query-keys';
 import { computed } from 'vue';
 
@@ -46,7 +46,7 @@ export function useCategoryCore() {
       }
     },
     onSettled() {
-      queryCache.invalidateQueries({ key: listQueryKey.value })
+      queryCache.invalidateQueries({ key: PRIVATE_QUERY_KEYS.categories.root })
     },
 
     onError(err, _title, { oldCategories, newCategories }) {
@@ -57,7 +57,7 @@ export function useCategoryCore() {
         queryCache.setQueryData(listQueryKey.value, oldCategories)
       }
 
-      console.log(err)
+      console.error(err)
 
       // TODO: Handle error
     }
@@ -65,7 +65,7 @@ export function useCategoryCore() {
 
   async function openForm(category?: Category) {
     const instance = modal.open({
-      category
+      category,
     })
 
     const newCategory = await instance.result

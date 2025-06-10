@@ -6,10 +6,11 @@ import { computed, onBeforeMount, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
-const { meta, disabled, recordName = 'rows' } = defineProps<{
+const { meta, disabled, recordName = 'rows', defaultSize = 10 } = defineProps<{
   meta?: Meta,
   disabled?: boolean,
-  recordName?: string
+  recordName?: string,
+  defaultSize?: number
 }>()
 
 const route = useRoute();
@@ -40,7 +41,7 @@ onBeforeMount(() => {
     page.value = 1
   }
   if (!pageSize.value) {
-    pageSize.value = 10
+    pageSize.value = defaultSize
   }
 })
 

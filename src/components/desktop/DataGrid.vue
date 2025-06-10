@@ -71,6 +71,6 @@ function deleteRecord(item: T) {
         <p class="text-center text-muted">{{ t('no data') }}</p>
       </section>
     </section>
-    <TablePagination :meta="meta" :disabled="loading" :record-name="recordName" />
+    <TablePagination :meta="meta" :disabled="loading" :record-name="recordName" :default-size="20" />
   </section>
 </template>
