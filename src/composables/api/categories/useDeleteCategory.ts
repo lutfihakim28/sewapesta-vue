@@ -9,42 +9,31 @@ export function useDeleteCategory(listQueryKey: Ref<EntryKey>) {
   const apiFetch = useApiFetch()
   const queryCache = useQueryCache()
 
-  const { mutate } = useMutation({
+  const { mutate, isLoading } = useMutation({
     mutation(category: Category) {
       return deleteCategory(category)
     },
     onMutate(category: Category) {
       const oldCategories: Category[] = queryCache.getQueryData(listQueryKey.value) || []
 
-      const latestCategory = oldCategories
-        .toSorted((a, b) => Math.abs(b.id) - Math.abs(a.id))
-        .at(0)
-
-      const newIndex = ((latestCategory?.id || 0) + 1) * -1;
-
-      const newCategory = new Category({
-        ...category,
-        id: newIndex,
-      })
-
-      const newCategories = [newCategory, ...oldCategories]
+      const newCategories = oldCategories.filter((_category) => _category.id !== category.id)
 
       queryCache.setQueryData(listQueryKey.value, newCategories)
       queryCache.cancelQueries({ key: listQueryKey.value, exact: true })
 
-      return { oldCategories, newCategories, newCategory }
+      return { oldCategories, newCategories }
     },
 
-    onSuccess(category, _, { newCategory }) {
-      const categories: Category[] = queryCache.getQueryData(listQueryKey.value) || []
-      const categoryIndex = categories.findIndex(c => c.id === newCategory.id)
-      if (categoryIndex >= 0) {
-        queryCache.setQueryData(
-          listQueryKey.value,
-          categories.toSpliced(categoryIndex, 1, category)
-        )
-      }
-    },
+    // onSuccess(category, _, { newCategory }) {
+    //   const categories: Category[] = queryCache.getQueryData(listQueryKey.value) || []
+    //   const categoryIndex = categories.findIndex(c => c.id === newCategory.id)
+    //   if (categoryIndex >= 0) {
+    //     queryCache.setQueryData(
+    //       listQueryKey.value,
+    //       categories.toSpliced(categoryIndex, 1, category)
+    //     )
+    //   }
+    // },
     onSettled() {
       queryCache.invalidateQueries({ key: PRIVATE_QUERY_KEYS.categories.root() })
     },
@@ -69,5 +58,5 @@ export function useDeleteCategory(listQueryKey: Ref<EntryKey>) {
     return category;
   }
 
-  return { create: mutate }
+  return { deleteCategory: mutate, isLoading }
 }

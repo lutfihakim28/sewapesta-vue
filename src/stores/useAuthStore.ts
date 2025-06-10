@@ -18,22 +18,16 @@ export const useAuthStore = defineStore('auth', () => {
   })
 
   function setToken(_token: string) {
-    console.log(token.value)
-    console.log(queryCache.getEntries({ key: [token.value] }))
     queryCache.getEntries({ key: [token.value] }).forEach((query) => {
       queryCache.remove(query)
     })
-    console.log(queryCache.getEntries({ key: [token.value] }))
     token.value = _token;
   }
 
   function reset() {
-    console.log(token.value)
-    console.log(queryCache.getEntries({ key: [token.value] }))
     queryCache.getEntries({ key: [token.value] }).forEach((query) => {
       queryCache.remove(query)
     })
-    console.log(queryCache.getEntries({ key: [token.value] }))
     token.value = '';
   }
 

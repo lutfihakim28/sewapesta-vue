@@ -6,6 +6,7 @@ const {
   categories,
   meta,
   isLoading,
+  loadingDelete,
   refreshData,
   t,
   openForm,
@@ -14,7 +15,7 @@ const {
 </script>
 
 <template>
-  <DataGrid record-name="category" :post-button-label="t('New-category')" :items="categories" :loading="isLoading"
+  <DataGrid record-name="category" :post-button-label="t('New-category')" :items="categories" :loading="isLoading || loadingDelete"
     :meta="meta" @refresh="refreshData" @add-record="openForm" @edit-record="(category) => openForm(category)" @delete-record="(category) => openConfirmation(category)">
     <template #filter>
       <TableSearch />

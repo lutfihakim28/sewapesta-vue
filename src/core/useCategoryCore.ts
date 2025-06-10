@@ -5,6 +5,7 @@ import { PRIVATE_QUERY_KEYS } from '@/constants/query-keys';
 import { computed } from 'vue';
 import { useCreateCategory } from '@/composables/api/categories/useCreateCategory';
 import DeleteConfirmationModal from '@/components/common/DeleteConfirmationModal.vue';
+import { useDeleteCategory } from '@/composables/api/categories/useDeleteCategory';
 
 export function useCategoryCore() {
   const { isLoading, list, meta, fullPath, refreshData, t } = useListCore({
@@ -19,6 +20,7 @@ export function useCategoryCore() {
   const listQueryKey = computed(() => PRIVATE_QUERY_KEYS.categories.list(fullPath.value))
 
   const { create } = useCreateCategory(listQueryKey)
+  const { deleteCategory, isLoading: loadingDelete } = useDeleteCategory(listQueryKey)
 
   async function openForm(category?: Category) {
     const instance = requestModal.open({
@@ -41,7 +43,7 @@ export function useCategoryCore() {
     const confirmed = await instance.result
 
     if (confirmed) {
-      console.log(category)
+      deleteCategory(category)
     }
   }
 
@@ -49,6 +51,7 @@ export function useCategoryCore() {
     categories: list,
     meta,
     isLoading,
+    loadingDelete,
     refreshData,
     t,
     openForm,
