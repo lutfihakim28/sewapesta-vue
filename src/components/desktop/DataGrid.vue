@@ -56,11 +56,19 @@ function deleteRecord(item: T) {
       <section v-if="items.length">
         <section class="grid grid-cols-3 xl:grid-cols-4 grid-flow-row gap-4">
           <section v-for="item in items" :key="item.id"
-            class="rounded border border-default p-4 bg-(--ui-bg) flex flex-col gap-y-2">
+            :class="[
+              'rounded border border-default p-4 bg-(--ui-bg) flex flex-col gap-y-2',
+              {
+                'animate-pulse': item.id < 0
+              }
+            ]"
+          >
             <section class="flex-1">
               <slot name="item" :item="item" />
             </section>
-            <section class="border-t border-default pt-2 flex justify-end gap-x-1">
+            <UProgress v-if="item.id < 0" size="2xs" />
+            <div v-else class="border-t border-default w-full"></div>
+            <section class="flex justify-end gap-x-1">
               <UButton icon="i-lucide-pencil" variant="ghost" color="info" @click="() => editRecord(item)" />
               <UButton icon="i-lucide-trash" variant="ghost" color="error" @click="() => deleteRecord(item)" />
             </section>

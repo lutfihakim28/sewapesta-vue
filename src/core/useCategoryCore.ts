@@ -27,12 +27,23 @@ export function useCategoryCore() {
     onMutate(category: Category) {
       const oldCategories: Category[] = queryCache.getQueryData(listQueryKey.value) || []
 
-      const newCategories = [category, ...oldCategories]
+      const latestCategory = oldCategories
+        .toSorted((a, b) => Math.abs(b.id) - Math.abs(a.id))
+        .at(0)
+
+      const newIndex = ((latestCategory?.id || 0) + 1) * -1;
+
+      const newCategory = new Category({
+        ...category,
+        id: newIndex,
+      })
+
+      const newCategories = [newCategory, ...oldCategories]
 
       queryCache.setQueryData(listQueryKey.value, newCategories)
       queryCache.cancelQueries({ key: listQueryKey.value, exact: true })
 
-      return { oldCategories, newCategories, newCategory: category }
+      return { oldCategories, newCategories, newCategory }
     },
 
     onSuccess(category, _, { newCategory }) {
