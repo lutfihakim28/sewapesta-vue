@@ -38,8 +38,8 @@ export function useLoginCore() {
 
       authStore.setToken(response.data.token)
       appRouter.push({
-        name: lastRouteStore.route.value?.name as RouteName || ROUTE_NAMES.DASHBOARD,
-        query: lastRouteStore.route.value?.query,
+        name: lastRouteStore.route?.value?.name as RouteName || ROUTE_NAMES.DASHBOARD,
+        query: lastRouteStore.route?.value?.query,
       })
     }
   }

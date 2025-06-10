@@ -2,13 +2,12 @@
 import { Category } from '@/dto/Category';
 import { computed, nextTick, onMounted, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { generateCategoryRequestSchema } from '../../schemas/category-request';
+import { generateCategoryRequestSchema, type CategoryRequest } from '@/schemas/category-request';
 import { ref } from 'vue';
 import type { ComponentExposed } from 'vue-component-type-helpers';
 import UForm from '@nuxt/ui/runtime/components/Form.vue'
 import UInput from '@nuxt/ui/runtime/components/Input.vue'
 import { reactive } from 'vue';
-import type { SchemaType } from '@/types/schema';
 import { watch } from 'vue';
 
 
@@ -27,7 +26,7 @@ const CategoryRequestSchema = ref<ReturnType<typeof generateCategoryRequestSchem
 const categoryForm = useTemplateRef<ComponentExposed<typeof UForm>>('category-form');
 const nameInput = useTemplateRef<ComponentExposed<typeof UInput>>('name-input');
 
-const categoryRequest = reactive<Partial<SchemaType<typeof CategoryRequestSchema.value>>>({
+const categoryRequest = reactive<Partial<CategoryRequest>>({
   name: undefined,
 })
 

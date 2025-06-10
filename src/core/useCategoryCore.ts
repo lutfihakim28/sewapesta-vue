@@ -87,8 +87,8 @@ export function useCategoryCore() {
   }
 
   async function createCategory(category: Category): Promise<Category> {
-    const { data, execute } = apiFetch('private/categories', { immediate: false }).post({ name: category.name })
-    await execute();
+    const { data } = await apiFetch('private/categories').post({ name: category.name })
+    // await execute();
     const response = new ApiResponseData(data.value, Category)
 
     return response.data;

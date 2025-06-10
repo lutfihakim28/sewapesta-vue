@@ -69,8 +69,8 @@ function deleteRecord(item: T) {
             <UProgress v-if="item.id < 0" size="2xs" />
             <div v-else class="border-t border-default w-full"></div>
             <section class="flex justify-end gap-x-1">
-              <UButton icon="i-lucide-pencil" variant="ghost" color="info" @click="() => editRecord(item)" />
-              <UButton icon="i-lucide-trash" variant="ghost" color="error" @click="() => deleteRecord(item)" />
+              <UButton icon="i-lucide-pencil" :disabled="item.id < 0" variant="ghost" color="info" @click="() => editRecord(item)" />
+              <UButton icon="i-lucide-trash" :disabled="item.id < 0" variant="ghost" color="error" @click="() => deleteRecord(item)" />
             </section>
           </section>
         </section>
