@@ -9,7 +9,7 @@ import UButton from '@nuxt/ui/runtime/components/Button.vue';
 export function usePackageCore() {
   const productOptionStore = useProductOptionStore();
 
-  const { list: packages, meta, isPending, refreshData, t } = useListCore<Package>({
+  const { list: packages, meta, isLoading, refreshData, t } = useListCore<Package>({
     key: 'packages',
     dto: Package,
   });
@@ -73,7 +73,7 @@ export function usePackageCore() {
   async function refreshAllData() {
     await Promise.all([
       refreshData(),
-      productOptionStore.refresh()
+      productOptionStore.refetch()
     ]);
   }
 
@@ -82,7 +82,7 @@ export function usePackageCore() {
     packages,
     meta,
     refreshData: refreshAllData,
-    isPending,
+    isLoading,
     t,
     productOptionStore,
   }

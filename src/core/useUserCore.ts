@@ -7,7 +7,7 @@ import { useListCore } from './parts/useListCore';
 import UButton from '@nuxt/ui/runtime/components/Button.vue'
 
 export function useUserCore(role: RoleEnum) {
-  const { isPending, list, meta, refreshData, t } = useListCore<UserProfile>({
+  const { isLoading, list, meta, refreshData, t } = useListCore<UserProfile>({
     key: 'users',
     dto: UserProfile,
     additionalQueryParam: `role=${role}`,
@@ -102,7 +102,7 @@ export function useUserCore(role: RoleEnum) {
     users: list,
     meta,
     refreshData,
-    isPending,
+    isLoading,
     t,
   }
 }

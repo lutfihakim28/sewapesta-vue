@@ -5,7 +5,7 @@ import { useCategoryCore } from '@/core/useCategoryCore';
 const {
   categories,
   meta,
-  isPending,
+  isLoading,
   refreshData,
   t,
   openForm,
@@ -14,7 +14,7 @@ const {
 </script>
 
 <template>
-  <DataGrid record-name="category" :post-button-label="t('New-category')" :items="categories" :loading="isPending"
+  <DataGrid record-name="category" :post-button-label="t('New-category')" :items="categories" :loading="isLoading"
     :meta="meta" @refresh="refreshData" @add-record="openForm" @edit-record="(category) => openForm(category)" @delete-record="(category) => openConfirmation(category)">
     <template #filter>
       <TableSearch />

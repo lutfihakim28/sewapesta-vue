@@ -13,7 +13,7 @@ export const usePackageOptionStore = defineStore('package-option', () => {
   const authStore = useAuthStore()
   const apiFetch = useApiFetch()
 
-  const { data, isPending, refresh } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     key: () => [...path, authStore.token],
     query: getPackageOptions
   })
@@ -32,5 +32,5 @@ export const usePackageOptionStore = defineStore('package-option', () => {
     }
   })
 
-  return { options, loading: isPending, refresh }
+  return { options, loading: isLoading, refetch }
 })

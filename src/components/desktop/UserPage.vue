@@ -9,7 +9,7 @@ const { role } = defineProps<{
 
 const {
   columns,
-  isPending,
+  isLoading,
   users,
   meta,
   refreshData,
@@ -19,7 +19,7 @@ const {
 
 <template>
   <DataTable :record-name="role.toLowerCase()" :post-button-label="t('New-user')" :columns="columns"
-    :loading="isPending" :meta="meta" :items="users" :post-page-name="ROUTE_NAMES.ITEM_CREATE" @refresh="refreshData">
+    :loading="isLoading" :meta="meta" :items="users" :post-page-name="ROUTE_NAMES.ITEM_CREATE" @refresh="refreshData">
     <template #filter>
       <TableSearch />
     </template>

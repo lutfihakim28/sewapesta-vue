@@ -10,7 +10,7 @@ import UButton from '@nuxt/ui/runtime/components/Button.vue'
 export function useItemCore() {
   const categoryOptionStore = useCategoryOptionStore();
 
-  const { list: items, meta, isPending, refreshData, t } = useListCore<Item>({
+  const { list: items, meta, isLoading, refreshData, t } = useListCore<Item>({
     key: 'items',
     dto: Item,
   });
@@ -95,7 +95,7 @@ export function useItemCore() {
   async function refreshAllData() {
     await Promise.all([
       refreshData(),
-      categoryOptionStore.refresh()
+      categoryOptionStore.refetch()
     ]);
   }
 
@@ -105,7 +105,7 @@ export function useItemCore() {
     meta,
     filterTypeOptions,
     refreshData: refreshAllData,
-    isPending,
+    isLoading,
     t,
     categoryOptionStore,
   }

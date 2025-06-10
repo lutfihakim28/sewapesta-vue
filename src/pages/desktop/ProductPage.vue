@@ -5,14 +5,14 @@ import { useProductCore } from '@/core/useProductCore';
 const {
   products,
   meta,
-  isPending,
+  isLoading,
   refreshData,
   t
 } = useProductCore();
 </script>
 
 <template>
-  <DataGrid record-name="product" :post-button-label="t('New-product')" :items="products" :loading="isPending"
+  <DataGrid record-name="product" :post-button-label="t('New-product')" :items="products" :loading="isLoading"
     :meta="meta" @refresh="refreshData">
     <template #filter>
       <TableSearch />

@@ -2,7 +2,7 @@ import { Product } from '@/dto/Product';
 import { useListCore } from './parts/useListCore';
 
 export function useProductCore() {
-  const { isPending, list, meta, refreshData, t } = useListCore({
+  const { isLoading, list, meta, refreshData, t } = useListCore({
     key: 'products',
     dto: Product,
   })
@@ -11,7 +11,7 @@ export function useProductCore() {
     products: list,
     meta,
     refreshData,
-    isPending,
+    isLoading,
     t,
   }
 }

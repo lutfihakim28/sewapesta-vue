@@ -13,7 +13,7 @@ export const useProductOptionStore = defineStore('product-option', () => {
   const authStore = useAuthStore()
   const apiFetch = useApiFetch()
 
-  const { data, isPending, refresh } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     key: () => [...path, authStore.token],
     query: getProductOptions
   })
@@ -32,5 +32,5 @@ export const useProductOptionStore = defineStore('product-option', () => {
     }
   })
 
-  return { options, loading: isPending, refresh }
+  return { options, loading: isLoading, refetch }
 })

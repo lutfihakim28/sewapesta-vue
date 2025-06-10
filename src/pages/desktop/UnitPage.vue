@@ -6,14 +6,14 @@ import { ROUTE_NAMES } from '@/router/constants';
 const {
   categories,
   meta,
-  isPending,
+  isLoading,
   refreshData,
   t
 } = useUnitCore();
 </script>
 
 <template>
-  <DataGrid record-name="unit" :post-button-label="t('New-unit')" :items="categories" :loading="isPending" :meta="meta"
+  <DataGrid record-name="unit" :post-button-label="t('New-unit')" :items="categories" :loading="isLoading" :meta="meta"
     :post-page-name="ROUTE_NAMES.ITEM_CREATE" @refresh="refreshData">
     <template #filter>
       <TableSearch />

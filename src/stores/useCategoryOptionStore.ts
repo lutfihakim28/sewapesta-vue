@@ -12,7 +12,7 @@ export const useCategoryOptionStore = defineStore('category-option', () => {
   const options = shallowRef<SelectItem[]>([])
   const apiFetch = useApiFetch()
 
-  const { data, isPending, refresh } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     key: PRIVATE_QUERY_KEYS.categories.options,
     query: getCategoryOptions,
   })
@@ -29,5 +29,5 @@ export const useCategoryOptionStore = defineStore('category-option', () => {
     }
   })
 
-  return { options, loading: isPending, refresh }
+  return { options, loading: isLoading, refetch }
 })

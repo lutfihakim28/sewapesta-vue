@@ -4,7 +4,7 @@ import { ROUTE_NAMES } from '@/router/constants';
 
 const {
   columns,
-  isPending,
+  isLoading,
   items,
   meta,
   refreshData,
@@ -15,7 +15,7 @@ const {
 </script>
 
 <template>
-  <DataTable record-name="item" :post-button-label="t('New-item')" :columns="columns" :loading="isPending" :meta="meta"
+  <DataTable record-name="item" :post-button-label="t('New-item')" :columns="columns" :loading="isLoading" :meta="meta"
     :items="items" :post-page-name="ROUTE_NAMES.ITEM_CREATE" @refresh="refreshData">
     <template #filter>
       <TableSearch />

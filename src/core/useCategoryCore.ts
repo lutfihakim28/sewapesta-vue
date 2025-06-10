@@ -7,7 +7,7 @@ import { useCreateCategory } from '@/composables/api/categories/useCreateCategor
 import DeleteConfirmationModal from '@/components/common/DeleteConfirmationModal.vue';
 
 export function useCategoryCore() {
-  const { isPending, list, meta, fullPath, refreshData, t } = useListCore({
+  const { isLoading, list, meta, fullPath, refreshData, t } = useListCore({
     key: 'categories',
     dto: Category,
   })
@@ -48,7 +48,7 @@ export function useCategoryCore() {
   return {
     categories: list,
     meta,
-    isPending,
+    isLoading,
     refreshData,
     t,
     openForm,

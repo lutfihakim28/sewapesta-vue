@@ -3,7 +3,7 @@ import { usePackageCore } from '@/core/usePackageCore';
 
 const {
   columns,
-  isPending,
+  isLoading,
   packages,
   meta,
   refreshData,
@@ -13,7 +13,7 @@ const {
 </script>
 
 <template>
-  <DataTable record-name="package" :post-button-label="t('New-package')" :columns="columns" :loading="isPending"
+  <DataTable record-name="package" :post-button-label="t('New-package')" :columns="columns" :loading="isLoading"
     :meta="meta" :items="packages" @refresh="refreshData">
     <template #filter>
       <TableSearch />

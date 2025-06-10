@@ -16,7 +16,6 @@ interface UseListCoreOptions<T> {
 
 export function useListCore<T>(options: UseListCoreOptions<T>) {
   const { key, isPublic, dto, additionalQueryParam } = options;
-  const toast = useToast();
   const { t } = useI18n();
   const apiFetch = useApiFetch()
 
@@ -36,7 +35,7 @@ export function useListCore<T>(options: UseListCoreOptions<T>) {
     return currentPath;
   });
 
-  const { data, isPending, refresh } = useQuery({
+  const { data, refetch, isLoading, } = useQuery({
     key: () => PRIVATE_QUERY_KEYS[key].list(fullPath.value),
     query: () => fetcher(fullPath.value),
   });
@@ -60,27 +59,13 @@ export function useListCore<T>(options: UseListCoreOptions<T>) {
   }
 
   async function refreshData() {
-    try {
-      await refresh();
-      toast.add({
-        color: 'success',
-        title: t('refreshed'),
-        duration: 1500,
-      });
-    } catch (error) {
-      toast.add({
-        color: 'error',
-        title: 'Error',
-        duration: 1500,
-      });
-      throw error;
-    }
+    await refetch();
   }
 
   return {
     list,
     meta,
-    isPending,
+    isLoading,
     fullPath,
     refreshData,
     t,
