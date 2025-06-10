@@ -5,22 +5,25 @@ import { useStorage } from '@vueuse/core';
 import { STORAGE_LOCALE_KEY } from '@/constants/locales';
 import { i18n, loadLocaleMessages } from '@/i18n/i18n';
 import { importRoutes } from './routes/routes';
+import { useQueryCache } from '@pinia/colada';
 
-const screenSize = document.body.getBoundingClientRect().width;
 
-let layoutType: LayoutType = 'desktop';
-
-if (screenSize < 768) {
-  layoutType = 'mobile'
-};
-if (screenSize >= 768) {
-  layoutType = 'tablet'
-};
-if (screenSize >= 1024) {
-  layoutType = 'desktop'
-};
 
 export async function initRouter() {
+  const screenSize = document.body.getBoundingClientRect().width;
+
+  let layoutType: LayoutType = 'desktop';
+
+  if (screenSize < 768) {
+    layoutType = 'mobile'
+  };
+  if (screenSize >= 768) {
+    layoutType = 'tablet'
+  };
+  if (screenSize >= 1024) {
+    layoutType = 'desktop'
+  };
+
   const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: await importRoutes(layoutType),
@@ -41,14 +44,15 @@ export async function initRouter() {
 
   router.afterEach((to, from) => {
     const lastRouteStore = useLastRouteStore();
+    // const queryCache = useQueryCache();
 
     if (to.name === 'Login' && from.meta.requiresAuth) {
       lastRouteStore.setRoute(from)
     }
 
-    if (to.meta.requiresAuth && from.name === 'Login') {
-      lastRouteStore.reset()
-    }
+    // if (to.meta.requiresAuth && from.name === 'Login') {
+    //   queryCache.invalidateQueries()
+    // }
   })
 
   return router;

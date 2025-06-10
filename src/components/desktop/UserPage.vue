@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useUserCore } from '@/core/useUserStore';
+import { useUserCore } from '@/core/useUserCore';
 import { ROUTE_NAMES } from '@/router/constants';
 import type { RoleEnum } from '@/enums/role';
 

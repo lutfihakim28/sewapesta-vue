@@ -5,7 +5,7 @@ import { i18n } from '@/i18n/i18n';
 import { ROUTE_NAMES } from '@/router/constants';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { createFetch, useStorage } from '@vueuse/core';
-import { inject, type InjectionKey, type Plugin } from 'vue';
+import { inject, ref, type InjectionKey, type Plugin } from 'vue';
 import type { Composer } from 'vue-i18n';
 import type { Router } from 'vue-router';
 
@@ -18,8 +18,8 @@ export const fetchKey: InjectionKey<ReturnType<typeof createFetch>> = Symbol();
 export const apiFetch: Plugin<ApiFetchOption> = {
   install(app, options) {
     const baseUrl = import.meta.env.VITE_API_URL
-    let isRefreshing = false;
-    const refreshSubscribers: Array<() => void> = []
+    const isRefreshing = ref(false)
+    const refreshSubscribers = ref<Array<() => void>>([])
     const router = options.router
 
     const _apiFetch = createFetch({
@@ -82,36 +82,36 @@ export const apiFetch: Plugin<ApiFetchOption> = {
             }
 
             return new Promise((resolve) => {
-              refreshSubscribers.push(async () => {
-                try {
-                  const retryResponse = await ctx.execute()
-                  resolve(retryResponse)
-                } catch (error) {
-                  if ((error as { response: { status: number } }).response?.status === 401) {
-                    const authStore = useAuthStore()
-                    authStore.reset()
-                    await router.push({ name: ROUTE_NAMES.LOGIN })
-                    resolve(ctx)
-                  } else {
-                    const response = new ApiResponse(JSON.parse(ctx.data));
-                    const toast = useToast()
+              if (ctx.context.options.method?.toLowerCase() !== 'get') {
+                refreshSubscribers.value.push(async () => {
+                  try {
+                    const retryResponse = await ctx.execute()
+                    resolve(retryResponse)
+                  } catch (error) {
+                    if ((error as { response: { status: number } }).response?.status === 401) {
+                      const authStore = useAuthStore()
+                      authStore.reset()
+                      await router.push({ name: ROUTE_NAMES.LOGIN })
+                      resolve(ctx)
+                    } else {
+                      const response = new ApiResponse(JSON.parse(ctx.data));
+                      const toast = useToast()
 
-                    for (const message of response.messages) {
-                      toast.add({
-                        title: `Error ${response.code}`,
-                        description: message,
-                        color: 'error'
-                      })
+                      for (const message of response.messages) {
+                        toast.add({
+                          title: `Error ${response.code}`,
+                          description: message,
+                          color: 'error'
+                        })
+                      }
+
+                      return ctx
                     }
-
-                    return ctx
                   }
-                }
-              })
+                })
+              }
 
-              if (!isRefreshing) {
-                isRefreshing = true
-
+              if (!isRefreshing.value) {
                 if (!authStore.token && !authStore.user) {
                   router.push({ name: ROUTE_NAMES.LOGIN })
                   return;
@@ -119,6 +119,7 @@ export const apiFetch: Plugin<ApiFetchOption> = {
 
                 const performRefresh = async () => {
                   try {
+                    isRefreshing.value = true
                     const { data, execute } = _apiFetch<string>('auth/refresh', {
                       immediate: false,
                     }).post()
@@ -129,10 +130,7 @@ export const apiFetch: Plugin<ApiFetchOption> = {
                       const response = new ApiResponseData(data.value, LoginResponse)
                       authStore.setToken(response.data.token)
 
-                      const callbacks = [...refreshSubscribers]
-                      refreshSubscribers.length = 0
-
-                      callbacks.forEach(callback => callback())
+                      refreshSubscribers.value.forEach(callback => callback())
                     } else {
                       authStore.reset()
                       await router.push({ name: ROUTE_NAMES.LOGIN })
@@ -142,7 +140,8 @@ export const apiFetch: Plugin<ApiFetchOption> = {
                     await router.push({ name: ROUTE_NAMES.LOGIN })
                     console.error(error)
                   } finally {
-                    isRefreshing = false
+                    isRefreshing.value = false
+                    refreshSubscribers.value = []
                   }
                 }
 

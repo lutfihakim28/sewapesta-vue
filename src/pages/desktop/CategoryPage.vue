@@ -9,12 +9,13 @@ const {
   refreshData,
   t,
   openForm,
+  openConfirmation,
 } = useCategoryCore();
 </script>
 
 <template>
   <DataGrid record-name="category" :post-button-label="t('New-category')" :items="categories" :loading="isPending"
-    :meta="meta" @refresh="refreshData" @add-record="openForm" @edit-record="(category) => openForm(category)">
+    :meta="meta" @refresh="refreshData" @add-record="openForm" @edit-record="(category) => openForm(category)" @delete-record="(category) => openConfirmation(category)">
     <template #filter>
       <TableSearch />
     </template>

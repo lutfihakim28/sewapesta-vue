@@ -1,53 +1,62 @@
 import { useAuthStore } from '@/stores/useAuthStore'
 
 export const PRIVATE_QUERY_KEYS = {
+  root: () => {
+    const authStore = useAuthStore();
+    return [authStore.token] as const
+  },
   categories: {
-    root: ['categories'] as const,
+    root: () => {
+      return [...PRIVATE_QUERY_KEYS.root(), 'categories']
+    },
     list: (url: string) => {
-      const authStore = useAuthStore()
-      return [...PRIVATE_QUERY_KEYS.categories.root, url, authStore.token] as const
+      return [...PRIVATE_QUERY_KEYS.categories.root(), url] as const
     },
     options: () => {
-      const authStore = useAuthStore()
-      return [...PRIVATE_QUERY_KEYS.categories.root, 'options', authStore.token] as const
+      return [...PRIVATE_QUERY_KEYS.categories.root(), 'options'] as const
     }
   },
   items: {
-    root: ['items'] as const,
+    root: () => {
+      return [...PRIVATE_QUERY_KEYS.root(), 'items']
+    },
     list: (url: string) => {
-      const authStore = useAuthStore()
-      return [...PRIVATE_QUERY_KEYS.items.root, url, authStore.token] as const
+      return [...PRIVATE_QUERY_KEYS.items.root(), url] as const
     }
   },
   packages: {
-    root: ['packages'] as const,
+    root: () => {
+      return [...PRIVATE_QUERY_KEYS.root(), 'packages']
+    },
     list: (url: string) => {
-      const authStore = useAuthStore()
-      return [...PRIVATE_QUERY_KEYS.packages.root, url, authStore.token] as const
+      return [...PRIVATE_QUERY_KEYS.packages.root(), url] as const
     }
   },
   products: {
-    root: ['products'] as const,
+    root: () => {
+      return [...PRIVATE_QUERY_KEYS.root(), 'products']
+    },
     list: (url: string) => {
-      const authStore = useAuthStore()
-      return [...PRIVATE_QUERY_KEYS.products.root, url, authStore.token] as const
+      return [...PRIVATE_QUERY_KEYS.products.root(), url] as const
     }
   },
   units: {
-    root: ['units'] as const,
+    root: () => {
+      return [...PRIVATE_QUERY_KEYS.root(), 'units']
+    },
     list: (url: string) => {
-      const authStore = useAuthStore()
-      return [...PRIVATE_QUERY_KEYS.units.root, url, authStore.token] as const
+      return [...PRIVATE_QUERY_KEYS.units.root(), url] as const
     }
   },
   users: {
-    root: ['users'] as const,
+    root: () => {
+      return [...PRIVATE_QUERY_KEYS.root(), 'users']
+    },
     list: (url: string) => {
-      const authStore = useAuthStore()
-      return [...PRIVATE_QUERY_KEYS.users.root, url, authStore.token] as const
+      return [...PRIVATE_QUERY_KEYS.users.root(), url] as const
     }
   },
 }
 
 
-export type AvailablePrivateKey = keyof typeof PRIVATE_QUERY_KEYS
+export type AvailablePrivateKey = keyof Omit<typeof PRIVATE_QUERY_KEYS, 'root'>
