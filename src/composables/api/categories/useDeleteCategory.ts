@@ -1,13 +1,15 @@
 import { PRIVATE_QUERY_KEYS } from '@/constants/query-keys'
-import { ApiResponseData } from '@/dto/ApiResponse'
 import { Category } from '@/dto/Category'
 import { useApiFetch } from '@/plugins/api-fetch'
 import { useMutation, useQueryCache, type EntryKey } from '@pinia/colada'
 import type { Ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export function useDeleteCategory(listQueryKey: Ref<EntryKey>) {
   const apiFetch = useApiFetch()
   const queryCache = useQueryCache()
+  const toast = useToast();
+  const { t } = useI18n();
 
   const { mutate, isLoading } = useMutation({
     mutation(category: Category) {
@@ -23,17 +25,6 @@ export function useDeleteCategory(listQueryKey: Ref<EntryKey>) {
 
       return { oldCategories, newCategories }
     },
-
-    // onSuccess(category, _, { newCategory }) {
-    //   const categories: Category[] = queryCache.getQueryData(listQueryKey.value) || []
-    //   const categoryIndex = categories.findIndex(c => c.id === newCategory.id)
-    //   if (categoryIndex >= 0) {
-    //     queryCache.setQueryData(
-    //       listQueryKey.value,
-    //       categories.toSpliced(categoryIndex, 1, category)
-    //     )
-    //   }
-    // },
     onSettled() {
       queryCache.invalidateQueries({ key: PRIVATE_QUERY_KEYS.categories.root() })
     },
@@ -48,7 +39,11 @@ export function useDeleteCategory(listQueryKey: Ref<EntryKey>) {
 
       console.error(err)
 
-      // TODO: Handle error
+      toast.add({
+        title: `Delete Category ${_title.id}`,
+        description: t('system-error'),
+        color: 'error',
+      })
     }
   })
 

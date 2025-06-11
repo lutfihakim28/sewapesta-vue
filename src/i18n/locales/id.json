@@ -83,6 +83,7 @@
   "unit": "satuan",
   "User": "@.capitalize:user",
   "user": "pengguna",
+  "system-error": "Terjadi kesalahan sistem, silahkan hubungi administrator sistem.",
   "validation": {
     "array": "{field} harus berupa array.",
     "boolean": "{field} harus berupa nilai boolean.",

@@ -82,6 +82,7 @@
   "unit": "unit | units",
   "User": "@.capitalize:user",
   "user": "user",
+  "system-error": "System error, please contact system administrator.",
   "validation": {
     "array": "{field} should be an array.",
     "boolean": "{field} should be boolean value.",

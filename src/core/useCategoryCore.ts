@@ -6,6 +6,7 @@ import { computed } from 'vue';
 import { useCreateCategory } from '@/composables/api/categories/useCreateCategory';
 import DeleteConfirmationModal from '@/components/common/DeleteConfirmationModal.vue';
 import { useDeleteCategory } from '@/composables/api/categories/useDeleteCategory';
+import { useUpdateCategory } from '@/composables/api/categories/useUpdateCategory';
 
 export function useCategoryCore() {
   const { isLoading, list, meta, fullPath, refreshData, t } = useListCore({
@@ -21,8 +22,9 @@ export function useCategoryCore() {
 
   const { create, isLoading: loadingCreate } = useCreateCategory(listQueryKey)
   const { deleteCategory, isLoading: loadingDelete } = useDeleteCategory(listQueryKey)
+  const { update, isLoading: loadingUpdate } = useUpdateCategory(listQueryKey)
 
-  const loading = computed(() => isLoading.value || loadingCreate.value || loadingDelete.value)
+  const loading = computed(() => isLoading.value || loadingCreate.value || loadingDelete.value || loadingUpdate.value)
 
   async function openForm(category?: Category) {
     const instance = requestModal.open({
@@ -37,7 +39,8 @@ export function useCategoryCore() {
     }
 
     if (newCategory) {
-      console.log(newCategory)
+      update(newCategory)
+      return
     }
   }
 

@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T extends { id: number }">
+<script setup lang="ts" generic="T extends { id: number, loading?: boolean }">
 import type { Meta } from '@/dto/Meta';
 import { useI18n } from 'vue-i18n';
 
@@ -61,18 +61,18 @@ function deleteRecord(item: T) {
             :class="[
               'rounded border border-default p-4 bg-(--ui-bg) flex flex-col gap-y-2',
               {
-                'animate-pulse': item.id < 0
+                'animate-pulse': item.loading
               }
             ]"
           >
             <section class="flex-1">
               <slot name="item" :item="item" />
             </section>
-            <UProgress v-if="item.id < 0" size="2xs" />
+            <UProgress v-if="item.loading" size="2xs" />
             <div v-else class="border-t border-default w-full"></div>
             <section class="flex justify-end gap-x-1">
-              <UButton icon="i-lucide-pencil" :disabled="item.id < 0" variant="ghost" color="info" @click="() => editRecord(item)" />
-              <UButton icon="i-lucide-trash" :disabled="item.id < 0" variant="ghost" color="error" @click="() => deleteRecord(item)" />
+              <UButton icon="i-lucide-pencil" :disabled="item.loading" variant="ghost" color="info" @click="() => editRecord(item)" />
+              <UButton icon="i-lucide-trash" :disabled="item.loading" variant="ghost" color="error" @click="() => deleteRecord(item)" />
             </section>
           </section>
         </section>
