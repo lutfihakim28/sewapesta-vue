@@ -101,6 +101,7 @@
     "phone": "{field} harus diawali dengan 628, minimal 10 digit dan maksiam 13 digit.",
     "positive-number": "{field} harus berupa angka positif yang valid.",
     "required": "{field} wajib diisi.",
-    "string": "{field} harus berupa teks."
+    "string": "{field} harus berupa teks.",
+    "unavailable-name": "{data} dengan nama \"{name}\" sudah tersedia."
   }
 }

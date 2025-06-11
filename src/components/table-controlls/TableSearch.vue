@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n';
 const keyword = useRouteQuery<string | undefined>('keyword', undefined)
 const { t } = useI18n()
 
-const _keyword = ref<string>();
+const _keyword = ref<string | undefined>(keyword.value);
 
 function clear() {
   _keyword.value = undefined;

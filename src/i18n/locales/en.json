@@ -100,6 +100,7 @@
     "phone": "{field} should start with 628 with minimum 10 digits and maximum 13 digits.",
     "positive-number": "{field} should be valid positive number.",
     "required": "{field} is required.",
-    "string": "{field} should be string."
+    "string": "{field} should be string.",
+    "unavailable-name": "{data} with name \"{name}\" is already exist."
   }
 }

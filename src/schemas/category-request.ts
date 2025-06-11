@@ -4,7 +4,7 @@ import type { SchemaType } from '@/types/schema';
 
 export function generateCategoryRequestSchema<T extends (value: string) => string>(t: T) {
   return new ObjectSchema({
-    name: new StringSchema(t('field.Name')).getSchema(),
+    name: new StringSchema(t('field.Name')).min(1).getSchema(),
   }).getSchema()
 }
 

@@ -33,17 +33,6 @@ export function useCreateCategory(listQueryKey: Ref<EntryKey>) {
 
       return { oldCategories, newCategories, newCategory }
     },
-
-    // onSuccess(category, _, { newCategory }) {
-    //   const categories: Category[] = queryCache.getQueryData(listQueryKey.value) || []
-    //   const categoryIndex = categories.findIndex(c => c.id === newCategory.id)
-    //   if (categoryIndex >= 0) {
-    //     queryCache.setQueryData(
-    //       listQueryKey.value,
-    //       categories.toSpliced(categoryIndex, 1, category)
-    //     )
-    //   }
-    // },
     onSettled() {
       queryCache.invalidateQueries({ key: PRIVATE_QUERY_KEYS.categories.root() })
     },

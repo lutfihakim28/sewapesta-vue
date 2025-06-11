@@ -9,6 +9,8 @@ import UForm from '@nuxt/ui/runtime/components/Form.vue'
 import UInput from '@nuxt/ui/runtime/components/Input.vue'
 import { reactive } from 'vue';
 import { watch } from 'vue';
+import { watchDebounced } from '@vueuse/core';
+import { useApiFetch } from '@/plugins/api-fetch';
 
 
 const { category } = defineProps<{
@@ -19,6 +21,7 @@ const emit = defineEmits<{
   close: [result?: Category]
 }>()
 
+const apiFetch = useApiFetch();
 const { t, locale } = useI18n()
 
 const CategoryRequestSchema = ref<ReturnType<typeof generateCategoryRequestSchema>>(generateCategoryRequestSchema(t));
@@ -29,6 +32,7 @@ const nameInput = useTemplateRef<ComponentExposed<typeof UInput>>('name-input');
 const categoryRequest = reactive<Partial<CategoryRequest>>({
   name: undefined,
 })
+const isExist = ref(false);
 
 onMounted(async () => {
   await nextTick()
@@ -46,7 +50,11 @@ function cancel() {
   emit('close')
 }
 
-function submit() {
+async function submit() {
+  if (isExist.value) {
+    emit('close')
+    return;
+  }
   if (categoryRequest.name) {
     emit('close', new Category({
       id: 0,
@@ -61,6 +69,28 @@ watch(locale, () => {
   CategoryRequestSchema.value = generateCategoryRequestSchema(t)
   categoryForm.value?.clear();
 }, { immediate: true })
+
+watchDebounced(() => categoryRequest.name, async (value) => {
+  if (value) {
+    const { data } = await apiFetch(`private/categories/check-uniques?unique=${value}`).get()
+
+    isExist.value = !data.value;
+    if (isExist.value) {
+      categoryForm.value?.setErrors([{
+        message: t('validation.unavailable-name', {
+          data: t('Category'),
+          name: value
+        }),
+        name: 'name'
+      }])
+    }
+  }
+
+  if (!value) {
+    isExist.value = false
+    categoryForm.value?.validate()
+  }
+}, { debounce: 500 })
 </script>
 
 <template>
@@ -74,7 +104,7 @@ watch(locale, () => {
     </template>
     <template #footer>
       <UButton variant="outline" color="neutral" class="capitalize" @click="cancel">{{ t('cancel') }}</UButton>
-      <UButton type="submit" target="category-form" variant="solid" color="primary" class="capitalize">{{ t('save') }}</UButton>
+      <UButton type="submit" form="category-form" variant="solid" color="primary" class="capitalize">{{ t('save') }}</UButton>
     </template>
   </UModal>
 </template>

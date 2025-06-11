@@ -148,7 +148,7 @@ export const apiFetch: Plugin<ApiFetchOption> = {
                 performRefresh()
               }
             })
-          } else {
+          } else if (ctx.response?.status !== 422) {
             const response = new ApiResponse(JSON.parse(ctx.data));
             const toast = useToast()
 
@@ -162,6 +162,7 @@ export const apiFetch: Plugin<ApiFetchOption> = {
 
             return ctx
           }
+          return ctx
         },
       }
     })
