@@ -26,15 +26,15 @@ const routes: readonly RouteRecordRaw[] = [
         name: ROUTE_NAMES.DASHBOARD,
         component: DashboardPage,
       },
+      {
+        path: '/:pathMatch(.*)*',
+        component: UnderConstructionPage
+      }
     ],
     meta: {
       requiresAuth: true,
     }
   },
-  {
-    path: '/:pathMatch(.*)*',
-    component: UnderConstructionPage
-  }
 ] as const
 
 export default routes;
