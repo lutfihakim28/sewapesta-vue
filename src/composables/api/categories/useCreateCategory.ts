@@ -8,11 +8,25 @@ import type { Ref } from 'vue'
 export function useCreateCategory(listQueryKey: Ref<EntryKey>) {
   const apiFetch = useApiFetch()
   const queryCache = useQueryCache()
-  const { mutate } = useMutation({
+  const { mutate, isLoading } = useMutation({
     mutation(category: Category) {
       return createCategory(category)
     },
     onMutate(category: Category) {
+      const searchParams = new URLSearchParams(
+        listQueryKey.value
+          .join()
+          .split('?')
+        [1]
+      )
+      if (searchParams.get('page') !== '1') {
+        return;
+      }
+
+
+      if (searchParams.has('keyword') && !category.name.toLowerCase().includes(searchParams.get('keyword')!.toLowerCase())) {
+        return
+      }
       const oldCategories: Category[] = queryCache.getQueryData(listQueryKey.value) || []
 
       const latestCategory = oldCategories
@@ -25,6 +39,8 @@ export function useCreateCategory(listQueryKey: Ref<EntryKey>) {
         ...category,
         id: newIndex,
       })
+
+      oldCategories.pop()
 
       const newCategories = [newCategory, ...oldCategories]
 
@@ -60,5 +76,5 @@ export function useCreateCategory(listQueryKey: Ref<EntryKey>) {
     return response.data;
   }
 
-  return { create: mutate }
+  return { create: mutate, isLoading }
 }

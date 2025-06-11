@@ -30,7 +30,7 @@ const categoryForm = useTemplateRef<ComponentExposed<typeof UForm>>('category-fo
 const nameInput = useTemplateRef<ComponentExposed<typeof UInput>>('name-input');
 
 const categoryRequest = reactive<Partial<CategoryRequest>>({
-  name: undefined,
+  name: category ? category.name : undefined,
 })
 const isExist = ref(false);
 
@@ -57,7 +57,7 @@ async function submit() {
   }
   if (categoryRequest.name) {
     emit('close', new Category({
-      id: 0,
+      id: category?.id || 0,
       name: categoryRequest.name,
       itemCount: 0,
     }))
@@ -75,6 +75,7 @@ watchDebounced(() => categoryRequest.name, async (value) => {
     const { data } = await apiFetch(`private/categories/check-uniques?unique=${value}`).get()
 
     isExist.value = !data.value;
+
     if (isExist.value) {
       categoryForm.value?.setErrors([{
         message: t('validation.unavailable-name', {

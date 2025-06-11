@@ -19,8 +19,10 @@ export function useCategoryCore() {
 
   const listQueryKey = computed(() => PRIVATE_QUERY_KEYS.categories.list(fullPath.value))
 
-  const { create } = useCreateCategory(listQueryKey)
+  const { create, isLoading: loadingCreate } = useCreateCategory(listQueryKey)
   const { deleteCategory, isLoading: loadingDelete } = useDeleteCategory(listQueryKey)
+
+  const loading = computed(() => isLoading.value || loadingCreate.value || loadingDelete.value)
 
   async function openForm(category?: Category) {
     const instance = requestModal.open({
@@ -29,8 +31,13 @@ export function useCategoryCore() {
 
     const newCategory = await instance.result
 
-    if (newCategory) {
+    if (newCategory && newCategory.id === 0) {
       create(newCategory)
+      return;
+    }
+
+    if (newCategory) {
+      console.log(newCategory)
     }
   }
 
@@ -50,8 +57,7 @@ export function useCategoryCore() {
   return {
     categories: list,
     meta,
-    isLoading,
-    loadingDelete,
+    loading,
     refreshData,
     t,
     openForm,
