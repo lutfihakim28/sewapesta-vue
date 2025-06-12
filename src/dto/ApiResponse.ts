@@ -28,6 +28,6 @@ export class ApiResponseList<T> extends ApiResponse {
     super(response)
     const _response = response as ApiResponseList<T>;
     this.data = _response.data.map((_data) => new DataClass(_data))
-    this.meta = _response.meta
+    this.meta = new Meta(_response.meta)
   }
 }

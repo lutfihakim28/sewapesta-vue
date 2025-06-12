@@ -1,10 +1,11 @@
+import { ArraySchema } from './utils/array';
 import { ObjectSchema } from './utils/object'
 import { StringSchema } from './utils/string'
 import type { SchemaType } from '@/types/schema';
 
-export function generateCategoryRequestSchema<T extends (value: string) => string>(t: T) {
+export function generateCategoryRequestSchema<T extends (value: string, ...args: unknown[]) => string>(t: T) {
   return new ObjectSchema({
-    name: new StringSchema(t('field.Name')).min(1).getSchema(),
+    names: new ArraySchema(t('field.Name', 2), new StringSchema(t('field.Name')).getSchema()).getSchema(),
   }).getSchema()
 }
 

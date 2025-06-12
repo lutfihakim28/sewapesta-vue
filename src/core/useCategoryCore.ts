@@ -7,6 +7,7 @@ import { useCreateCategory } from '@/composables/api/categories/useCreateCategor
 import DeleteConfirmationModal from '@/components/common/DeleteConfirmationModal.vue';
 import { useDeleteCategory } from '@/composables/api/categories/useDeleteCategory';
 import { useUpdateCategory } from '@/composables/api/categories/useUpdateCategory';
+import CategoryImport from '@/components/desktop/CategoryImport.vue';
 
 export function useCategoryCore() {
   const { isLoading, list, meta, fullPath, refreshData, t } = useListCore({
@@ -17,6 +18,7 @@ export function useCategoryCore() {
   const overlay = useOverlay();
   const requestModal = overlay.create(CategoryRequest)
   const confirmationModal = overlay.create(DeleteConfirmationModal)
+  const importModal = overlay.create(CategoryImport)
 
   const listQueryKey = computed(() => PRIVATE_QUERY_KEYS.categories.list(fullPath.value))
 
@@ -31,15 +33,15 @@ export function useCategoryCore() {
       category,
     })
 
-    const newCategory = await instance.result
+    const newCategories = await instance.result
 
-    if (newCategory && newCategory.id === 0) {
-      create(newCategory)
+    if (newCategories && newCategories.every((category) => category.id === 0)) {
+      create(newCategories)
       return;
     }
 
-    if (newCategory) {
-      update(newCategory)
+    if (newCategories) {
+      update(newCategories[0])
       return
     }
   }
@@ -57,6 +59,14 @@ export function useCategoryCore() {
     }
   }
 
+  async function openImport() {
+    const instance = importModal.open()
+    const file = await instance.result
+    if (file) {
+      console.log(file)
+    }
+  }
+
   return {
     categories: list,
     meta,
@@ -64,6 +74,7 @@ export function useCategoryCore() {
     refreshData,
     t,
     openForm,
-    openConfirmation
+    openConfirmation,
+    openImport,
   }
 }

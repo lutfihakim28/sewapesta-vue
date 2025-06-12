@@ -1,5 +1,5 @@
 import { PRIVATE_QUERY_KEYS } from '@/constants/query-keys'
-import { ApiResponseData } from '@/dto/ApiResponse'
+import { ApiResponseList } from '@/dto/ApiResponse'
 import { Category } from '@/dto/Category'
 import { useApiFetch } from '@/plugins/api-fetch'
 import { useMutation, useQueryCache, type EntryKey } from '@pinia/colada'
@@ -13,46 +13,54 @@ export function useCreateCategory(listQueryKey: Ref<EntryKey>) {
   const { t } = useI18n();
 
   const { mutate, isLoading } = useMutation({
-    mutation(category: Category) {
-      return createCategory(category)
+    mutation(categories: Category[]) {
+      return createCategory(categories)
     },
-    onMutate(category: Category) {
+    onMutate(categories: Category[]) {
       const searchParams = new URLSearchParams(
         listQueryKey.value
           .join()
           .split('?')
         [1]
       )
-      if (searchParams.get('page') !== '1') {
-        return;
-      }
 
-
-      if (searchParams.has('keyword') && !category.name.toLowerCase().includes(searchParams.get('keyword')!.toLowerCase())) {
-        return
-      }
       const oldCategories: Category[] = queryCache.getQueryData(listQueryKey.value) || []
 
-      const latestCategory = oldCategories
-        .toSorted((a, b) => Math.abs(b.id) - Math.abs(a.id))
-        .at(0)
+      let newCategories = [...oldCategories];
+      const latestCategories: Category[] = [];
 
-      const newIndex = ((latestCategory?.id || 0) + 1) * -1;
+      categories.forEach((category, index) => {
+        if (searchParams.get('page') !== '1') {
+          return;
+        }
 
-      const newCategory = new Category({
-        ...category,
-        loading: true,
-        id: newIndex,
+        if (searchParams.has('keyword') && !category.name.toLowerCase().includes(searchParams.get('keyword')!.toLowerCase())) {
+          return
+        }
+
+        const latestCategory = oldCategories
+          .toSorted((a, b) => Math.abs(b.id) - Math.abs(a.id))
+          .at(0)
+
+        const newIndex = ((latestCategory?.id || 0) + index + 1);
+
+        const newCategory = new Category({
+          ...category,
+          loading: true,
+          id: newIndex,
+        })
+
+        newCategories.pop()
+
+        latestCategories.push(newCategory)
+        newCategories = [newCategory, ...newCategories]
       })
 
-      oldCategories.pop()
-
-      const newCategories = [newCategory, ...oldCategories]
 
       queryCache.setQueryData(listQueryKey.value, newCategories)
       queryCache.cancelQueries({ key: listQueryKey.value, exact: true })
 
-      return { oldCategories, newCategories, newCategory }
+      return { oldCategories, newCategories, latestCategories }
     },
     onSettled() {
       queryCache.invalidateQueries({ key: PRIVATE_QUERY_KEYS.categories.root() })
@@ -77,10 +85,17 @@ export function useCreateCategory(listQueryKey: Ref<EntryKey>) {
   })
 
 
-  async function createCategory(category: Category): Promise<Category> {
-    const { data } = await apiFetch('private/categories').post({ name: category.name })
+  async function createCategory(categories: Category[]): Promise<Category[]> {
+    const { data } = await apiFetch<ApiResponseList<Category>>('private/categories/many').post({
+      names: categories.map((category) => category.name)
+    })
 
-    const response = new ApiResponseData(data.value, Category)
+    const response = new ApiResponseList({
+      ...data.value,
+      meta: {
+        total: 0
+      }
+    }, Category)
 
     return response.data;
   }

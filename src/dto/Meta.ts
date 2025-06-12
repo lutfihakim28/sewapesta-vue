@@ -7,11 +7,11 @@ export class Meta {
   constructor(data: {
     page?: number | string
     pageSize?: number | string
-    total: number
+    totalData: number
   }) {
     this.page = Number(data.page || 1);
     this.pageSize = Number(data.pageSize || 5);
-    this.totalData = data.total
+    this.totalData = data.totalData
     this.pageCount = Math.ceil(this.totalData / this.pageSize);
   }
 }
