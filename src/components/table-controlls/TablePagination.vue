@@ -13,6 +13,15 @@ const { meta, disabled, recordName = 'rows', defaultSize = 10 } = defineProps<{
   defaultSize?: number
 }>()
 
+defineShortcuts({
+  'arrowLeft': () => {
+    changePage(-1)
+  },
+  'arrowRight': () => {
+    changePage(1)
+  }
+})
+
 const route = useRoute();
 
 const { t } = useI18n()
@@ -36,6 +45,11 @@ const dataRange = computed<number[]>(() => {
   return [start, end]
 })
 
+const totalPage = computed(() => {
+  if (!totalData.value) return 1
+  return Math.ceil(totalData.value / pageSize.value)
+})
+
 onBeforeMount(() => {
   if (!page.value) {
     page.value = 1
@@ -44,6 +58,12 @@ onBeforeMount(() => {
     pageSize.value = defaultSize
   }
 })
+
+function changePage(direction: number) {
+  if (page.value === 1 && direction < 0) return;
+  if (page.value === totalPage.value && direction > 0) return;
+  page.value += direction
+}
 
 watch(() => route.query, (value, oldValue) => {
   const restValue = { ...value };
