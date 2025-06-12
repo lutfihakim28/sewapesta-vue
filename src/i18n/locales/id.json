@@ -22,6 +22,8 @@
   "equipment": "peralatan",
   "Duplication-info": "@.capitalize:duplication-info",
   "duplication-info": "{data} yang sama akan dilewati",
+  "Are-you-sure": "Apakah anda yakin?",
+  "delete-confirmation": "Anda akan menghapus {data} \"{value}\".",
   "field": {
     "Address": "@.capitalize:field.address",
     "address": "alamat",

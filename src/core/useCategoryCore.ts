@@ -48,7 +48,7 @@ export function useCategoryCore() {
 
   async function openConfirmation(category: Category) {
     const instance = confirmationModal.open({
-      data: 'Category',
+      data: t('category'),
       value: category.name
     })
 

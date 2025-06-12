@@ -22,6 +22,8 @@
   "equipment": "equipment | equipments",
   "Duplication-info": "@.capitalize:duplication-info",
   "duplication-info": "duplicate {data} will be skipped",
+  "Are-you-sure": "Are you sure?",
+  "delete-confirmation": "You will delete {data} \"{value}\".",
   "field": {
     "Address": "@.capitalize:field.address",
     "address": "address",

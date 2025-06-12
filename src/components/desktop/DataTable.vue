@@ -39,8 +39,8 @@ function refreshData() {
       <section class="flex justify-between items-center">
         <h4 class="text-2xl font-semibold capitalize">{{ t(recordName, 2) }}</h4>
         <section class="flex items-center gap-x-2">
-          <UButton v-if="postPageName" :label="postButtonLabel" icon="i-lucide-plus" @click="toCreatePage" />
-          <UButton icon="i-lucide-refresh-cw" variant="ghost" color="warning" @click="refreshData" />
+          <CreateButton :post-button-label="postButtonLabel" @click="toCreatePage" />
+          <RefreshButton @click="refreshData" />
         </section>
       </section>
       <section class="flex items-center gap-2 flex-wrap">

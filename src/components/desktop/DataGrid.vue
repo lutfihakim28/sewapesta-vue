@@ -42,8 +42,8 @@ function deleteRecord(item: T) {
       <section class="flex justify-between items-center">
         <h4 class="text-2xl font-semibold capitalize">{{ t(recordName, 2) }}</h4>
         <section class="flex items-center gap-x-2">
-          <UButton :label="postButtonLabel" icon="i-lucide-plus" @click="addRecord" />
-          <UButton icon="i-lucide-refresh-cw" variant="ghost" color="warning" @click="refreshData" />
+          <CreateButton :post-button-label="postButtonLabel" @click="addRecord" />
+          <RefreshButton @click="refreshData" />
         </section>
       </section>
       <section class="flex items-center gap-2 flex-wrap">

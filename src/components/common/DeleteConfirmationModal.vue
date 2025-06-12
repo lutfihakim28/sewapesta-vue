@@ -11,6 +11,13 @@ const emit = defineEmits<{
   close: [result?: boolean]
 }>()
 
+defineShortcuts({
+  'enter': {
+    handler: confirm,
+    usingInput: true,
+  },
+})
+
 const { t } = useI18n()
 
 function cancel() {
@@ -23,13 +30,13 @@ function confirm() {
 </script>
 
 <template>
-  <UModal :close="{ onClick: cancel }" title="Are you sure?" :ui="{ footer: 'justify-end' }">
+  <UModal :close="{ onClick: cancel }" :title="t('Are-you-sure')" :ui="{ footer: 'justify-end' }">
     <template #body>
-      <p>Are you sure want to delete {{ data }} "{{ value }}"</p>
+      <p>{{ t('delete-confirmation', { data, value }) }}</p>
     </template>
     <template #footer>
       <UButton variant="outline" color="neutral" class="capitalize" @click="cancel">{{ t('cancel') }}</UButton>
-      <UButton target="category-form" variant="solid" color="primary" class="capitalize" @click="confirm">{{ t('confirm') }}</UButton>
+      <UButton target="category-form" variant="solid" color="error" class="capitalize" @click="confirm">{{ t('confirm') }}</UButton>
     </template>
   </UModal>
 </template>
