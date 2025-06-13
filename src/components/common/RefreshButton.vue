@@ -10,7 +10,6 @@ defineShortcuts({
   },
   'r': {
     handler: refreshData,
-    usingInput: true,
   },
 })
 

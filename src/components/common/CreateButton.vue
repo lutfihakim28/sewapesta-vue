@@ -8,7 +8,6 @@ const { postButtonLabel } = defineProps<{
 defineShortcuts({
   'n': {
     handler: addRecord,
-    usingInput: true,
   },
 })
 

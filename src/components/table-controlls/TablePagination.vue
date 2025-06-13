@@ -14,10 +14,10 @@ const { meta, disabled, recordName = 'rows', defaultSize = 10 } = defineProps<{
 }>()
 
 defineShortcuts({
-  'arrowLeft': () => {
+  'meta_arrowLeft': () => {
     changePage(-1)
   },
-  'arrowRight': () => {
+  'meta_arrowRight': () => {
     changePage(1)
   }
 })
@@ -123,7 +123,7 @@ watch(() => meta, () => {
       </span>
     </p>
     <section class="flex items-center gap-x-4">
-      <USelect v-model="pageSize" :items="availableSize" />
+      <USelect v-model="pageSize" :items="availableSize" :ui="{ content: 'z-10' }" />
       <UPagination v-model:page="page" :total="totalData" :items-per-page="pageSize" :disabled="disabled" show-edges />
     </section>
   </section>
