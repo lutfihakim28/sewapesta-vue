@@ -16,7 +16,7 @@ export class StringSchema {
     this.#field = field;
   }
 
-  getSchema() {
+  getSchema(): z.ZodString {
     return this.#schema;
   }
 

@@ -7,7 +7,7 @@ export class ObjectSchema<T extends z.ZodRawShape> {
     this.#schema = z.object(shape)
   }
 
-  getSchema() {
+  getSchema(): z.ZodObject<T> {
     return this.#schema;
   }
 }

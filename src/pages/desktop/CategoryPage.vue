@@ -10,13 +10,12 @@ const {
   t,
   openForm,
   openConfirmation,
-  openImport,
 } = useCategoryCore();
 </script>
 
 <template>
   <DataGrid record-name="category" :post-button-label="t('New-category')" :items="categories" :loading="loading"
-    :meta="meta" @refresh="refreshData" @add-record="openForm" @edit-record="(category) => openForm(category)" @delete-record="(category) => openConfirmation(category)" @import-record="openImport">
+    :meta="meta" @refresh="refreshData" @add-record="openForm" @edit-record="(category) => openForm(category)" @delete-record="(category) => openConfirmation(category)">
     <template #filter>
       <TableSearch />
     </template>
@@ -29,7 +28,7 @@ const {
         </section>
         <p>
           <span class="font-medium">{{ category.itemCount }}</span>
-          <span class="opacity-70"> total {{ t('item', category.itemCount) }}</span>
+          <span class="opacity-70"> total {{ t('item', category.itemCount!) }}</span>
         </p>
       </section>
     </template>

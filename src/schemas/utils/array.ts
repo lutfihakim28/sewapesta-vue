@@ -16,7 +16,7 @@ export class ArraySchema<T extends z.ZodTypeAny> {
     })
   }
 
-  getSchema() {
+  getSchema(): z.ZodArray<T> | z.ZodArray<T, 'atleastone'> {
     return this.#schema;
   }
 

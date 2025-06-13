@@ -1,13 +1,12 @@
 import { Category } from '@/dto/Category';
 import { useListCore } from './parts/useListCore';
-import CategoryRequest from '@/components/desktop/CategoryRequest.vue';
 import { PRIVATE_QUERY_KEYS } from '@/constants/query-keys';
 import { computed } from 'vue';
 import { useCreateCategory } from '@/composables/api/categories/useCreateCategory';
 import DeleteConfirmationModal from '@/components/common/DeleteConfirmationModal.vue';
 import { useDeleteCategory } from '@/composables/api/categories/useDeleteCategory';
 import { useUpdateCategory } from '@/composables/api/categories/useUpdateCategory';
-import CategoryImport from '@/components/desktop/CategoryImport.vue';
+import CategoryRequest from '@/components/desktop/CategoryRequest.vue';
 
 export function useCategoryCore() {
   const { isLoading, list, meta, fullPath, refreshData, t } = useListCore({
@@ -18,7 +17,6 @@ export function useCategoryCore() {
   const overlay = useOverlay();
   const requestModal = overlay.create(CategoryRequest)
   const confirmationModal = overlay.create(DeleteConfirmationModal)
-  const importModal = overlay.create(CategoryImport)
 
   const listQueryKey = computed(() => PRIVATE_QUERY_KEYS.categories.list(fullPath.value))
 
@@ -58,15 +56,6 @@ export function useCategoryCore() {
       deleteCategory(category)
     }
   }
-
-  async function openImport() {
-    const instance = importModal.open()
-    const file = await instance.result
-    if (file) {
-      console.log(file)
-    }
-  }
-
   return {
     categories: list,
     meta,
@@ -75,6 +64,5 @@ export function useCategoryCore() {
     t,
     openForm,
     openConfirmation,
-    openImport,
   }
 }
