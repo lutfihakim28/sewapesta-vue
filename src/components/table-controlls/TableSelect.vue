@@ -4,7 +4,7 @@ import { useRouteQuery } from '@vueuse/router';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const { label, options, queryKey, loading, transform } = defineProps<{
+const { label, options, queryKey, loading, transform = undefined } = defineProps<{
   label: string,
   options: SelectItem[],
   queryKey: string,
@@ -30,13 +30,28 @@ function clear() {
 </script>
 
 <template>
-  <USelectMenu v-model="value" value-key="value" :loading="loading" :placeholder="`${t('All')} ${label}`" :items="items"
+  <USelectMenu
+    v-model="value"
+    value-key="value"
+    :loading="loading"
+    :placeholder="`${t('All')} ${label}`"
+    :items="items"
     :ui="{
       content: 'z-50',
       base: `py-2 ${$attrs.class}`,
-    }">
-    <template v-if="value" #trailing>
-      <UButton icon="i-lucide-x" variant="ghost" size="xs" color="neutral" @click.stop="clear" />
+    }"
+  >
+    <template
+      v-if="value"
+      #trailing
+    >
+      <UButton
+        icon="i-lucide-x"
+        variant="ghost"
+        size="xs"
+        color="neutral"
+        @click.stop="clear"
+      />
     </template>
   </USelectMenu>
 </template>

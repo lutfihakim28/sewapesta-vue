@@ -2,7 +2,7 @@
 import type { Meta } from '@/dto/Meta';
 import { useI18n } from 'vue-i18n';
 
-const { loading, items, meta, recordName, postButtonLabel } = defineProps<{
+const { loading, items, meta = undefined, recordName, postButtonLabel } = defineProps<{
   recordName: string,
   loading: boolean,
   postButtonLabel: string,
@@ -40,9 +40,14 @@ function deleteRecord(item: T) {
   <section class="flex flex-col justify-between">
     <section class="p-4 space-y-4">
       <section class="flex justify-between items-center">
-        <h4 class="text-2xl font-semibold capitalize">{{ t(recordName, 2) }}</h4>
+        <h4 class="text-2xl font-semibold capitalize">
+          {{ t(recordName, 2) }}
+        </h4>
         <section class="flex items-center gap-x-2">
-          <CreateButton :post-button-label="postButtonLabel" @click="addRecord" />
+          <CreateButton
+            :post-button-label="postButtonLabel"
+            @click="addRecord"
+          />
           <RefreshButton @click="refreshData" />
         </section>
       </section>
@@ -52,12 +57,21 @@ function deleteRecord(item: T) {
     </section>
     <section class="overflow-y-auto flex-1 p-4 pt-0 relative">
       <section class="sticky top-0">
-        <UProgress v-if="loading" size="2xs" class="mb-2" />
-        <section v-else class="border-t border-default mb-2"></section>
+        <UProgress
+          v-if="loading"
+          size="2xs"
+          class="mb-2"
+        />
+        <section
+          v-else
+          class="border-t border-default mb-2"
+        />
       </section>
       <section v-if="items.length">
         <section class="grid grid-cols-3 xl:grid-cols-4 grid-flow-row gap-4">
-          <section v-for="item in items" :key="item.id"
+          <section
+            v-for="item in items"
+            :key="item.id"
             :class="[
               'rounded border border-default p-4 bg-(--ui-bg) flex flex-col gap-y-2',
               {
@@ -66,21 +80,49 @@ function deleteRecord(item: T) {
             ]"
           >
             <section class="flex-1">
-              <slot name="item" :item="item" />
+              <slot
+                name="item"
+                :item="item"
+              />
             </section>
-            <UProgress v-if="item.loading" size="2xs" />
-            <div v-else class="border-t border-default w-full"></div>
+            <UProgress
+              v-if="item.loading"
+              size="2xs"
+            />
+            <div
+              v-else
+              class="border-t border-default w-full"
+            />
             <section class="flex justify-end gap-x-1">
-              <UButton icon="i-lucide-pencil" :disabled="item.loading" variant="ghost" color="info" @click="() => editRecord(item)" />
-              <UButton icon="i-lucide-trash" :disabled="item.loading" variant="ghost" color="error" @click="() => deleteRecord(item)" />
+              <UButton
+                icon="i-lucide-pencil"
+                :disabled="item.loading"
+                variant="ghost"
+                color="info"
+                @click="() => editRecord(item)"
+              />
+              <UButton
+                icon="i-lucide-trash"
+                :disabled="item.loading"
+                variant="ghost"
+                color="error"
+                @click="() => deleteRecord(item)"
+              />
             </section>
           </section>
         </section>
       </section>
       <section v-else>
-        <p class="text-center text-muted">{{ t('no data') }}</p>
+        <p class="text-center text-muted">
+          {{ t('no data') }}
+        </p>
       </section>
     </section>
-    <TablePagination :meta="meta" :disabled="loading" :record-name="recordName" :default-size="20" />
+    <TablePagination
+      :meta="meta"
+      :disabled="loading"
+      :record-name="recordName"
+      :default-size="20"
+    />
   </section>
 </template>

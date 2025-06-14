@@ -1,5 +1,5 @@
 import { PRIVATE_QUERY_KEYS } from '@/constants/query-keys'
-import { Category } from '@/dto/Category'
+import { type Category } from '@/dto/Category'
 import { useApiFetch } from '@/plugins/api-fetch'
 import { useMutation, useQueryCache, type EntryKey } from '@pinia/colada'
 import type { Ref } from 'vue'
@@ -25,8 +25,8 @@ export function useDeleteCategory(listQueryKey: Ref<EntryKey>) {
 
       return { oldCategories, newCategories }
     },
-    onSettled() {
-      queryCache.invalidateQueries({ key: PRIVATE_QUERY_KEYS.categories.root() })
+    async onSettled() {
+      await queryCache.invalidateQueries({ key: PRIVATE_QUERY_KEYS.categories.root() })
     },
 
     onError(err, _title, { oldCategories, newCategories }) {

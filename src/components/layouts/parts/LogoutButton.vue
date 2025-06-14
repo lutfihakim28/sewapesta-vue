@@ -13,17 +13,28 @@ const appRouter = useAppRouter();
 async function logout() {
   await execute()
   if (!error.value) {
-    appRouter.push({ name: ROUTE_NAMES.LOGIN })
+    await appRouter.push({ name: ROUTE_NAMES.LOGIN })
     authStore.reset();
   }
 }
 </script>
 
 <template>
-  <UButton variant="outline" color="error" @click="logout">
+  <UButton
+    variant="outline"
+    color="error"
+    @click="logout"
+  >
     <template #leading>
-      <LoadingSpinner v-if="isFetching" class="size-5" />
-      <UIcon v-else name="i-lucide-log-out" class="size-5" />
+      <LoadingSpinner
+        v-if="isFetching"
+        class="size-5"
+      />
+      <UIcon
+        v-else
+        name="i-lucide-log-out"
+        class="size-5"
+      />
     </template>
   </UButton>
 </template>

@@ -36,10 +36,26 @@ watchDebounced(_keyword, () => {
 </script>
 
 <template>
-  <UInput ref="search-input" v-model="_keyword" :placeholder="`${t('Search')}...`" icon="i-lucide-search">
+  <UInput
+    ref="search-input"
+    v-model="_keyword"
+    :placeholder="`${t('Search')}...`"
+    icon="i-lucide-search"
+  >
     <template #trailing>
-      <UButton v-if="_keyword" icon="i-lucide-x" variant="ghost" size="xs" color="neutral" @click.stop="clear" />
-      <UKbd v-else value="Ctrl K" class="pointer-events-none" />
+      <UButton
+        v-if="_keyword"
+        icon="i-lucide-x"
+        variant="ghost"
+        size="xs"
+        color="neutral"
+        @click.stop="clear"
+      />
+      <UKbd
+        v-else
+        value="Ctrl K"
+        class="pointer-events-none"
+      />
     </template>
   </UInput>
 </template>

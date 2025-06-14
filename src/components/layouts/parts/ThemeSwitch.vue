@@ -16,5 +16,11 @@ function toggleMode() {
 </script>
 
 <template>
-  <UButton variant="ghost" :ui="{ base: 'rounded-full' }" :icon="icon" :color="color" @click="toggleMode" />
+  <UButton
+    variant="ghost"
+    :ui="{ base: 'rounded-full' }"
+    :icon="icon"
+    :color="color"
+    @click="toggleMode"
+  />
 </template>

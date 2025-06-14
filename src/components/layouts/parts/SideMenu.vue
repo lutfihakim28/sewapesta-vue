@@ -150,9 +150,16 @@ defineExpose({
 </script>
 
 <template>
-  <UNavigationMenu variant="pill" highlight orientation="vertical" :collapsed="collapsed" :items="items" :ui="{
-    root: 'row-span-11',
-    link: 'py-4 hover:before:bg-primary-400/20 data-active:before:bg-primary-400/20',
-    item: 'px-2'
-  }" />
+  <UNavigationMenu
+    variant="pill"
+    highlight
+    orientation="vertical"
+    :collapsed="collapsed"
+    :items="items"
+    :ui="{
+      root: 'row-span-11',
+      link: 'py-4 hover:before:bg-primary-400/20 data-active:before:bg-primary-400/20',
+      item: 'px-2'
+    }"
+  />
 </template>

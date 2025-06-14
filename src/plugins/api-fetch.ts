@@ -113,7 +113,7 @@ export const apiFetch: Plugin<ApiFetchOption> = {
 
               if (!isRefreshing.value) {
                 if (!authStore.token && !authStore.user) {
-                  router.push({ name: ROUTE_NAMES.LOGIN })
+                  void router.push({ name: ROUTE_NAMES.LOGIN })
                   return;
                 }
 
@@ -145,7 +145,7 @@ export const apiFetch: Plugin<ApiFetchOption> = {
                   }
                 }
 
-                performRefresh()
+                void performRefresh()
               }
             })
           } else if (ctx.response?.status !== 422) {

@@ -5,7 +5,7 @@ import { LoginResponse } from '@/dto/LoginResponse';
 import { generateLoginRequestSchema } from '@/schemas/login-request';
 import { reactive, ref, useTemplateRef, watch } from 'vue';
 import type { ComponentExposed } from 'vue-component-type-helpers';
-import UForm from '@nuxt/ui/runtime/components/Form.vue'
+import type UForm from '@nuxt/ui/runtime/components/Form.vue'
 import { useI18n } from 'vue-i18n';
 import type { SchemaType } from '@/types/schema';
 import { useAppRouter } from '@/router/useAppRouter';
@@ -37,7 +37,7 @@ export function useLoginCore() {
       const response = new ApiResponseData(data.value, LoginResponse)
 
       authStore.setToken(response.data.token)
-      appRouter.push({
+      await appRouter.push({
         name: lastRouteStore.route?.name as RouteName || ROUTE_NAMES.DASHBOARD,
         query: lastRouteStore.route?.query,
       })

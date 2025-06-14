@@ -7,7 +7,7 @@ import { watch } from 'vue';
 import SimpleRequest from './SimpleRequest.vue';
 import type { SimpleRequestSchema } from '@/types/schema';
 
-const { category } = defineProps<{
+const { category = undefined } = defineProps<{
   category?: Category
 }>()
 

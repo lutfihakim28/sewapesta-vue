@@ -5,7 +5,7 @@ import type { Meta } from '@/dto/Meta';
 import type { TableColumn } from '@nuxt/ui';
 import { useI18n } from 'vue-i18n';
 
-const { columns, loading, items, postPageName, meta, recordName, postButtonLabel } = defineProps<{
+const { columns, loading, items = [], postPageName = undefined, meta = undefined, recordName, postButtonLabel } = defineProps<{
   columns: TableColumn<T>[]
   recordName: string,
   loading: boolean,
@@ -23,9 +23,9 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
-function toCreatePage() {
+async function toCreatePage() {
   if (!postPageName) return;
-  appRouter.push({ name: postPageName })
+  await appRouter.push({ name: postPageName })
 }
 
 function refreshData() {
@@ -37,9 +37,14 @@ function refreshData() {
   <section class="flex flex-col justify-between">
     <section class="p-4 space-y-4">
       <section class="flex justify-between items-center">
-        <h4 class="text-2xl font-semibold capitalize">{{ t(recordName, 2) }}</h4>
+        <h4 class="text-2xl font-semibold capitalize">
+          {{ t(recordName, 2) }}
+        </h4>
         <section class="flex items-center gap-x-2">
-          <CreateButton :post-button-label="postButtonLabel" @click="toCreatePage" />
+          <CreateButton
+            :post-button-label="postButtonLabel"
+            @click="toCreatePage"
+          />
           <RefreshButton @click="refreshData" />
         </section>
       </section>
@@ -47,7 +52,17 @@ function refreshData() {
         <slot name="filter" />
       </section>
     </section>
-    <UTable sticky :loading="loading" :columns="columns" :data="items" :ui="{ root: 'px-0.5 flex-1' }" />
-    <TablePagination :meta="meta" :disabled="loading" :record-name="recordName" />
+    <UTable
+      sticky
+      :loading="loading"
+      :columns="columns"
+      :data="items"
+      :ui="{ root: 'px-0.5 flex-1' }"
+    />
+    <TablePagination
+      :meta="meta"
+      :disabled="loading"
+      :record-name="recordName"
+    />
   </section>
 </template>

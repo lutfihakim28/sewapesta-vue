@@ -47,7 +47,13 @@ watch(value, async () => {
 </script>
 
 <template>
-  <USelect v-model="value" :items="items" :avatar="FLAGS[value]" variant="soft" :ui="{
-    base: 'w-34'
-  }" />
+  <USelect
+    v-model="value"
+    :items="items"
+    :avatar="FLAGS[value]"
+    variant="soft"
+    :ui="{
+      base: 'w-34'
+    }"
+  />
 </template>

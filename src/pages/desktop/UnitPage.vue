@@ -13,8 +13,15 @@ const {
 </script>
 
 <template>
-  <DataGrid record-name="unit" :post-button-label="t('New-unit')" :items="categories" :loading="isLoading" :meta="meta"
-    :post-page-name="ROUTE_NAMES.ITEM_CREATE" @refresh="refreshData">
+  <DataGrid
+    record-name="unit"
+    :post-button-label="t('New-unit')"
+    :items="categories"
+    :loading="isLoading"
+    :meta="meta"
+    :post-page-name="ROUTE_NAMES.ITEM_CREATE"
+    @refresh="refreshData"
+  >
     <template #filter>
       <TableSearch />
     </template>

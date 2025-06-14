@@ -19,5 +19,10 @@ function refreshData() {
 </script>
 
 <template>
-  <UButton icon="i-lucide-refresh-cw" variant="ghost" color="warning" @click="refreshData" />
+  <UButton
+    icon="i-lucide-refresh-cw"
+    variant="ghost"
+    color="warning"
+    @click="refreshData"
+  />
 </template>

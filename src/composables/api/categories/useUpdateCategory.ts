@@ -43,8 +43,8 @@ export function useUpdateCategory(listQueryKey: Ref<EntryKey>) {
 
       return { oldCategories, updatedCategories, updatedCategory: category }
     },
-    onSettled() {
-      queryCache.invalidateQueries({ key: PRIVATE_QUERY_KEYS.categories.root() })
+    async onSettled() {
+      await queryCache.invalidateQueries({ key: PRIVATE_QUERY_KEYS.categories.root() })
     },
     onError(err, _title, { oldCategories, updatedCategories }) {
       if (

@@ -7,7 +7,7 @@ import type { Meta } from '@/dto/Meta';
 import { PRIVATE_QUERY_KEYS, type AvailablePrivateKey } from '@/constants/query-keys';
 import { useApiFetch } from '@/plugins/api-fetch';
 
-interface UseListCoreOptions<T> {
+type UseListCoreOptions<T> = {
   key: AvailablePrivateKey;
   dto: new (data: T) => T;
   isPublic?: boolean;

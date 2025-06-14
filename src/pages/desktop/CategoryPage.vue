@@ -14,8 +14,17 @@ const {
 </script>
 
 <template>
-  <DataGrid record-name="category" :post-button-label="t('New-category')" :items="categories" :loading="loading"
-    :meta="meta" @refresh="refreshData" @add-record="openForm" @edit-record="(category) => openForm(category)" @delete-record="(category) => openConfirmation(category)">
+  <DataGrid
+    record-name="category"
+    :post-button-label="t('New-category')"
+    :items="categories"
+    :loading="loading"
+    :meta="meta"
+    @refresh="refreshData"
+    @add-record="openForm"
+    @edit-record="(category) => openForm(category)"
+    @delete-record="(category) => openConfirmation(category)"
+  >
     <template #filter>
       <TableSearch />
     </template>

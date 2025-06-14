@@ -50,5 +50,12 @@ function removeFromDescending(): void {
 </script>
 
 <template>
-  <UButton color="neutral" variant="ghost" class="-mx-2.5" :label="label" :icon="icon" @click="toggleSorting" />
+  <UButton
+    color="neutral"
+    variant="ghost"
+    class="-mx-2.5"
+    :label="label"
+    :icon="icon"
+    @click="toggleSorting"
+  />
 </template>

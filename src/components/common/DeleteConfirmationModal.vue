@@ -30,13 +30,32 @@ function confirm() {
 </script>
 
 <template>
-  <UModal :close="{ onClick: cancel }" :title="t('Are-you-sure')" :ui="{ footer: 'justify-end' }">
+  <UModal
+    :close="{ onClick: cancel }"
+    :title="t('Are-you-sure')"
+    :ui="{ footer: 'justify-end' }"
+  >
     <template #body>
       <p>{{ t('delete-confirmation', { data, value }) }}</p>
     </template>
     <template #footer>
-      <UButton variant="outline" color="neutral" class="capitalize" @click="cancel">{{ t('cancel') }}</UButton>
-      <UButton target="category-form" variant="solid" color="error" class="capitalize" @click="confirm">{{ t('confirm') }}</UButton>
+      <UButton
+        variant="outline"
+        color="neutral"
+        class="capitalize"
+        @click="cancel"
+      >
+        {{ t('cancel') }}
+      </UButton>
+      <UButton
+        target="category-form"
+        variant="solid"
+        color="error"
+        class="capitalize"
+        @click="confirm"
+      >
+        {{ t('confirm') }}
+      </UButton>
     </template>
   </UModal>
 </template>

@@ -24,13 +24,25 @@ watch(files, (value) => {
 </script>
 
 <template>
-  <label ref="drop-zone" for="file">
+  <label
+    ref="drop-zone"
+    for="file"
+  >
     <div class="w-full border border-dashed border-default rounded h-36 bg-muted/20 flex items-center justify-center">
       <div class="opacity-50 flex items-center justify-center gap-x-2">
-        <UIcon name="i-lucide-import" class="text-2xl " />
+        <UIcon
+          name="i-lucide-import"
+          class="text-2xl "
+        />
         <p class="italic">Click or drop file here...</p>
       </div>
     </div>
-    <UInput id="file" accept="text/csv" type="file" class="hidden" @change="onChange" />
+    <UInput
+      id="file"
+      accept="text/csv"
+      type="file"
+      class="hidden"
+      @change="onChange"
+    />
   </label>
 </template>

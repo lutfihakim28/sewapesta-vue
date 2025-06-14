@@ -17,5 +17,9 @@ function addRecord() {
 </script>
 
 <template>
-  <UButton :label="postButtonLabel" icon="i-lucide-plus" @click="addRecord" />
+  <UButton
+    :label="postButtonLabel"
+    icon="i-lucide-plus"
+    @click="addRecord"
+  />
 </template>

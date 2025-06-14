@@ -62,8 +62,8 @@ export function useCreateCategory(listQueryKey: Ref<EntryKey>) {
 
       return { oldCategories, newCategories, latestCategories }
     },
-    onSettled() {
-      queryCache.invalidateQueries({ key: PRIVATE_QUERY_KEYS.categories.root() })
+    async onSettled() {
+      await queryCache.invalidateQueries({ key: PRIVATE_QUERY_KEYS.categories.root() })
     },
 
     onError(err, _title, { oldCategories, newCategories }) {

@@ -3,6 +3,5 @@
 </script>
 
 <template>
-  <section>
-  </section>
+  <section />
 </template>

@@ -18,8 +18,16 @@ const {
 </script>
 
 <template>
-  <DataTable :record-name="role.toLowerCase()" :post-button-label="t('New-user')" :columns="columns"
-    :loading="isLoading" :meta="meta" :items="users" :post-page-name="ROUTE_NAMES.ITEM_CREATE" @refresh="refreshData">
+  <DataTable
+    :record-name="role.toLowerCase()"
+    :post-button-label="t('New-user')"
+    :columns="columns"
+    :loading="isLoading"
+    :meta="meta"
+    :items="users"
+    :post-page-name="ROUTE_NAMES.ITEM_CREATE"
+    @refresh="refreshData"
+  >
     <template #filter>
       <TableSearch />
     </template>

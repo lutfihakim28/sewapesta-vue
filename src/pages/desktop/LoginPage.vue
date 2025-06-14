@@ -12,34 +12,60 @@ const { loginRequest, onSubmit, t, isFetching, LoginRequestSchema } = useLoginCo
     <section class="absolute right-32 top-4">
       <LocaleSelect />
     </section>
-    <UForm ref="login-form" :schema="LoginRequestSchema" :state="loginRequest" @submit="onSubmit">
-      <UCard variant="subtle" :ui="{ root: 'w-sm' }">
+    <UForm
+      ref="login-form"
+      :schema="LoginRequestSchema"
+      :state="loginRequest"
+      @submit="onSubmit"
+    >
+      <UCard
+        variant="subtle"
+        :ui="{ root: 'w-sm' }"
+      >
         <template #header>
-          <h4 class="text-xl font-medium">Login</h4>
+          <h4 class="text-xl font-medium">
+            Login
+          </h4>
         </template>
 
         <section class="space-y-4">
-          <UFormField :label="t('field.Username')" name="username">
-            <UInput v-model="loginRequest.username" :ui="{ root: 'w-full' }" />
+          <UFormField
+            :label="t('field.Username')"
+            name="username"
+          >
+            <UInput
+              v-model="loginRequest.username"
+              :ui="{ root: 'w-full' }"
+            />
           </UFormField>
 
-          <UFormField :label="t('field.Password')" name="password">
+          <UFormField
+            :label="t('field.Password')"
+            name="password"
+          >
             <PasswordInput v-model="loginRequest.password" />
           </UFormField>
         </section>
 
         <template #footer>
-          <UButton variant="solid" color="primary" type="submit" :disabled="isFetching" block>
+          <UButton
+            variant="solid"
+            color="primary"
+            type="submit"
+            :disabled="isFetching"
+            block
+          >
             Login
 
-            <template v-if="isFetching" #leading>
+            <template
+              v-if="isFetching"
+              #leading
+            >
               <LoadingSpinner />
             </template>
           </UButton>
         </template>
-
       </UCard>
-
     </UForm>
   </section>
 </template>

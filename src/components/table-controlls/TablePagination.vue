@@ -6,7 +6,7 @@ import { computed, onBeforeMount, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
-const { meta, disabled, recordName = 'rows', defaultSize = 10 } = defineProps<{
+const { meta = undefined, disabled, recordName = 'rows', defaultSize = 10 } = defineProps<{
   meta?: Meta,
   disabled?: boolean,
   recordName?: string,
@@ -115,7 +115,10 @@ watch(() => meta, () => {
 <template>
   <section class="p-4 flex justify-between items-center border-t border-default pt-4">
     <p>
-      <span v-if="dataRange.length" class="text-muted">
+      <span
+        v-if="dataRange.length"
+        class="text-muted"
+      >
         {{ t('pagination-info', {
           lowerLimit: dataRange[0], upperLimit: dataRange[1], totalData: meta?.totalData,
           dataLabel: t(recordName, 2)
@@ -123,8 +126,18 @@ watch(() => meta, () => {
       </span>
     </p>
     <section class="flex items-center gap-x-4">
-      <USelect v-model="pageSize" :items="availableSize" :ui="{ content: 'z-10' }" />
-      <UPagination v-model:page="page" :total="totalData" :items-per-page="pageSize" :disabled="disabled" show-edges />
+      <USelect
+        v-model="pageSize"
+        :items="availableSize"
+        :ui="{ content: 'z-10' }"
+      />
+      <UPagination
+        v-model:page="page"
+        :total="totalData"
+        :items-per-page="pageSize"
+        :disabled="disabled"
+        show-edges
+      />
     </section>
   </section>
 </template>

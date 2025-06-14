@@ -8,7 +8,7 @@ import UInput from '@nuxt/ui/runtime/components/Input.vue'
 import { useApiFetch } from '@/plugins/api-fetch';
 import type { SimpleRequestSchema } from '@/types/schema';
 
-const { entity, entityName, schema, checkUniquePath, constructor } = defineProps<{
+const { entity = undefined, entityName, schema, checkUniquePath, constructor } = defineProps<{
   entity?: T,
   entityName: string,
   schema: SimpleRequestSchema,
@@ -22,19 +22,19 @@ const emit = defineEmits<{
 
 defineShortcuts({
   'enter': {
-    handler: () => {
+    handler: async () => {
       if (!entity) {
-        addField()
+        await addField()
       } else {
-        submit()
+        await submit()
       }
     },
     usingInput: true,
   },
   'meta_backspace': {
-    handler: () => {
+    handler: async () => {
       if (!entity && payload.names.length > 1) {
-        removeField(0)
+        await removeField(0)
       }
     },
     usingInput: true,
@@ -65,9 +65,10 @@ const toast = useToast()
 const form = useTemplateRef<ComponentExposed<typeof UForm>>('form');
 const input = useTemplateRef<ComponentExposed<typeof UInput>[]>('input');
 
-const payload = reactive<P>({
+const initialPayload = {
   names: ['']
-} as P)
+} as unknown as P
+const payload = reactive<P>(initialPayload)
 
 const title = computed(() => {
   if (entity) {
@@ -155,48 +156,98 @@ function moveFocus(direction: number) {
   if (!input.value) return;
 
   const currentFocusIndex = input.value.findIndex((input) => document.activeElement === input.inputRef);
-  
+
   if (currentFocusIndex === undefined) return;
-  
+
   const nextFocusIndex = currentFocusIndex + direction
-  
+
   if (nextFocusIndex < 0 || nextFocusIndex >= input.value.length) return;
-  
+
   input.value[nextFocusIndex].inputRef?.focus()
 }
 
-function deleteFocused() {
+async function deleteFocused() {
   if (!input.value) return;
   const currentFocusIndex = input.value.findIndex((input) => document.activeElement === input.inputRef);
   if (currentFocusIndex === 0) return;
-  removeField(currentFocusIndex)
+  await removeField(currentFocusIndex)
 }
 </script>
 
 <template>
-  <UModal :close="{ onClick: cancel }" :title="title" :ui="{ footer: 'justify-end', body: 'sm:p-0 overflow-y-hidden' }">
+  <UModal
+    :close="{ onClick: cancel }"
+    :title="title"
+    :ui="{ footer: 'justify-end', body: 'sm:p-0 overflow-y-hidden' }"
+  >
     <template #body>
-      <UForm ref="form" id="form" :schema="schema" :state="payload" @submit.prevent="submit">
-        <div :class="[
-          'flex flex-col gap-y-2 p-6 overflow-y-auto',
-          { 'h-64': !entity }
-        ]">
-          <UFormField v-for="(name, index) in payload.names" :key="`name-${index}`" :name="`names.${index}`">
+      <UForm
+        ref="form"
+        id="form"
+        :schema="schema"
+        :state="payload"
+        @submit.prevent="submit"
+      >
+        <div
+          :class="[
+            'flex flex-col gap-y-2 p-6 overflow-y-auto',
+            { 'h-64': !entity }
+          ]"
+        >
+          <UFormField
+            v-for="(name, index) in payload.names"
+            :key="`name-${index}`"
+            :name="`names.${index}`"
+          >
             <UButtonGroup class="w-full">
-              <UInput ref="input" v-model="payload.names[index]" :placeholder="t('field.Name')" :ui="{ root: 'w-full' }" />
-              <UButton v-if="index === 0 && !entity" icon="i-lucide-plus" variant="subtle" @click="addField" />
-              <UButton v-else-if="!entity" icon="i-lucide-minus" variant="subtle" color="neutral" @click="() => removeField(index)" />
+              <UInput
+                ref="input"
+                v-model="payload.names[index]"
+                :placeholder="t('field.Name')"
+                :ui="{ root: 'w-full' }"
+              />
+              <UButton
+                v-if="index === 0 && !entity"
+                icon="i-lucide-plus"
+                variant="subtle"
+                @click="addField"
+              />
+              <UButton
+                v-else-if="!entity"
+                icon="i-lucide-minus"
+                variant="subtle"
+                color="neutral"
+                @click="() => removeField(index)"
+              />
             </UButtonGroup>
           </UFormField>
-          <div v-if="!entity" class="border border-info bg-info/10 text-info rounded px-2 py-1 text-sm text-center italic mt-4">
+          <div
+            v-if="!entity"
+            class="border border-info bg-info/10 text-info rounded px-2 py-1 text-sm text-center italic mt-4"
+          >
             {{ t('Duplication-info', { data: t(entityName.toLowerCase(), 2) }) }}
           </div>
         </div>
       </UForm>
     </template>
     <template #footer>
-      <UButton variant="outline" color="neutral" class="capitalize" @click="cancel">{{ t('cancel') }}</UButton>
-      <UButton type="submit" form="form" variant="solid" color="primary" class="capitalize">{{ t('save') }}</UButton>
+      <UButton
+        variant="outline"
+        color="neutral"
+        class="capitalize"
+        @click="cancel"
+      >
+        {{ t('cancel') }}
+      </UButton>
+      <UButton
+        type="submit"
+        form="form"
+        variant="solid"
+        color="primary"
+        class="capitalize"
+      >
+        {{ t('save') }}
+      </UButton>
     </template>
   </UModal>
 </template>

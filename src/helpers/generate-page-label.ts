@@ -11,5 +11,5 @@ export function generatePageLabel(t: (value: string) => string): PageLabel {
   return Object.values(ROUTE_NAMES).reduce((result, routeName) => {
     result[routeName] = t(routeName)
     return result;
-  }, {} as PageLabel)
+  }, {} as unknown as PageLabel)
 }

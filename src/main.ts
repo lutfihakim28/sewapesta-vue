@@ -31,7 +31,7 @@ window.addEventListener('load', async () => {
 
   app.mount(appElement)
 
-  app.runWithContext(async function () {
+  await app.runWithContext(async () => {
     const router = useRouter();
 
     await Promise.all([
