@@ -8,14 +8,12 @@ const {
   meta,
   isLoading,
   refreshData,
-  t
 } = useUnitCore();
 </script>
 
 <template>
   <DataGrid
     record-name="unit"
-    :post-button-label="t('New-unit')"
     :items="categories"
     :loading="isLoading"
     :meta="meta"

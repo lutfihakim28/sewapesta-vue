@@ -5,7 +5,9 @@ import { useProductCore } from '@/core/useProductCore';
 const {
   products,
   meta,
-  isLoading,
+  loading,
+  openConfirmation,
+  openForm,
   refreshData,
   t
 } = useProductCore();
@@ -14,10 +16,12 @@ const {
 <template>
   <DataGrid
     record-name="product"
-    :post-button-label="t('New-product')"
     :items="products"
-    :loading="isLoading"
+    :loading="loading"
     :meta="meta"
+    @add-record="openForm"
+    @edit-record="openForm"
+    @delete-record="openConfirmation"
     @refresh="refreshData"
   >
     <template #filter>

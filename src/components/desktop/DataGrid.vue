@@ -2,10 +2,9 @@
 import type { Meta } from '@/dto/Meta';
 import { useI18n } from 'vue-i18n';
 
-const { loading, items, meta = undefined, recordName, postButtonLabel } = defineProps<{
+const { loading = undefined, items, meta = undefined, recordName } = defineProps<{
   recordName: string,
-  loading: boolean,
-  postButtonLabel: string,
+  loading?: boolean,
   items: T[]
   meta?: Meta
 }>()
@@ -45,7 +44,7 @@ function deleteRecord(item: T) {
         </h4>
         <section class="flex items-center gap-x-2">
           <CreateButton
-            :post-button-label="postButtonLabel"
+            :post-button-label="t('New-entity', { entity: t(recordName) })"
             @click="addRecord"
           />
           <RefreshButton @click="refreshData" />

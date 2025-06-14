@@ -16,7 +16,6 @@ const {
 <template>
   <DataGrid
     record-name="category"
-    :post-button-label="t('New-category')"
     :items="categories"
     :loading="loading"
     :meta="meta"
