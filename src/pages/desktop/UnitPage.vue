@@ -4,21 +4,26 @@ import { useUnitCore } from '@/core/useUnitCore';
 import { ROUTE_NAMES } from '@/router/constants';
 
 const {
-  categories,
+  units,
   meta,
-  isLoading,
+  loading,
   refreshData,
+  openConfirmation,
+  openForm,
 } = useUnitCore();
 </script>
 
 <template>
   <DataGrid
     record-name="unit"
-    :items="categories"
-    :loading="isLoading"
+    :items="units"
+    :loading="loading"
     :meta="meta"
     :post-page-name="ROUTE_NAMES.ITEM_CREATE"
     @refresh="refreshData"
+    @edit-record="openForm"
+    @delete-record="openConfirmation"
+    @add-record="openForm"
   >
     <template #filter>
       <TableSearch />
