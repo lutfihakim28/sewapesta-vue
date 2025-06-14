@@ -33,7 +33,6 @@ function close(products?: Product[]) {
     :entity="product"
     entity-name="Product"
     :entity-name-singular="t('Product')"
-    :entity-name-plural="t('Products')"
     check-unique-path="private/products/check-uniques"
     @close="close"
     :schema="ProductRequestSchema as SimpleRequestSchema"

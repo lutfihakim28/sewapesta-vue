@@ -33,7 +33,6 @@ function close(units?: Unit[]) {
     :entity="unit"
     entity-name="Unit"
     :entity-name-singular="t('Unit')"
-    :entity-name-plural="t('Units')"
     check-unique-path="private/units/check-uniques"
     @close="close"
     :schema="UnitRequestSchema as SimpleRequestSchema"

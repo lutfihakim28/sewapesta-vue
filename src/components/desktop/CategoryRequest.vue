@@ -33,7 +33,6 @@ function close(categories?: Category[]) {
     :entity="category"
     entity-name="Category"
     :entity-name-singular="t('Category')"
-    :entity-name-plural="t('Categories')"
     check-unique-path="private/categories/check-uniques"
     @close="close"
     :schema="CategoryRequestSchema as SimpleRequestSchema"

@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends { id?: number, name: string }, P extends { names: string[] }">
-import { computed, nextTick, onMounted, useTemplateRef } from 'vue';
+import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { ComponentExposed } from 'vue-component-type-helpers';
 import UForm from '@nuxt/ui/runtime/components/Form.vue'
@@ -64,6 +64,7 @@ const toast = useToast()
 
 const form = useTemplateRef<ComponentExposed<typeof UForm>>('form');
 const input = useTemplateRef<ComponentExposed<typeof UInput>[]>('input');
+const checkUniqueLoading = ref(false)
 
 const initialPayload = {
   names: ['']
@@ -100,6 +101,7 @@ async function submit() {
   }
 
   if (payload.names.length === 1) {
+    checkUniqueLoading.value = true
     const { data } = await apiFetch<boolean>(`${checkUniquePath}?unique=${payload.names[0]}`).get();
 
     if (!data.value) {
@@ -112,8 +114,10 @@ async function submit() {
       })
       await nextTick()
       focusInput()
+      checkUniqueLoading.value = false
       return
     }
+    checkUniqueLoading.value = false
   }
 
   emit('close', payload.names
@@ -124,10 +128,6 @@ async function submit() {
       id: entity?.id || 0,
     } as unknown as T)))
 }
-
-// watch(locale, () => {
-//   form.value?.clear();
-// }, { immediate: true })
 
 async function addField() {
   if (payload.names[0].length > 0) {
@@ -235,6 +235,7 @@ async function deleteFocused() {
         variant="outline"
         color="neutral"
         class="capitalize"
+        :disabled="checkUniqueLoading"
         @click="cancel"
       >
         {{ t('cancel') }}
@@ -245,6 +246,7 @@ async function deleteFocused() {
         variant="solid"
         color="primary"
         class="capitalize"
+        :loading="checkUniqueLoading"
       >
         {{ t('save') }}
       </UButton>
