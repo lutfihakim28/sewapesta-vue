@@ -29,7 +29,7 @@
     "address": "alamat",
     "City": "@.capitalize:field.city",
     "city": "kabupaten / kota",
-    "Category-ID": "ID @:Category",
+    "entity-ID": "{entity} ID",
     "District": "@.capitalize:field.district",
     "district": "kecamatan",
     "Name": "@.capitalize:field.name",
@@ -98,6 +98,7 @@
   "User": "@.capitalize:user",
   "user": "pengguna",
   "system-error": "Terjadi kesalahan sistem, silahkan hubungi administrator sistem.",
+  "select-entity": "Pilih {entity}",
   "validation": {
     "array": "{field} harus berupa array.",
     "boolean": "{field} harus berupa nilai boolean.",

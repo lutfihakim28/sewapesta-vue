@@ -46,6 +46,9 @@ export const PRIVATE_QUERY_KEYS = {
     },
     list: (url: string) => {
       return [...PRIVATE_QUERY_KEYS.units.root(), url] as const
+    },
+    options: () => {
+      return [...PRIVATE_QUERY_KEYS.units.root(), 'options'] as const
     }
   },
   users: {

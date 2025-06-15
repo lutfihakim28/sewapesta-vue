@@ -29,7 +29,7 @@
     "address": "address",
     "City": "@.capitalize:field.city",
     "city": "city",
-    "Category-ID": "@:Category ID",
+    "entity-ID": "{entity} ID",
     "District": "@.capitalize:field.district",
     "district": "district",
     "Name": "@.capitalize:field.name",
@@ -97,6 +97,7 @@
   "User": "@.capitalize:user",
   "user": "user",
   "system-error": "System error, please contact system administrator.",
+  "select-entity": "Select {entity}",
   "validation": {
     "array": "{field} should be an array.",
     "boolean": "{field} should be boolean value.",
