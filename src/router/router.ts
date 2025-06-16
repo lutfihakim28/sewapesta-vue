@@ -5,6 +5,7 @@ import { useStorage } from '@vueuse/core';
 import { STORAGE_LOCALE_KEY } from '@/constants/locales';
 import { i18n, loadLocaleMessages } from '@/i18n/i18n';
 import { importRoutes } from './routes/routes';
+import { ROUTE_NAMES } from './constants';
 
 export async function initRouter() {
   const screenSize = document.body.getBoundingClientRect().width;
@@ -42,7 +43,7 @@ export async function initRouter() {
   router.afterEach((to, from) => {
     const lastRouteStore = useLastRouteStore();
 
-    if (to.name === 'Login' && from.meta.requiresAuth) {
+    if (to.name === ROUTE_NAMES.LOGIN && from.meta.requiresAuth) {
       lastRouteStore.setRoute(from)
     }
   })

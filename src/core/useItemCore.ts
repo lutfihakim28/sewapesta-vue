@@ -6,9 +6,13 @@ import type { SelectItem, TableColumn } from '@nuxt/ui';
 import { computed, h } from 'vue';
 import { useListCore } from './parts/useListCore';
 import UButton from '@nuxt/ui/runtime/components/Button.vue'
+import ItemRequest from '@/components/desktop/ItemRequest.vue';
 
 export function useItemCore() {
   const categoryOptionStore = useCategoryOptionStore();
+
+  const overlay = useOverlay();
+  const requestModal = overlay.create(ItemRequest)
 
   const { list: items, meta, isLoading, refreshData, t } = useListCore<Item>({
     key: 'items',
@@ -99,6 +103,27 @@ export function useItemCore() {
     ]);
   }
 
+  async function openForm(item?: Item) {
+    const instance = requestModal.open({
+      item,
+    })
+
+    const newItem = await instance.result
+
+    console.log(newItem)
+
+    if (newItem && newItem.id === 0) {
+      // create(newItem)
+      console.log(newItem)
+      return;
+    }
+
+    if (newItem) {
+      // update(newItem[0])
+      return
+    }
+  }
+
   return {
     columns,
     items,
@@ -107,6 +132,7 @@ export function useItemCore() {
     refreshData: refreshAllData,
     isLoading,
     t,
+    openForm,
     categoryOptionStore,
   }
 }

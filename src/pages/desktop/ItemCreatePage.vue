@@ -3,7 +3,7 @@ import { ItemTypeEnum } from '@/enums/item-type';
 import { generateItemRequestSchema, type ItemRequest } from '@/schemas/item-request';
 import { useCategoryOptionStore } from '@/stores/useCategoryOptionStore';
 import { useUnitOptionStore } from '@/stores/useUnitOptionStore';
-import type { SelectItem } from '@nuxt/ui';
+import type { AppSelectItem } from '@/types/select-item';
 import { reactive, shallowRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -11,7 +11,7 @@ const { t, locale } = useI18n()
 const categoryOptions = useCategoryOptionStore()
 const unitOptions = useUnitOptionStore()
 
-const TYPE_OPTIONS: SelectItem[] = [
+const TYPE_OPTIONS: AppSelectItem[] = [
   {
     label: t(ItemTypeEnum.Equipment),
     value: ItemTypeEnum.Equipment

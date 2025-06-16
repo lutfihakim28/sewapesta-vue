@@ -36,6 +36,7 @@ const { loginRequest, onSubmit, t, isFetching, LoginRequestSchema } = useLoginCo
             <UInput
               v-model="loginRequest.username"
               :ui="{ root: 'w-full' }"
+              autofocus
             />
           </UFormField>
 

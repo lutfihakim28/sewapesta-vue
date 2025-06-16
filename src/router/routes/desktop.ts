@@ -72,11 +72,6 @@ const routes: readonly RouteRecordRaw[] = [
             name: ROUTE_NAMES.ITEM,
             component: ItemPage,
           },
-          {
-            path: 'create',
-            name: ROUTE_NAMES.ITEM_CREATE,
-            component: ItemCreatePage,
-          },
         ],
       },
       {

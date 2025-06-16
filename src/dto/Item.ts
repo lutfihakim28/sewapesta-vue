@@ -6,8 +6,9 @@ export class Item {
   id: number;
   name: string;
   type: ItemTypeEnum;
-  unit: Unit
-  category: Category
+  unit: Unit;
+  category: Category;
+  loading?: boolean
 
   constructor(data: Item) {
     this.id = data.id;
@@ -15,5 +16,6 @@ export class Item {
     this.type = ItemTypeEnum[data.type];
     this.unit = new Unit(data.unit)
     this.category = new Category(data.category)
+    this.loading = data.loading
   }
 }

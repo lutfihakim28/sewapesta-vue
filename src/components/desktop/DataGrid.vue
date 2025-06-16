@@ -43,7 +43,7 @@ function deleteRecord(item: T) {
           {{ t(recordName, 2) }}
         </h4>
         <section class="flex items-center gap-x-2">
-          <CreateButton
+          <ButtonCreate
             :post-button-label="t('New-entity', { entity: t(recordName) })"
             @click="addRecord"
           />

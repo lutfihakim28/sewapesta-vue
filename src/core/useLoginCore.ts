@@ -37,6 +37,7 @@ export function useLoginCore() {
       const response = new ApiResponseData(data.value, LoginResponse)
 
       authStore.setToken(response.data.token)
+      console.log(lastRouteStore.route)
       await appRouter.push({
         name: lastRouteStore.route?.name as RouteName || ROUTE_NAMES.DASHBOARD,
         query: lastRouteStore.route?.query,

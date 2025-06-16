@@ -51,6 +51,8 @@
   },
   "Edit-category": "@.capitalize:edit-category",
   "edit-category": "ubah @:category",
+  "Entity-name": "@.capitalize:entity-name",
+  "entity-name": "nama {entity}",
   "Inventory": "@.capitalize:inventory",
   "inventory": "perlengkapan",
   "Item": "@.capitalize:item",

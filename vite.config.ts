@@ -27,13 +27,19 @@ export default defineConfig({
         },
         select: {
           slots: {
-            trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200'
+            trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200',
+            content: 'z-50'
           }
         },
         modal: {
           slots: {
             overlay: 'z-10',
-            content: 'z-20'
+            content: 'z-10'
+          }
+        },
+        formField: {
+          slots: {
+            label: 'opacity-80 text-xs'
           }
         }
       },

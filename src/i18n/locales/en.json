@@ -61,6 +61,8 @@
   "new-entity": "New {entity}",
   "Edit-entity": "@.capitalize:edit-entity",
   "edit-entity": "Edit {entity}",
+  "Entity-name": "@.capitalize:entity-name",
+  "entity-name": "{entity} name",
   "New-category": "@.capitalize:new-category",
   "new-category": "new @:category",
   "Import-category": "@.capitalize:import-category",

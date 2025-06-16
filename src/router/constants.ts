@@ -7,7 +7,6 @@ export const ROUTE_NAMES = {
   DASHBOARD: 'Dashboard',
   CATEGROY: 'Category',
   ITEM: 'Item',
-  ITEM_CREATE: 'ItemCreate',
   ADMIN: 'Admin',
   OWNER: 'Owner',
   EMPLOYEE: 'Employee',
@@ -23,7 +22,6 @@ export type RouteNameParam = {
   Dashboard: never;
   Category: never;
   Item: never;
-  ItemCreate: never;
   Admin: never;
   Owner: never;
   Employee: never;

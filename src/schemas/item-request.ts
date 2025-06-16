@@ -9,8 +9,8 @@ export function generateItemRequestSchema<T extends (value: string, ...args: unk
   return new ObjectSchema({
     name: new StringSchema(t('field.Name')).getSchema(),
     type: new EnumSchema(t('field.Type'), ItemTypeEnum).getSchema(),
-    unitId: new NumberSchema(t('field.entity-ID', { entity: t('Unit') })).getSchema(),
-    categoryId: new NumberSchema(t('field.entity-ID', { entity: t('Category') })).getSchema(),
+    unitId: new NumberSchema(t('field.entity-ID', { entity: t('Unit') })).natural().getSchema(),
+    categoryId: new NumberSchema(t('field.entity-ID', { entity: t('Category') })).natural().getSchema(),
   }).getSchema()
 }
 

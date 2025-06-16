@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useItemCore } from '@/core/useItemCore';
-import { ROUTE_NAMES } from '@/router/constants';
 
 const {
   columns,
@@ -10,20 +9,21 @@ const {
   refreshData,
   filterTypeOptions,
   categoryOptionStore,
-  t
+  t,
+  openForm,
 } = useItemCore()
 </script>
 
 <template>
   <DataTable
     record-name="item"
-    :post-button-label="t('New-item')"
+    :post-button-label="t('New-entity', { entity: t('item') })"
     :columns="columns"
     :loading="isLoading"
     :meta="meta"
     :items="items"
-    :post-page-name="ROUTE_NAMES.ITEM_CREATE"
     @refresh="refreshData"
+    @add-record="openForm"
   >
     <template #filter>
       <TableSearch />

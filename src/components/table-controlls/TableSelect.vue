@@ -1,12 +1,12 @@
 <script setup lang="ts" generic="T extends string | number | null | undefined">
-import type { SelectItem } from '@nuxt/ui';
+import type { AppSelectItem } from '@/types/select-item';
 import { useRouteQuery } from '@vueuse/router';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { label, options, queryKey, loading, transform = undefined } = defineProps<{
   label: string,
-  options: SelectItem[],
+  options: AppSelectItem[],
   queryKey: string,
   loading?: boolean,
   transform?: (value: T) => T
@@ -16,7 +16,7 @@ const { t } = useI18n()
 
 const value = useRouteQuery<T>(queryKey, undefined, { transform })
 
-const items = computed<SelectItem[]>(() => [
+const items = computed<AppSelectItem[]>(() => [
   {
     label: `${t('All')} ${label}`,
     value: undefined

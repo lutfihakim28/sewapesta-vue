@@ -18,13 +18,17 @@ const { columns, loading, items = [], postPageName = undefined, meta = undefined
 const appRouter = useAppRouter();
 
 const emit = defineEmits<{
-  refresh: []
+  refresh: [],
+  addRecord: []
 }>()
 
 const { t } = useI18n()
 
 async function toCreatePage() {
-  if (!postPageName) return;
+  if (!postPageName) {
+    emit('addRecord');
+    return;
+  };
   await appRouter.push({ name: postPageName })
 }
 
@@ -41,7 +45,7 @@ function refreshData() {
           {{ t(recordName, 2) }}
         </h4>
         <section class="flex items-center gap-x-2">
-          <CreateButton
+          <ButtonCreate
             :post-button-label="postButtonLabel"
             @click="toCreatePage"
           />

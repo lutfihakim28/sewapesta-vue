@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { i18n, loadLocaleMessages, setI18nLanguage } from '@/i18n/i18n';
 import { STORAGE_LOCALE_KEY, type LOCALES } from '@/constants/locales';
-import type { AvatarProps, SelectItem } from '@nuxt/ui';
+import type { AvatarProps } from '@nuxt/ui';
 import { useStorage } from '@vueuse/core';
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type { AppSelectItem } from '@/types/select-item';
 
 type Locale = keyof typeof LOCALES;
 
@@ -26,7 +27,7 @@ const { locale } = useI18n()
 const storageLocale = useStorage(STORAGE_LOCALE_KEY, 'en')
 const value = ref<Locale>(locale.value as Locale);
 
-const items: SelectItem[] = [
+const items: AppSelectItem[] = [
   {
     label: 'English',
     value: 'en',
