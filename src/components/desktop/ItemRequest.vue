@@ -76,8 +76,6 @@ function cancel() {
 }
 
 async function submit() {
-  // const valid = await form.value?.validate()
-  // if (!valid) return
   emit('close', new Item({
     category: new Category({
       id: payload.categoryId!,
@@ -93,50 +91,6 @@ async function submit() {
     loading: true,
   }))
 }
-
-// async function addField() {
-//   if (payload.names[0].length > 0) {
-//     payload.names.unshift('')
-//   }
-//   await nextTick();
-//   focusInput()
-// }
-
-// async function removeField(index: number) {
-//   payload.names.splice(index, 1)
-//   await nextTick();
-//   focusInput(index)
-// }
-
-// function focusInput(index = 0) {
-//   const inputElement = input.value?.[index].inputRef
-//   if (inputElement && !inputElement.disabled) {
-//     inputElement.focus()
-//   } else {
-//     setTimeout(focusInput, 50)
-//   }
-// }
-
-// function moveFocus(direction: number) {
-//   if (!input.value) return;
-
-//   const currentFocusIndex = input.value.findIndex((input) => document.activeElement === input.inputRef);
-
-//   if (currentFocusIndex === undefined) return;
-
-//   const nextFocusIndex = currentFocusIndex + direction
-
-//   if (nextFocusIndex < 0 || nextFocusIndex >= input.value.length) return;
-
-//   input.value[nextFocusIndex].inputRef?.focus()
-// }
-
-// async function deleteFocused() {
-//   if (!input.value) return;
-//   const currentFocusIndex = input.value.findIndex((input) => document.activeElement === input.inputRef);
-//   if (currentFocusIndex === 0) return;
-//   await removeField(currentFocusIndex)
-// }
 
 watch(locale, async () => {
   schema.value = generateItemRequestSchema(t)
@@ -215,7 +169,7 @@ watch(locale, async () => {
     </template>
     <template #footer>
       <UButton
-        variant="outline"
+        variant="ghost"
         color="neutral"
         class="capitalize"
         :disabled="checkUniqueLoading"

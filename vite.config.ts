@@ -34,7 +34,7 @@ export default defineConfig({
         modal: {
           slots: {
             overlay: 'z-10',
-            content: 'z-10'
+            content: 'z-10',
           }
         },
         formField: {

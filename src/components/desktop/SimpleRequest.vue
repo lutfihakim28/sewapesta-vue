@@ -26,7 +26,7 @@ defineShortcuts({
       if (!entity) {
         await addField()
       } else {
-        await submit()
+        form.value?.submit()
       }
     },
     usingInput: true,
@@ -40,7 +40,7 @@ defineShortcuts({
     usingInput: true,
   },
   'meta_s': {
-    handler: submit,
+    handler: () => form.value?.submit(),
     usingInput: true,
   },
   'arrowUp': {
@@ -232,7 +232,7 @@ async function deleteFocused() {
     </template>
     <template #footer>
       <UButton
-        variant="outline"
+        variant="ghost"
         color="neutral"
         class="capitalize"
         :disabled="checkUniqueLoading"

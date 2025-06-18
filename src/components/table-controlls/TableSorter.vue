@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouteQuery } from '@vueuse/router';
+import { onBeforeMount } from 'vue';
 import { computed } from 'vue';
 
 const { label, columnKey } = defineProps<{
@@ -14,6 +15,12 @@ const icon = computed<string>(() => {
   if (asc.value?.includes(columnKey)) return 'i-lucide-arrow-up-narrow-wide'
   if (desc.value?.includes(columnKey)) return 'i-lucide-arrow-down-wide-narrow'
   return 'i-lucide-arrow-up-down';
+})
+
+onBeforeMount(() => {
+  if (!asc.value && !desc.value) {
+    desc.value = ['id']
+  }
 })
 
 function toggleSorting() {
