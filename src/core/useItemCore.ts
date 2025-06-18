@@ -2,11 +2,15 @@ import TableSorter from '@/components/table-controlls/TableSorter.vue';
 import { useCategoryOptionStore } from '@/stores/useCategoryOptionStore';
 import { Item } from '@/dto/Item';
 import { ItemTypeEnum } from '@/enums/item-type';
-import type { SelectItem, TableColumn } from '@nuxt/ui';
+import type { TableColumn } from '@nuxt/ui';
 import { computed, h } from 'vue';
 import { useListCore } from './parts/useListCore';
 import UButton from '@nuxt/ui/runtime/components/Button.vue'
 import ItemRequest from '@/components/desktop/ItemRequest.vue';
+import { useCreateItem } from '@/composables/api/items/useCreateItem';
+import { PRIVATE_QUERY_KEYS } from '@/constants/query-keys';
+import type { AppSelectItem } from '@/types/select-item';
+import LoadingSpinner from '@/components/icons/LoadingSpinner.vue';
 
 export function useItemCore() {
   const categoryOptionStore = useCategoryOptionStore();
@@ -14,12 +18,18 @@ export function useItemCore() {
   const overlay = useOverlay();
   const requestModal = overlay.create(ItemRequest)
 
-  const { list: items, meta, isLoading, refreshData, t } = useListCore<Item>({
+  const { list: items, meta, isLoading, fullPath, refreshData, t } = useListCore<Item>({
     key: 'items',
     dto: Item,
   });
 
-  const filterTypeOptions = computed<SelectItem[]>(() => [
+  const listQueryKey = computed(() => PRIVATE_QUERY_KEYS.items.list(fullPath.value))
+
+  const { create, isLoading: loadingCreate } = useCreateItem(listQueryKey)
+
+  const loading = computed(() => isLoading.value || loadingCreate.value)
+
+  const filterTypeOptions = computed<AppSelectItem[]>(() => [
     {
       label: t(ItemTypeEnum.Equipment),
       value: ItemTypeEnum.Equipment,
@@ -35,7 +45,7 @@ export function useItemCore() {
       accessorKey: 'id',
       header: () => h(TableSorter, {
         label: 'ID',
-        columnKey: 'id'
+        columnKey: 'id',
       }),
     },
     {
@@ -52,7 +62,7 @@ export function useItemCore() {
         columnKey: 'type'
       }),
       cell: ({ row }) => {
-        const type = row.getValue('type') as ItemTypeEnum;
+        const type = row.original.type;
         const colors: Record<ItemTypeEnum, string> = {
           [ItemTypeEnum.Equipment]: 'text-primary' as const,
           [ItemTypeEnum.Inventory]: 'text-secondary' as const,
@@ -73,12 +83,19 @@ export function useItemCore() {
       accessorKey: 'action',
       header: () => h('div', { class: 'text-center' }, t('Action')),
       cell: ({ row }) => {
-        const id = row.getValue('id') as number;
-        return h('section', { class: 'flex gap-x-1 justify-center' }, [
+        const id = row.original.id;
+        const loading = row.original.loading;
+        if (loading) {
+          return h('div', { class: 'flex justify-center py-1.5' }, [
+            h(LoadingSpinner, { class: 'w-5 h-5' })
+          ])
+        }
+        return h('div', { class: 'flex gap-x-1 justify-center' }, [
           h(UButton, {
             icon: 'i-lucide-pencil',
             variant: 'ghost',
             color: 'info',
+            disabled: loading,
             onClick() {
               console.log('edit', id);
             }
@@ -87,6 +104,7 @@ export function useItemCore() {
             icon: 'i-lucide-trash',
             variant: 'ghost',
             color: 'error',
+            disabled: loading,
             onClick() {
               console.log('delete', id);
             }
@@ -110,11 +128,8 @@ export function useItemCore() {
 
     const newItem = await instance.result
 
-    console.log(newItem)
-
     if (newItem && newItem.id === 0) {
-      // create(newItem)
-      console.log(newItem)
+      create(newItem)
       return;
     }
 
@@ -130,7 +145,7 @@ export function useItemCore() {
     meta,
     filterTypeOptions,
     refreshData: refreshAllData,
-    isLoading,
+    isLoading: loading,
     t,
     openForm,
     categoryOptionStore,

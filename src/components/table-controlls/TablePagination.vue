@@ -99,7 +99,7 @@ watch(() => route.query, (value, oldValue) => {
     }
   )
 
-  if (otherChanged && changedQuery && !['asc', 'desc'].includes(changedQuery)) {
+  if (otherChanged && changedQuery && !['sort', 'sortDirection'].includes(changedQuery)) {
     page.value = 1
   }
 

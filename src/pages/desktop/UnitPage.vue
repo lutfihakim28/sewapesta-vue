@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import DataGrid from '@/components/desktop/DataGrid.vue';
 import { useUnitCore } from '@/core/useUnitCore';
-import { ROUTE_NAMES } from '@/router/constants';
 
 const {
   units,
@@ -19,7 +18,6 @@ const {
     :items="units"
     :loading="loading"
     :meta="meta"
-    :post-page-name="ROUTE_NAMES.ITEM_CREATE"
     @refresh="refreshData"
     @edit-record="openForm"
     @delete-record="openConfirmation"

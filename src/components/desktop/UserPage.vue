@@ -25,7 +25,6 @@ const {
     :loading="isLoading"
     :meta="meta"
     :items="users"
-    :post-page-name="ROUTE_NAMES.ITEM_CREATE"
     @refresh="refreshData"
   >
     <template #filter>
