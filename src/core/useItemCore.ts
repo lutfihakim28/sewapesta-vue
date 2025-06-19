@@ -13,6 +13,7 @@ import type { AppSelectItem } from '@/types/select-item';
 import LoadingSpinner from '@/components/icons/LoadingSpinner.vue';
 import DeleteConfirmationModal from '@/components/common/DeleteConfirmationModal.vue';
 import { useDeleteItem } from '@/composables/api/items/useDeleteItem';
+import { useUpdateItem } from '@/composables/api/items/useUpdateItem';
 
 export function useItemCore() {
   const categoryOptionStore = useCategoryOptionStore();
@@ -30,8 +31,9 @@ export function useItemCore() {
 
   const { create, isLoading: loadingCreate } = useCreateItem(listQueryKey)
   const { deleteItem, isLoading: loadingDelete } = useDeleteItem(listQueryKey)
+  const { update, isLoading: loadingUpdate } = useUpdateItem(listQueryKey)
 
-  const loading = computed(() => isLoading.value || loadingCreate.value || loadingDelete.value)
+  const loading = computed(() => isLoading.value || loadingCreate.value || loadingDelete.value || loadingUpdate.value)
 
   const filterTypeOptions = computed<AppSelectItem[]>(() => [
     {
@@ -88,7 +90,6 @@ export function useItemCore() {
       header: () => h('div', { class: 'text-center' }, t('Action')),
       cell: ({ row }) => {
         const item = row.original;
-        const id = item.id;
         const loading = item.loading;
         if (loading) {
           return h('div', { class: 'flex justify-center py-1.5' }, [
@@ -101,8 +102,8 @@ export function useItemCore() {
             variant: 'ghost',
             color: 'info',
             disabled: loading,
-            onClick() {
-              console.log('edit', id);
+            async onClick() {
+              await openForm(item)
             }
           }),
           h(UButton, {
@@ -138,8 +139,8 @@ export function useItemCore() {
       return;
     }
 
-    if (newItem) {
-      // update(newItem[0])
+    if (newItem && item && item.differsFrom(newItem)) {
+      update(newItem)
       return
     }
   }

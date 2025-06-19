@@ -11,7 +11,7 @@ export class Item {
   category: Category;
   loading?: boolean
 
-  constructor(data: Omit<Item, 'json'>) {
+  constructor(data: Omit<Item, 'json' | 'differsFrom'>) {
     this.id = data.id;
     this.name = data.name;
     this.type = ItemTypeEnum[data.type];
@@ -27,5 +27,14 @@ export class Item {
       unitId: this.unit.id,
       categoryId: this.category.id,
     }
+  }
+
+  differsFrom(item: Item): boolean {
+    return (
+      this.name !== item.name ||
+      this.type !== item.type ||
+      this.unit.id !== item.unit.id ||
+      this.category.id !== item.category.id
+    )
   }
 }
