@@ -11,12 +11,15 @@ import { useCreateItem } from '@/composables/api/items/useCreateItem';
 import { PRIVATE_QUERY_KEYS } from '@/constants/query-keys';
 import type { AppSelectItem } from '@/types/select-item';
 import LoadingSpinner from '@/components/icons/LoadingSpinner.vue';
+import DeleteConfirmationModal from '@/components/common/DeleteConfirmationModal.vue';
+import { useDeleteItem } from '@/composables/api/items/useDeleteItem';
 
 export function useItemCore() {
   const categoryOptionStore = useCategoryOptionStore();
 
   const overlay = useOverlay();
   const requestModal = overlay.create(ItemRequest)
+  const deleteModal = overlay.create(DeleteConfirmationModal)
 
   const { list: items, meta, isLoading, fullPath, refreshData, t } = useListCore<Item>({
     key: 'items',
@@ -26,8 +29,9 @@ export function useItemCore() {
   const listQueryKey = computed(() => PRIVATE_QUERY_KEYS.items.list(fullPath.value))
 
   const { create, isLoading: loadingCreate } = useCreateItem(listQueryKey)
+  const { deleteItem, isLoading: loadingDelete } = useDeleteItem(listQueryKey)
 
-  const loading = computed(() => isLoading.value || loadingCreate.value)
+  const loading = computed(() => isLoading.value || loadingCreate.value || loadingDelete.value)
 
   const filterTypeOptions = computed<AppSelectItem[]>(() => [
     {
@@ -83,8 +87,9 @@ export function useItemCore() {
       accessorKey: 'action',
       header: () => h('div', { class: 'text-center' }, t('Action')),
       cell: ({ row }) => {
-        const id = row.original.id;
-        const loading = row.original.loading;
+        const item = row.original;
+        const id = item.id;
+        const loading = item.loading;
         if (loading) {
           return h('div', { class: 'flex justify-center py-1.5' }, [
             h(LoadingSpinner, { class: 'w-5 h-5' })
@@ -105,8 +110,8 @@ export function useItemCore() {
             variant: 'ghost',
             color: 'error',
             disabled: loading,
-            onClick() {
-              console.log('delete', id);
+            async onClick() {
+              await openConfirmation(item)
             }
           })
         ])
@@ -136,6 +141,19 @@ export function useItemCore() {
     if (newItem) {
       // update(newItem[0])
       return
+    }
+  }
+
+  async function openConfirmation(item: Item) {
+    const instance = deleteModal.open({
+      data: t('item'),
+      value: item.name
+    })
+
+    const result = await instance.result;
+
+    if (result) {
+      deleteItem(item)
     }
   }
 
