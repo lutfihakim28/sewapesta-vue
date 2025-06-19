@@ -1,6 +1,12 @@
 import { SortDirectionEnum } from '@/enums/sort-by';
 
-export function sort<T>(array: T[], key: keyof T, direction: SortDirectionEnum = SortDirectionEnum.Asc): T[] {
+interface ArraySortparam<T> {
+  array: T[];
+  key: keyof T;
+  direction?: SortDirectionEnum;
+}
+
+export function arraySort<T>({ array, key, direction = SortDirectionEnum.Asc }: ArraySortparam<T>): T[] {
   const _array = [...array];
   return _array.sort((a, b) => {
     const aValue = a[key];

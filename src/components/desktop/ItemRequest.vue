@@ -79,11 +79,17 @@ async function submit() {
   emit('close', new Item({
     category: new Category({
       id: payload.categoryId!,
-      name: getLabel(categoryOptions.options, payload.categoryId!),
+      name: getLabel({
+        options: categoryOptions.options,
+        value: payload.categoryId!
+      }),
     }),
     unit: new Unit({
       id: payload.unitId!,
-      name: getLabel(unitOptions.options, payload.unitId!)
+      name: getLabel({
+        options: unitOptions.options,
+        value: payload.unitId!
+      })
     }),
     name: payload.name!,
     type: payload.type!,

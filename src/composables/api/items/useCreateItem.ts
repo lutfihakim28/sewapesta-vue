@@ -2,7 +2,7 @@ import { PRIVATE_QUERY_KEYS } from '@/constants/query-keys'
 import { ApiResponseData } from '@/dto/ApiResponse'
 import { Item } from '@/dto/Item'
 import type { SortDirectionEnum } from '@/enums/sort-by'
-import { sort } from '@/helpers/sort'
+import { arraySort } from '@/helpers/array-sort'
 import { useApiFetch } from '@/plugins/api-fetch'
 import { useMutation, useQueryCache, type EntryKey } from '@pinia/colada'
 import type { Ref } from 'vue'
@@ -50,7 +50,11 @@ export function useCreateItem(listQueryKey: Ref<EntryKey>) {
         const key = searchParams.get('sort') as keyof Item;
         const direction = searchParams.get('sortDirection') as SortDirectionEnum;
 
-        newItems = sort(newItems, key, direction);
+        newItems = arraySort({
+          array: newItems,
+          key,
+          direction
+        });
       }
 
       const pageSize = Number(searchParams.get('pageSize') || 10)
