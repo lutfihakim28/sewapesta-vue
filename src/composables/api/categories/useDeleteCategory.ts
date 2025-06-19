@@ -2,7 +2,7 @@ import { PRIVATE_QUERY_KEYS } from '@/constants/query-keys'
 import { type Category } from '@/dto/Category'
 import { useApiFetch } from '@/plugins/api-fetch'
 import { useMutation, useQueryCache, type EntryKey } from '@pinia/colada'
-import type { Ref } from 'vue'
+import { computed, type Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export function useDeleteCategory(listQueryKey: Ref<EntryKey>) {
@@ -11,30 +11,30 @@ export function useDeleteCategory(listQueryKey: Ref<EntryKey>) {
   const toast = useToast();
   const { t } = useI18n();
 
+  const oldCategories = computed<Category[]>(() => queryCache.getQueryData(listQueryKey.value) || [])
+
   const { mutate, isLoading } = useMutation({
     mutation(category: Category) {
       return deleteCategory(category)
     },
     onMutate(category: Category) {
-      const oldCategories: Category[] = queryCache.getQueryData(listQueryKey.value) || []
-
-      const newCategories = oldCategories.filter((_category) => _category.id !== category.id)
+      const newCategories = oldCategories.value.filter((_category) => _category.id !== category.id)
 
       queryCache.setQueryData(listQueryKey.value, newCategories)
       queryCache.cancelQueries({ key: listQueryKey.value, exact: true })
 
-      return { oldCategories, newCategories }
+      return { newCategories }
     },
     async onSettled() {
       await queryCache.invalidateQueries({ key: PRIVATE_QUERY_KEYS.categories.root() })
     },
 
-    onError(err, _title, { oldCategories, newCategories }) {
+    onError(err, _title, { newCategories }) {
       if (
         newCategories != null
         && newCategories === queryCache.getQueryData(listQueryKey.value)
       ) {
-        queryCache.setQueryData(listQueryKey.value, oldCategories)
+        queryCache.setQueryData(listQueryKey.value, oldCategories.value)
       }
 
       console.error(err)

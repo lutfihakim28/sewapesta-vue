@@ -3,7 +3,7 @@ import { ApiResponseData } from '@/dto/ApiResponse'
 import { Category } from '@/dto/Category'
 import { useApiFetch } from '@/plugins/api-fetch'
 import { useMutation, useQueryCache, type EntryKey } from '@pinia/colada'
-import type { Ref } from 'vue'
+import { computed, type Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export function useUpdateCategory(listQueryKey: Ref<EntryKey>) {
@@ -12,46 +12,41 @@ export function useUpdateCategory(listQueryKey: Ref<EntryKey>) {
   const toast = useToast();
   const { t } = useI18n();
 
+  const searchParams = computed(() => new URLSearchParams(listQueryKey.value.join().split('?')[1]))
+  const oldCategories = computed<Category[]>(() => queryCache.getQueryData(listQueryKey.value) || [])
+
   const { mutate, isLoading } = useMutation({
     mutation(category: Category) {
       return updateCategory(category)
     },
     onMutate(category: Category) {
-      const oldCategories: Category[] = queryCache.getQueryData(listQueryKey.value) || []
+      const updatedCategories = updateOldCategories(category)
+      const filteredCategories = applyFilters(updatedCategories)
 
-      let updatedCategories = oldCategories.map((cat) => {
-        if (cat.id !== category.id) return cat;
-        return {
-          ...category,
-          loading: true,
-        };
-      })
-
-      const searchParams = new URLSearchParams(
-        listQueryKey.value
-          .join()
-          .split('?')
-        [1]
-      )
-
-      if (searchParams.has('keyword') && !category.name.toLowerCase().includes(searchParams.get('keyword')!.toLowerCase())) {
-        updatedCategories = updatedCategories.filter((cat) => cat.name.toLowerCase().includes(searchParams.get('keyword')!.toLowerCase()))
-      }
-
-      queryCache.setQueryData(listQueryKey.value, updatedCategories)
+      queryCache.setQueryData(listQueryKey.value, filteredCategories)
       queryCache.cancelQueries({ key: listQueryKey.value, exact: true })
 
-      return { oldCategories, updatedCategories, updatedCategory: category }
+      return { updatedCategories, updatedCategory: category }
+    },
+    onSuccess(data, _vars, { updatedCategories, updatedCategory }) {
+      if (data && updatedCategories && updatedCategory) {
+        const _updatedCategories = [...updatedCategories]
+        const index = _updatedCategories.indexOf(updatedCategory)
+        if (index === -1) return
+        _updatedCategories[index] = data
+
+        queryCache.setQueryData(listQueryKey.value, _updatedCategories)
+      }
     },
     async onSettled() {
       await queryCache.invalidateQueries({ key: PRIVATE_QUERY_KEYS.categories.root() })
     },
-    onError(err, _title, { oldCategories, updatedCategories }) {
+    onError(err, _title, { updatedCategories }) {
       if (
         updatedCategories != null
         && updatedCategories === queryCache.getQueryData(listQueryKey.value)
       ) {
-        queryCache.setQueryData(listQueryKey.value, oldCategories)
+        queryCache.setQueryData(listQueryKey.value, oldCategories.value)
       }
 
       console.error(err)
@@ -71,6 +66,23 @@ export function useUpdateCategory(listQueryKey: Ref<EntryKey>) {
     const response = new ApiResponseData(data.value, Category)
 
     return response.data;
+  }
+
+  function updateOldCategories(category: Category) {
+    return oldCategories.value.map((cat) => {
+      if (cat.id !== category.id) return cat;
+      return new Category({
+        ...category,
+        loading: true,
+      });
+    })
+  }
+
+  function applyFilters(categories: Category[]) {
+    return categories.filter((category) => {
+      if (searchParams.value.has('keyword') && !category.name.toLowerCase().includes(searchParams.value.get('keyword')!.toLowerCase())) return false;
+      return true;
+    })
   }
 
   return { update: mutate, isLoading }
