@@ -19,24 +19,17 @@ export function useCreateItem(listQueryKey: Ref<EntryKey>) {
       return createItem(item)
     },
     onMutate(item: Item) {
-      const searchParams = new URLSearchParams(
-        listQueryKey.value
-          .join()
-          .split('?')
-        [1]
-      )
+      const searchParams = getSearchParams();
+      const isPartOfFilter = checkIfPartOfFilter({
+        item,
+        searchParams
+      });
 
-      const oldItems: Item[] = queryCache.getQueryData(listQueryKey.value) || []
-
-      let newItems = [...oldItems];
-
-      if (searchParams.get('page') !== '1' && !searchParams.has('sort')) {
+      if (!isPartOfFilter) {
         return;
       }
 
-      if (searchParams.has('keyword') && !item.name.toLowerCase().includes(searchParams.get('keyword')!.toLowerCase())) {
-        return;
-      }
+      const oldItems = getOldItems();
 
       const newItem = new Item({
         ...item,
@@ -44,23 +37,11 @@ export function useCreateItem(listQueryKey: Ref<EntryKey>) {
         id: 0,
       })
 
-      newItems = [newItem, ...newItems]
-
-      if (searchParams.has('sort') && searchParams.has('sortDirection')) {
-        const key = searchParams.get('sort') as keyof Item;
-        const direction = searchParams.get('sortDirection') as SortDirectionEnum;
-
-        newItems = arraySort({
-          array: newItems,
-          key,
-          direction
-        });
-      }
-
-      const pageSize = Number(searchParams.get('pageSize') || 10)
-      if (newItems.length >= pageSize) {
-        newItems.pop()
-      }
+      const newItems = getNewItems({
+        item: newItem,
+        items: oldItems,
+        searchParams
+      });
 
       queryCache.setQueryData(listQueryKey.value, newItems)
       queryCache.cancelQueries({ key: listQueryKey.value, exact: true })
@@ -71,6 +52,7 @@ export function useCreateItem(listQueryKey: Ref<EntryKey>) {
       if (data && newItems && newItem) {
         const _newItems = [...newItems]
         const index = _newItems.indexOf(newItem)
+        if (index === -1) return
         _newItems[index] = data
 
         queryCache.setQueryData(listQueryKey.value, _newItems)
@@ -107,5 +89,67 @@ export function useCreateItem(listQueryKey: Ref<EntryKey>) {
     return response.data;
   }
 
+  function getOldItems(): Item[] {
+    return queryCache.getQueryData(listQueryKey.value) || [];
+  }
+
+  function getSearchParams(): URLSearchParams {
+    const queryString = listQueryKey.value.join().split('?')[1];
+    return new URLSearchParams(queryString);
+  }
+
+  function checkIfPartOfFilter({ item, searchParams }: ItemSearchParam): boolean {
+    if (searchParams.get('page') !== '1' && !searchParams.has('sort')) return false;
+    if (searchParams.has('keyword') && !item.name.toLowerCase().includes(searchParams.get('keyword')!.toLowerCase())) return false;
+    if (searchParams.has('type') && item.type !== searchParams.get('type')) return false;
+    if (searchParams.has('categoryId') && item.category.id.toString() !== searchParams.get('categoryId')) return false;
+    return true;
+  }
+
+  function getNewItems({ item, items: oldItems, searchParams }: NewItemParam): Item[] {
+    let newItems = [item, ...oldItems]
+    newItems = sortNewItems({ items: newItems, searchParams });
+    newItems = popItem({ items: newItems, searchParams });
+    return newItems;
+  }
+
+  function sortNewItems({ items: newItems, searchParams }: ItemsSearchparam): Item[] {
+    if (searchParams.has('sort') && searchParams.has('sortDirection')) {
+      const key = searchParams.get('sort') as keyof Item;
+      const direction = searchParams.get('sortDirection') as SortDirectionEnum;
+
+      return arraySort({
+        array: newItems,
+        key,
+        direction
+      });
+    }
+
+    return newItems
+  }
+
+  function popItem({ items: newItems, searchParams }: ItemsSearchparam) {
+    const _newItems = [...newItems]
+    const pageSize = Number(searchParams.get('pageSize') || 10)
+    if (_newItems.length >= pageSize) {
+      _newItems.pop()
+    }
+
+    return _newItems;
+  }
+
   return { create: mutate, isLoading }
 }
+
+interface SearchParam {
+  searchParams: URLSearchParams
+}
+
+interface ItemSearchParam extends SearchParam {
+  item: Item
+}
+interface ItemsSearchparam extends SearchParam {
+  items: Item[]
+}
+
+type NewItemParam = ItemSearchParam & ItemsSearchparam

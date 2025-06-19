@@ -17,36 +17,26 @@ export function useUpdateItem(listQueryKey: Ref<EntryKey>) {
       return updateItem(item)
     },
     onMutate(item: Item) {
-      const oldItems: Item[] = queryCache.getQueryData(listQueryKey.value) || []
+      const oldItems = getOldItems();
+      const updatedItems = updateOldItems({
+        items: oldItems,
+        item,
+      });
+      const filteredItems = applyFilters({
+        items: updatedItems,
+        searchParams: getSearchParams(),
+      });
 
-      let updatedItems = oldItems.map((_item) => {
-        if (_item.id !== item.id) return _item;
-        return {
-          ...item,
-          loading: true,
-        };
-      })
+      queryCache.setQueryData(listQueryKey.value, filteredItems);
+      queryCache.cancelQueries({ key: listQueryKey.value, exact: true });
 
-      const searchParams = new URLSearchParams(
-        listQueryKey.value
-          .join()
-          .split('?')
-        [1]
-      )
-
-      if (searchParams.has('keyword') && !item.name.toLowerCase().includes(searchParams.get('keyword')!.toLowerCase())) {
-        updatedItems = updatedItems.filter((_item) => _item.name.toLowerCase().includes(searchParams.get('keyword')!.toLowerCase()))
-      }
-
-      queryCache.setQueryData(listQueryKey.value, updatedItems)
-      queryCache.cancelQueries({ key: listQueryKey.value, exact: true })
-
-      return { oldItems, updatedItems, updatedItem: item }
+      return { oldItems, updatedItems, updatedItem: item };
     },
     onSuccess(data, _vars, { updatedItems, updatedItem }) {
       if (data && updatedItems && updatedItem) {
         const _updatedItems = [...updatedItems]
         const index = _updatedItems.indexOf(updatedItem)
+        if (index === -1) return
         _updatedItems[index] = data
 
         queryCache.setQueryData(listQueryKey.value, _updatedItems)
@@ -82,5 +72,39 @@ export function useUpdateItem(listQueryKey: Ref<EntryKey>) {
     return response.data;
   }
 
+  function getOldItems(): Item[] {
+    return queryCache.getQueryData(listQueryKey.value) || [];
+  }
+
+  function updateOldItems({ items: oldItems, item }: UpdateParam): Item[] {
+    return oldItems.map((_item) => (_item.id !== item.id) ? _item : new Item({ ...item, loading: true }));
+  }
+
+  function getSearchParams(): URLSearchParams {
+    const queryString = listQueryKey.value.join().split('?')[1];
+    return new URLSearchParams(queryString);
+  }
+
+  function applyFilters({ items, searchParams }: ApplyFilterParam): Item[] {
+    return items.filter((item) => {
+      if (searchParams.has('keyword') && !item.name.toLowerCase().includes(searchParams.get('keyword')!.toLowerCase())) return false;
+      if (searchParams.has('type') && item.type !== searchParams.get('type')) return false;
+      if (searchParams.has('categoryId') && item.category.id.toString() !== searchParams.get('categoryId')) return false;
+      return true;
+    });
+  }
+
   return { update: mutate, isLoading }
+}
+
+interface ItemsParam {
+  items: Item[]
+}
+
+interface UpdateParam extends ItemsParam {
+  item: Item
+}
+
+interface ApplyFilterParam extends ItemsParam {
+  searchParams: URLSearchParams
 }
