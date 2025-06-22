@@ -97,7 +97,7 @@ function deleteRecord(item: T) {
                 icon="i-lucide-pencil"
                 :disabled="item.loading"
                 variant="ghost"
-                color="info"
+                color="warning"
                 @click="() => editRecord(item)"
               />
               <UButton

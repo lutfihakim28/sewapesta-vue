@@ -14,6 +14,7 @@ import LoadingSpinner from '@/components/icons/LoadingSpinner.vue';
 import DeleteConfirmationModal from '@/components/common/DeleteConfirmationModal.vue';
 import { useDeleteItem } from '@/composables/api/items/useDeleteItem';
 import { useUpdateItem } from '@/composables/api/items/useUpdateItem';
+import TableRowAction from '@/components/table-controlls/TableRowAction.vue';
 
 export function useItemCore() {
   const categoryOptionStore = useCategoryOptionStore();
@@ -96,26 +97,12 @@ export function useItemCore() {
             h(LoadingSpinner, { class: 'w-5 h-5' })
           ])
         }
-        return h('div', { class: 'flex gap-x-1 justify-center' }, [
-          h(UButton, {
-            icon: 'i-lucide-pencil',
-            variant: 'ghost',
-            color: 'info',
-            disabled: loading,
-            async onClick() {
-              await openForm(item)
-            }
-          }),
-          h(UButton, {
-            icon: 'i-lucide-trash',
-            variant: 'ghost',
-            color: 'error',
-            disabled: loading,
-            async onClick() {
-              await openConfirmation(item)
-            }
-          })
-        ])
+        return h(TableRowAction, {
+          loading,
+          onDetail: () => console.log(item),
+          onEdit: () => openForm(item),
+          onDelete: () => openConfirmation(item),
+        })
       }
     }
   ]);

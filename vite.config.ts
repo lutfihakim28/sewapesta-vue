@@ -31,6 +31,12 @@ export default defineConfig({
             content: 'z-50'
           }
         },
+        selectMenu: {
+          slots: {
+            trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200',
+            content: 'z-50'
+          }
+        },
         modal: {
           slots: {
             overlay: 'z-10',

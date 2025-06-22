@@ -7,7 +7,6 @@ import CategoryPage from '@/pages/desktop/CategoryPage.vue';
 import UnitPage from '@/pages/desktop/UnitPage.vue';
 import ProductPage from '@/pages/desktop/ProductPage.vue';
 import ItemPage from '@/pages/desktop/ItemPage.vue';
-import ItemCreatePage from '@/pages/desktop/ItemCreatePage.vue';
 import PackagePage from '@/pages/desktop/PackagePage.vue';
 import AdminPage from '@/pages/desktop/AdminPage.vue';
 import OwnerPage from '@/pages/desktop/OwnerPage.vue';

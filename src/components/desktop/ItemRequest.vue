@@ -148,10 +148,11 @@ watch(locale, async () => {
           :label="t('field.entity-ID', { entity: t('Category') })"
           name="categoryId"
         >
-          <USelect
+          <USelectMenu
             v-model="payload.categoryId"
             class="w-full"
             variant="subtle"
+            value-key="value"
             :placeholder="t('select-entity', { entity: t('category') })"
             :items="categoryOptions.options"
             :loading="categoryOptions.loading"
@@ -162,10 +163,11 @@ watch(locale, async () => {
           :label="t('field.entity-ID', { entity: t('Unit') })"
           name="unitId"
         >
-          <USelect
+          <USelectMenu
             v-model="payload.unitId"
             class="w-full"
             variant="subtle"
+            value-key="value"
             :placeholder="t('select-entity', { entity: t('unit') })"
             :items="unitOptions.options"
             :loading="unitOptions.loading"
